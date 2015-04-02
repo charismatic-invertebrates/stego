@@ -1,29 +1,53 @@
 # Contributing
 
+## Table of Contents
+
+1. [General Workflow](#general-workflow)
+1. [Detailed Workflow](#detailed-workflow)
+1. [Fork the repo](#fork-the-repo)
+1. [Be aware of your branch](#be-aware-of-your-branch)
+1. [Cut a namespaced branch](#cut-a-namespaced-branch-from-develop)
+1. [Make commits to your branch](#make-commits-to-your-branch)
+1. [Commit Message Guidelines](#commit-message-guidelines)
+1. [Rebase upstream changes into your branch](#rebase-upstream-changes-into-your-branch)
+1. [Get your feature implemented into the development branch](#get-your-feature-implemented-into-the-development-branch)
+1. [Make a pull request](#make-a-pull-request)
+1. [Guidelines](#guidelines)
+1. [Workflow Summary](#workflow-summary)
+1. [Checklist](#checklist)
+
+
+Note:  Our project uses the many-branched git-workflow, it is recommended you add you current git-branch to your command-line.
+If you use bash look [here](http://code-worrier.com/blog/git-branch-in-bash-prompt/).
+Command line examples will include the faux bash command line: (Current_Branch)$
+
 ## General Workflow
 
 1. Fork the repo
-1. Cut a namespaced feature branch from master
-  - bug/...
-  - feat/...
-  - test/...
-  - doc/...
-  - refactor/...
-1. Make commits to your feature branch. Prefix each commit like so:
-  - (feat) Added a new feature
-  - (fix) Fixed inconsistent tests [Fixes #0]
-  - (refactor) ...
-  - (cleanup) ...
-  - (test) ...
-  - (doc) ...
-1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a [pull request][]
-   directly to master. Include a description of your changes.
+1. Cut a namespaced branch from develop
+- bug/...
+- feat/...
+- test/...
+- doc/...
+- refactor/...
+
+e.g., "git checkout -b feat/linksView"
+
+1. Make commits to your namespaced branch. Prefix each commit like so:
+- (feat) Added a new feature
+- (fix) Fixed inconsistent tests [Fixes #0]
+- (refactor) ...
+- (cleanup) ...
+- (test) ...
+- (doc) ...
+1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a pull request
+directly to the branch you modified. Include a description of your changes.
 1. Your pull request will be reviewed by another maintainer. The point of code
-   reviews is to help keep the codebase clean and of high quality and, equally
-   as important, to help you grow as a programmer. If your code reviewer
-   requests you make a change you don't understand, ask them why.
+reviews is to help keep the codebase clean and of high quality and, equally
+as important, to help you grow as a programmer. If your code reviewer
+requests you make a change you don't understand, ask them why.
 1. Fix any issues raised by your code reviwer, and push your fixes as a single
-   new commit.
+new commit.
 1. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
 
 ## Detailed Workflow
@@ -33,51 +57,64 @@
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/hackreactor-labs/<NAME_OF_REPO>.git
+git remote add upstream https://github.com/<SOURCE_OF_REPO>/<NAME_OF_REPO>.git
 ```
 
-### Cut a namespaced feature branch from master
+### Be aware of your branch
+
+We are using the Git Workflow seen [here](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) and [here](http://nvie.com/posts/a-successful-git-branching-model/).  In summary:
+
+- Branch master is always in a deployable state.
+- Branch develop is where most work is done.
+- Most work will be done off of the develop branch, this is where you will create most of your branches.
+(i.e., feature branches, bugfix branches, test branches, etc...)
+
+### Cut a namespaced branch from develop
 
 Your branch should follow this naming convention:
-  - bug/...
-  - feat/...
-  - test/...
-  - doc/...
-  - refactor/...
+- bug/...
+- feat/...
+- test/...
+- doc/...
+- refactor/...
 
 These commands will help you do this:
 
 ``` bash
 
 # Creates your branch and brings you there
-git checkout -b `your-branch-name`
+(develop)$ git checkout -b `your-branch-name`
 ```
 
-### Make commits to your feature branch. 
+### Make commits to your branch. 
 
 Prefix each commit like so
-  - (feat) Added a new feature
-  - (fix) Fixed inconsistent tests [Fixes #0]
-  - (refactor) ...
-  - (cleanup) ...
-  - (test) ...
-  - (doc) ...
+- (feat) Added a new feature
+- (fix) Fixed inconsistent tests [Fixes #0]
+- (refactor) ...
+- (cleanup) ...
+- (test) ...
+- (doc) ...
 
 Make changes and commits on your branch, and make sure that you
 only make changes that are relevant to this branch. If you find
 yourself making unrelated changes, make a new branch for those
 changes.
 
+A commit should be short, and include only *one logical change*.
+
 #### Commit Message Guidelines
 
 - Commit messages should be written in the present tense; e.g. "Fix continuous
-  integration script".
+integration script".
 - The first line of your commit message should be a brief summary of what the
-  commit changes. Aim for about 70 characters max. Remember: This is a summary,
-  not a detailed description of everything that changed.
+commit changes. Aim for about 70 characters max. Remember: This is a summary,
+not a detailed description of everything that changed.
 - If you want to explain the commit in more depth, following the first line should
-  be a blank line and then a more detailed description of the commit. This can be
-  as detailed as you want, so dig into details here and keep the first line short.
+be a blank line and then a more detailed description of the commit. This can be
+as detailed as you want, so dig into details here and keep the first line short.
+
+[More information](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
 
 ### Rebase upstream changes into your branch
 
@@ -87,8 +124,13 @@ changes to the master branch into yours by running this command
 from your branch:
 
 ```bash
-git pull --rebase upstream master
+# Syntax                      FROM HERE:
+(TO HERE)$ git pull --rebase (target repo) (target branch)
+#e.g.,
+(develop)$ git pull --rebase upstream develop
 ```
+(This changes the commit history on your local repo to match the upstream repo.  This
+will allow pull requests to merge automatically)
 
 This will start the rebase process. You must commit all of your changes
 before doing this. If there are no conflicts, this should just roll all
@@ -120,9 +162,38 @@ make sure they work also.
 If rebasing broke anything, fix it, then repeat the above process until
 you get here again and nothing is broken and all the tests pass.
 
+### Get your feature implemented into the development branch
+[(Ensure that you rebased your code onto upstream before doing this!)](#rebase-upstream-changes-into-your-branch)
+
+Rebase your branch onto development.  This creates a cleaner commit history than using a merge.
+
+```bash
+#Syntax
+(FROM HERE)$ git rebase (TO HERE)
+
+#e.g.,
+(your feature branch)$ git rebase develop
+#This will attach your feature to the develop branch, and implement it
+```
+Like upstream rebasing, you may need to ```git rebase --continue``` through merge conflicts.
+After rebasing, confirm that your code has not broken anything.
+
+Next, we want to use a merge --no-ff to logically separate your commit, while
+maintaining a clean, linear commit history.
+
+```bash
+#Syntax:
+(Parent Branch)$ git merge --no-ff (Rebased branch)
+
+#e.g.,
+(develop)$ git merge --no-ff feat/docView
+```
+
+Now, push to your repo and make a pull request to the upstream repo:
+
 ### Make a pull request
 
-Make a clear pull request from your fork and branch to the upstream master
+Make a clear pull request from your fork and branch to the related upstream
 branch, detailing exactly what changes you made and what feature this
 should add. The clearer your pull request is the faster you can get
 your changes incorporated into this repo.
@@ -141,27 +212,76 @@ Thanks for contributing!
 ### Guidelines
 
 1. Uphold the current code standard:
-    - Keep your code [DRY][].
-    - Apply the [boy scout rule][].
-    - Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
+- Keep your code DRY
+- Apply the boy scout rule.
+- Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
 1. Run the [tests][] before submitting a pull request.
 1. Tests are very, very important. Submit tests if your pull request contains
-   new, testable behavior.
+new, testable behavior.
 1. Your pull request is comprised of a single ([squashed][]) commit.
 
-## Checklist:
+## Workflow Summary:
+
+Pull from upstream master often to limit how many merge conflicts you have to do, and 
+pull from upstream before you prepare a personal pull request:
+
+```bash
+# Syntax                      FROM HERE:
+(TO HERE)$ git pull --rebase (target repo) (target branch)
+#e.g.,
+(develop)$ git pull --rebase upstream develop
+```
+
+Next, resolve any merge conflicts, using:
+```bash
+git rebase --continue
+```
+to proceed through the conflicts.
+
+Next, rebase your working branch onto the development branch:
+```bash
+#Syntax
+(Working branch)$ git rebase (parent branch)
+
+#e.g.,
+(your feature branch)$ git rebase develop
+#This will attach your feature to the develop branch, and implement it
+```
+
+Next, merge --no-ff to maintain a clean commit history, and logically group changes:
+```bash
+#Syntax:
+(Parent Branch)$ git merge --no-ff (Rebased branch)
+
+#e.g.,
+(develop)$ git merge --no-ff feat/docView
+```
+
+Then push to your personal repo:
+```bash
+#Syntax:
+(inconsequential)$ git push (target repo) (local branch to push)
+
+#e.g.,
+(any)$ git push origin develop
+```
+
+Finally, create a pull request.  Ensure that you are going from your repo's relevant branch to
+the upstream repo's relevant branch.
+
+## Checklist
 
 This is just to help you organize your process
 
 - [ ] Did I cut my work branch off of master (don't cut new branches from existing feature brances)?
 - [ ] Did I follow the correct naming convention for my branch?
 - [ ] Is my branch focused on a single main change?
- - [ ] Do all of my changes directly relate to this change?
+- [ ] Do all of my changes directly relate to this change?
 - [ ] Did I rebase the upstream master branch after I finished all my
-  work?
+work?
 - [ ] Did I write a clear pull request message detailing what changes I made?
 - [ ] Did I get a code review?
- - [ ] Did I make any requested changes from that code review?
+- [ ] Did I make any requested changes from that code review?
 
 If you follow all of these guidelines and make good changes, you should have
 no problem getting your changes merged in.
