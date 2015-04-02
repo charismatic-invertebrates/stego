@@ -20,7 +20,8 @@ db.once('open', function(){
   console.log('MongoDB connection is now open');
 });
 
-// TODO: Connect server with routers defined in middleware here
+// Connect server with routers defined in middleware
+require('./config/middleware.js')(app, express);
 
 // Export the MongoDB and Exprss connections
 module.exports.app = app;
