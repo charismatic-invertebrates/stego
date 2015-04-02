@@ -1,7 +1,7 @@
 // Server-Side Entry Point
 // -----------------------
 //
-// var app = require()
+var app = require('./server/serverSetup.js').app;
 
 // This is where we set the port equal to the environment's variable when deployed, or to 8000 if on a localhost.
 var port = process.env.PORT || 8000;
