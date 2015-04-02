@@ -1,12 +1,13 @@
 # Project Name
 
-> Pithy project description
+> GitFit description
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: David Rabkin
+  - __Scrum Master__: Michael Hari
+  - __Product Manager__: Chad Fong
+  - __Development Team Members__: Stephanie Higa
 
 ## Table of Contents
 
