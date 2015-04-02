@@ -1,13 +1,13 @@
 # Project Name
 
-> GitFit description
+> GitFit encourages programmers to embrace a balanced and healthy lifestyle by allowing them to adopt a virtual pet that changes based on their physical activity and git commits.
 
 ## Team
 
   - __Product Owner__: David Rabkin
   - __Scrum Master__: Michael Hari
   - __Project Manager__: Chad Fong
-  - __Development Team Members__: Stephanie Higa
+  - __Development Team Members__: Stephanie A. Higa
 
 ## Table of Contents
 
