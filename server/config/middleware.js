@@ -1,6 +1,6 @@
 // Server-Side Middleware
 // ----------------------
-
+//
 // This middleware file connects the Express app with Express routers and configures the app to use additional modules, including body-parser and morgan.
 
 // POST request body parsing middleware
