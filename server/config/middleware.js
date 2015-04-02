@@ -39,5 +39,5 @@ module.exports = function(app, express) {
   // Inject Express routers into route files
   require('../users/userRoutes.js');
   require('../commits/commitRoutes.js');
-  require('../commits/stepRoutes.js');
+  require('../steps/stepRoutes.js');
 }
