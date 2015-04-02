@@ -6,7 +6,7 @@
 
   - __Product Owner__: David Rabkin
   - __Scrum Master__: Michael Hari
-  - __Product Manager__: Chad Fong
+  - __Project Manager__: Chad Fong
   - __Development Team Members__: Stephanie Higa
 
 ## Table of Contents
