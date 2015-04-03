@@ -10,7 +10,8 @@ var UserSchema = new mongoose.Schema({
   avatar: {
     type: String,
     name: String
-  }
+  },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('User', UserSchema);
