@@ -14,7 +14,6 @@ module.exports = function(app, express) {
 
   // Create Express routers for each route
   var userRouter = express.Router();
-  var authRouter = express.Router();
 
   // Configure Express app to use additional modules
   // bodyParser.urlencoded() returns middleware that parses only UTF-8 encoded bodies. The option "extended: true" indicates that the qs library should be used to parse the URL-encoded data and allows for the encoding of rich objects and arrays.
@@ -30,10 +29,7 @@ module.exports = function(app, express) {
 
   // Use the user router for all user requests
   app.use('/api/users', userRouter);
-  // Use the auth router for all authentication requests
-  app.use('/api/auth', authRouter);
-
+  
   // Inject Express routers into route files
   require('../users/userRoutes.js');
-  require('../auth/authRoutes.js');
 };
