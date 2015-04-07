@@ -6,13 +6,14 @@
   "description": "Stego the Tabagotchi",
 
   "background": {
-    "scripts": ["client/dist/public/js/bundle.js"],
+    "scripts": ["client/dist/public/js/bundle.js", "client/authentication/auth.jsx"],
     "persistent": false
   },
 
   "permissions": [
     "activeTab",
-    "<all_urls>"
+    "<all_urls>",
+    "identity"
   ],
 
   "chrome_url_overrides": {

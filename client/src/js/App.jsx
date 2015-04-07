@@ -2,21 +2,27 @@
 
 var React = require('react');
 var Landscape = require('./components/Landscape.jsx');
+var Auth = require('../authentication/auth.jsx');
 
 var App = React.createClass({
 
   getInitialState: function() {
+    // Here we should check if there is already an existing user, and set the userInfo values as such.
+
     return {
-      user: 'Fred',
-      github: null,
-      fitness: null
+      userInfo: {
+        username: 'Fred',
+        github: null,
+        fitness: null
+        },
+      auth : Auth
     };
   },
 
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape />
+        <Landscape user={this.state.userInfo} auth={this.state.auth} />
       </div>
     );
   }

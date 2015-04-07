@@ -3,6 +3,7 @@ var Clock = require('./Clock.jsx');
 var CommitsBox = require('./CommitsBox.jsx');
 var StepsBox = require('./StepsBox.jsx');
 var Dino = require('./Dino.jsx');
+var Authentication = require('../authentication/auth.jsx');
 
 var Landscape = React.createClass({
 
@@ -94,8 +95,8 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
-        <StepsBox />
-        <CommitsBox />
+        <StepsBox auth={this.props.auth} />
+        <CommitsBox auth={this.props.auth} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino />
       </div>
