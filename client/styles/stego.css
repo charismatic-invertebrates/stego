@@ -142,3 +142,131 @@ h2 {
   display: block;
   margin: 0 auto;
 }
+
+/* Stego Dinosaur */
+
+.stego-body {
+  margin: 0 auto;
+  width: 211px;
+  height: 304px;
+  background-image: url('../images/stego-parts/stego-body.png');
+}
+
+
+.eye {
+  background-color: black;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: black;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+}
+
+.eye.left-eye {
+  transform: translate(50px,80px);
+}
+
+.eye.right-eye {
+  transform: translate(130px,85px);
+}
+
+.mouth {
+  width: 102px;
+  height: 31px;
+  background-image: url('../images/stego-parts/stego-mouth.png');
+  position: absolute;
+  transform: translate(40px,125px);
+}
+
+.left-arm {
+  width: 46px;
+  height: 45px;
+  position: absolute;
+  background-image: url('../images/stego-parts/stego-leftarm.png');
+  transform: translate(-25px,105px);
+  /*-webkit-animation: wave 1s linear infinite;*/
+}
+
+.right-arm {
+  width: 26px;
+  height: 44px;
+  position: absolute;
+  background-image: url('../images/stego-parts/stego-rightarm.png');
+  transform: translate(145px,178px);
+}
+
+.left-leg {
+  width: 36px;
+  height: 20px;
+  background-image: url('../images/stego-parts/stego-leftleg.png');
+  position: absolute;
+  transform: translate(38px,296px);
+}
+
+.right-leg {
+  width: 34px;
+  height: 21px;
+  background-image: url('../images/stego-parts/stego-rightleg.png');
+  position: absolute;
+  transform: translate(130px,297px);
+}
+
+.tail {
+  width: 101px;
+  height: 63px;
+  background-image: url('../images/stego-parts/stego-tail.png');
+  position: absolute;
+  transform: translate(160px,220px);
+
+}
+
+/*Animations*/
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.animated.hinge {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+@-webkit-keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: bottom right;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 40deg);
+    -webkit-transform-origin: bottom right;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(0, 200px, 0);
+  }
+}
+
+
+.hinge {
+  -webkit-animation-name: hinge;
+  animation-name: hinge;
+}
