@@ -1,5 +1,8 @@
 var React = require('react');
 var Clock = require('./Clock.jsx');
+var CommitsBox = require('./CommitsBox.jsx');
+var StepsBox = require('./StepsBox.jsx');
+var Dino = require('./Dino.jsx');
 
 var Landscape = React.createClass({
 
@@ -46,7 +49,10 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
+        <StepsBox />
+        <CommitsBox />
         <Clock />
+        <Dino />
       </div>
     );
   }
