@@ -67,7 +67,8 @@ h2 {
   font-weight: 300;
 }
 
-.night, .afternoon, .morning {
+.morning, .late-morning, .afternoon, .late-afternoon,
+.evening, .late-evening, .night, .late-night {
   position: fixed;
   top: 0;
   left: 0;
@@ -76,14 +77,40 @@ h2 {
   background-size: cover;
 }
 
-.night {
-  background-image: url('http://i.imgur.com/laSSeYN.png');
+.morning {
+  background-image: url('http://i.imgur.com/VW2DYbL.png');
+}
+
+.late-morning {
+  background-image: url('http://i.imgur.com/VW2DYbL.png');
 }
 
 .afternoon {
   background-image: url('http://i.imgur.com/UZKEjzG.png');
 }
 
-.morning {
-  background-image: url('http://i.imgur.com/VW2DYbL.png');
+.late-afternoon {
+  background-image: url('http://i.imgur.com/6EhAM7G.png');
+}
+
+.evening {
+  background-image: url('http://i.imgur.com/QOfZ5r8.png');
+}
+
+.late-evening {
+  background-image: url('http://i.imgur.com/Y4BHWJM.png');
+}
+
+.night {
+  background-image: url('http://i.imgur.com/laSSeYN.png');
+}
+
+.late-night {
+  background-image: url('http://i.imgur.com/HaYuGQi.png');
+}
+
+.meridian {
+  font-size: 0.4em;
+  font-weight: 300;
+  margin: 0 0.4em;
 }
