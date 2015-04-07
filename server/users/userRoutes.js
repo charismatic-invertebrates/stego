@@ -9,6 +9,7 @@ module.exports = function(app) {
   // Route from the /api/users path. A GET request returns the user's avatar type and name. A POST request saves the user in the database.
   app.route('/')
     .get(function(req, res, next) {
+      console.log('userRoutes.js');
       // Get avatar type
       userController.getAvatarType;
       // Go to next handler
@@ -19,4 +20,4 @@ module.exports = function(app) {
       userController.getAvatarName;
     })
     .post(userController.saveUser);
-}
+};

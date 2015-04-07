@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "GitFit",
+  "version": "1.0",
+
+  "description": "Stego the Tabagotchi",
+
+  "background": {
+    "scripts": ["build/stego.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "activeTab",
+    "<all_urls>"
+  ],
+
+  "chrome_url_overrides": {
+    "newtab": "client/main/stego.html"
+  }
+
+}
+
