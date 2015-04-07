@@ -6,7 +6,7 @@
   "description": "Stego the Tabagotchi",
 
   "background": {
-    "scripts": ["src/main/stego.js"],
+    "scripts": ["build/stego.js"],
     "persistent": false
   },
 
@@ -16,7 +16,7 @@
   ],
 
   "chrome_url_overrides": {
-    "newtab": "src/main/stego.html"
+    "newtab": "client/main/stego.html"
   }
 
 }

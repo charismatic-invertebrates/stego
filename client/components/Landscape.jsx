@@ -22,12 +22,14 @@ var Landscape = React.createClass({
       timeOfDay = 'afternoon';
     }
 
-    return timeOfDay;
+    return {
+      timeOfDay: timeOfDay
+    }
   },
 
   render: function() {
     return (
-      <div className="{this.state.timeOfDay}"></div>
+      <div className={this.state.timeOfDay}></div>
     );
   }
 });
