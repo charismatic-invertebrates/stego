@@ -7,43 +7,88 @@ var Dino = require('./Dino.jsx');
 var Landscape = React.createClass({
 
   getInitialState: function() {
-    var now = new Date().getHours();
+    return {
+      timeOfDay: this.checkTimeOfDay(new Date().getHours()),
+      displayTime: this.checkDisplayTime(),
+      meridian: this.checkMeridian()
+    }
+  },
+
+  checkDisplayTime: function() {
+    var now = new Date();
+    var hour = now.getHours();
+    var minutes = now.getMinutes().toString();
+
+    if (minutes.length === 1) {
+      minutes = '0' + minutes;
+    }
+
+    // check at the beginning of each hour that the correct background is displayed
+    if (minutes === '00') {
+      this.setState({timeOfDay: this.checkTimeOfDay(hour)});
+    }
+
+    if (hour > 12) {
+      hour = hour - 12;
+    }
+
+    return hour + ':' + minutes;
+  },
+
+  checkMeridian: function() {
+    var now = new Date();
+    var hour = now.getHours();
+    var meridian;
+
+    if (hour < 12) {
+      meridian = 'a.m.';
+    } else {
+      meridian = 'p.m.'
+    }
+
+    return meridian;    
+  },
+
+  checkTimeOfDay: function(hour) {
     var timeOfDay;
 
     // wee hours of the morning and night
-    // between 12:00 a.m. and 6:00 a.m.
-    // or between 6:00 p.m. and 12:00 a.m.
-    if (now >= 0 && now < 3) {
+    if (hour >= 0 && hour < 3) {
       timeOfDay = 'night';
 
-    } else if (now >= 3 && now < 6) {
+    } else if (hour >= 3 && hour < 6) {
       timeOfDay = 'late-night';
 
     // morning for normal humans
-    } else if (now >= 6 && now < 9) {
+    } else if (hour >= 6 && hour < 9) {
       timeOfDay = 'morning';
 
-    } else if (now >= 9 && now < 12) {
+    } else if (hour >= 9 && hour < 12) {
       timeOfDay = 'late-morning';
 
     // afternoon
-    } else if (now >= 12 && now < 15) {
+    } else if (hour >= 12 && hour < 15) {
       timeOfDay = 'afternoon';
 
-    } else if (now >= 15 && now < 18) {
+    } else if (hour >= 15 && hour < 18) {
       timeOfDay = 'late-afternoon';
 
-    } else if (now >= 18 && now < 21) {
+    } else if (hour >= 18 && hour < 21) {
       timeOfDay = 'evening';
     
-    } else if (now >= 21 && now < 24) {
+    } else if (hour >= 21 && hour < 24) {
       timeOfDay = 'late-evening';
       
     }
 
-    return {
-      timeOfDay: timeOfDay
-    }
+    return timeOfDay;
+  },
+
+  componentDidMount: function() {
+    setInterval(function() {
+      this.setState({displayTime: this.checkDisplayTime()});
+      this.setState({meridian: this.checkMeridian()});
+    }.bind(this), 10000);
   },
 
   render: function() {
@@ -51,7 +96,7 @@ var Landscape = React.createClass({
       <div className={this.state.timeOfDay}>
         <StepsBox />
         <CommitsBox />
-        <Clock />
+        <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino />
       </div>
     );

@@ -17,7 +17,12 @@
 
   "chrome_url_overrides": {
     "newtab": "client/main/stego.html"
-  }
+  },
 
+  "icons": {
+    "16": "client/images/stego16.png",
+    "48": "client/images/stego48.png",
+    "128": "client/images/stego128.png"
+  }
 }
 
