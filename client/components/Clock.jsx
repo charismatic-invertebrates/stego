@@ -18,7 +18,11 @@ var Clock = React.createClass({
       minutes = '0' + minutes;
     }
 
-    return (hour - 12) + ':' + minutes;
+    if (hour > 12) {
+      hour = hour - 12;
+    }
+
+    return hour + ':' + minutes;
   },
 
   checkMeridian: function() {
@@ -39,7 +43,7 @@ var Clock = React.createClass({
     setInterval(function() {
       this.setState({time: this.checkTime()});
       this.setState({meridian: this.checkMeridian()});
-    }.bind(this), 60000);
+    }.bind(this), 10000);
   },
 
   render: function() {
