@@ -1,5 +1,8 @@
-var $ = require('jquery');
 var React = require('react');
+var Clock = require('./Clock.jsx');
+var CommitsBox = require('./CommitsBox.jsx');
+var StepsBox = require('./StepsBox.jsx');
+var Dino = require('./Dino.jsx');
 
 var Landscape = React.createClass({
 
@@ -10,16 +13,32 @@ var Landscape = React.createClass({
     // wee hours of the morning and night
     // between 12:00 a.m. and 6:00 a.m.
     // or between 6:00 p.m. and 12:00 a.m.
-    if ((now >= 0 && now < 6) || (now >= 18 && now <= 24)) {
+    if (now >= 0 && now < 3) {
       timeOfDay = 'night';
 
+    } else if (now >= 3 && now < 6) {
+      timeOfDay = 'late-night';
+
     // morning for normal humans
-    } else if (now >= 6 && now < 12) {
+    } else if (now >= 6 && now < 9) {
       timeOfDay = 'morning';
 
+    } else if (now >= 9 && now < 12) {
+      timeOfDay = 'late-morning';
+
     // afternoon
-    } else if (now >= 12 && now < 18) {
+    } else if (now >= 12 && now < 15) {
       timeOfDay = 'afternoon';
+
+    } else if (now >= 15 && now < 18) {
+      timeOfDay = 'late-afternoon';
+
+    } else if (now >= 18 && now < 21) {
+      timeOfDay = 'evening';
+    
+    } else if (now >= 21 && now < 24) {
+      timeOfDay = 'late-evening';
+      
     }
 
     return {
@@ -30,7 +49,10 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
-        <h1>Good {this.state.timeOfDay}</h1>
+        <StepsBox />
+        <CommitsBox />
+        <Clock />
+        <Dino />
       </div>
     );
   }

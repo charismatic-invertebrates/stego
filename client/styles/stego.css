@@ -1,5 +1,5 @@
 /* Fonts */
-@import url(http://fonts.googleapis.com/css?family=Raleway:300,900);
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -48,18 +48,29 @@ table {
 
 /* Main */
 body {
-  font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-shadow: -1px -1px 6px #57C3FF;
+}
+
+h1, h2 {
+  color: #fff;
+  text-align: center;
 }
 
 h1 {
   font-size: 6em;
-  font-weight: 900;
-  color: #fff;
-  text-align: center;
-  margin: 2em 0;
+  font-weight: 700;
+  margin: 0.8em 0 0.5em 0;
 }
 
-.night, .afternoon, .morning {
+h2 {
+  font-size: 2.2em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.morning, .late-morning, .afternoon, .late-afternoon,
+.evening, .late-evening, .night, .late-night {
   position: fixed;
   top: 0;
   left: 0;
@@ -68,14 +79,66 @@ h1 {
   background-size: cover;
 }
 
-.night {
-  background-image: url('http://i.imgur.com/laSSeYN.png');
+.morning {
+  background-image: url('http://i.imgur.com/VW2DYbL.png');
+}
+
+.late-morning {
+  background-image: url('http://i.imgur.com/VW2DYbL.png');
 }
 
 .afternoon {
   background-image: url('http://i.imgur.com/UZKEjzG.png');
 }
 
-.morning {
-  background-image: url('http://i.imgur.com/VW2DYbL.png');
+.late-afternoon {
+  background-image: url('http://i.imgur.com/6EhAM7G.png');
+}
+
+.evening {
+  background-image: url('http://i.imgur.com/QOfZ5r8.png');
+}
+
+.late-evening {
+  background-image: url('http://i.imgur.com/Y4BHWJM.png');
+}
+
+.night {
+  background-image: url('http://i.imgur.com/laSSeYN.png');
+}
+
+.late-night {
+  background-image: url('http://i.imgur.com/HaYuGQi.png');
+}
+
+.meridian {
+  font-size: 0.4em;
+  font-weight: 300;
+  margin: 0 0.4em;
+}
+
+.commits-box, .steps-box {
+  position: absolute;
+  top: 2em;
+  width: 400px;
+}
+
+.commits-box {
+  right: 1em;
+}
+
+.steps-box {
+  left: 1em;
+}
+
+.dino-container {
+  position: relative;
+  bottom: -2em;
+  left: 0;
+  right: 0;
+}
+
+.dino {
+  display: block;
+  margin: 0 auto;
 }
