@@ -29,7 +29,9 @@ var Landscape = React.createClass({
 
   render: function() {
     return (
-      <div className={this.state.timeOfDay}></div>
+      <div className={this.state.timeOfDay}>
+        <h1>Good {this.state.timeOfDay}</h1>
+      </div>
     );
   }
 });

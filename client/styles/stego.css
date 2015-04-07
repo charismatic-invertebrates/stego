@@ -52,8 +52,11 @@ body {
 }
 
 h1 {
-  font-size: 3em;
-  color: magenta;
+  font-size: 6em;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  margin: 2em 0;
 }
 
 .night, .afternoon, .morning {
@@ -62,16 +65,17 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
+  background-size: cover;
 }
 
 .night {
-  background: url('http://i.imgur.com/laSSeYN.png');
+  background-image: url('http://i.imgur.com/laSSeYN.png');
 }
 
 .afternoon {
-  background: url('http://i.imgur.com/UZKEjzG.png');
+  background-image: url('http://i.imgur.com/UZKEjzG.png');
 }
 
 .morning {
-  background: url('http://i.imgur.com/VW2DYbL.png');
+  background-image: url('http://i.imgur.com/VW2DYbL.png');
 }
