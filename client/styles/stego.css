@@ -51,12 +51,20 @@ body {
   font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+h1, h2 {
+  color: #fff;
+  text-align: center;
+}
+
 h1 {
   font-size: 6em;
   font-weight: 900;
-  color: #fff;
-  text-align: center;
-  margin: 2em 0;
+  margin: 2em 0 0.5em 0;
+}
+
+h2 {
+  font-size: 3em;
+  font-weight: 300;
 }
 
 .night, .afternoon, .morning {
