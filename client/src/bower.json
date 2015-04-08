@@ -1,0 +1,25 @@
+{
+  "name": "stego",
+  "version": "0.0.0",
+  "homepage": "https://github.com/charismatic-invertebrates/gitfit",
+  "authors": [
+    "Michael Hari",
+    "David Rabkin",
+    "Chad Fong",
+    "Stephanie Higa"
+  ],
+  "description": "Stego encourage programmers to live a healthy and balanced lifestyle",
+  "main": "stego.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "c3": "~0.4.10",
+    "d3": "~3.5.5"
+  }
+}
