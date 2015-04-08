@@ -6,7 +6,7 @@
   "description": "Stego the Tabagotchi",
 
   "background": {
-    "scripts": ["build/stego.js"],
+    "scripts": ["client/dist/public/js/bundle.js"],
     "persistent": false
   },
 
