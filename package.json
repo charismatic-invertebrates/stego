@@ -39,6 +39,7 @@
   "devDependencies": {
     "chai": "*",
     "mocha": "*",
-    "supertest": "*"
+    "supertest": "*",
+    "watchify": "^3.1.0"
   }
 }
