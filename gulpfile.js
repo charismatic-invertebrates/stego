@@ -6,7 +6,7 @@ var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var notify = require('gulp-notify');
 var minifyCSS = require('gulp-minify-css');
-// var watchify = require('watchify');
+var watchify = require('watchify');
 
 var path = {
   HTML_SRC: './client/src/stego.html',
@@ -20,44 +20,78 @@ var path = {
   IMAGES_PUBLIC: './client/dist/public/images'
 };
 
-gulp.task('build', function(){
+// Compile JSX file to build.js
+gulp.task('js', function(){
   browserify({
     entries: [path.ENTRY_POINT],
     transform: [reactify]
   })
   .bundle()
-  .pipe(source(path.OUT))
-  .pipe(gulp.dest(path.PUBLIC))
-  .pipe(notify('Stego Build Complete!'));
-  // Copy HTML file to dist
-  gulp.src([path.HTML_SRC])
-  .pipe(gulp.dest(path.HTML_PUBLIC));
-  // Copy image files to dist
-  gulp.src([path.IMAGES_SRC])
-  .pipe(gulp.dest(path.IMAGES_PUBLIC));
-  // Copy css files to dist
-  gulp.src([path.CSS_SRC])
-  .pipe(gulp.dest(path.CSS_PUBLIC));
+    .pipe(source(path.OUT))
+    .pipe(gulp.dest(path.PUBLIC))
+    .pipe(notify('Stego JS Build Complete!'));
 });
 
-gulp.task('styles', function(){
+// Minify styles files to dist
+gulp.task('css', function(){
   return gulp.src(path.CSS_SRC)
-  .pipe(minifyCSS())
-  .pipe(gulp.dest(path.CSS_PUBLIC))
-  .pipe(notify('Styles Build Complete!'));
+    .pipe(minifyCSS())
+    .pipe(gulp.dest(path.CSS_PUBLIC))
+    .pipe(notify('Stego CSS Build Complete!'));
 });
 
-// gulp.task('watch', function(){
-//   var watcher = watchify(build({
-//     entries: [path.ENTRY_POINT],
-//     transform: [reactify],
-//     debug: true,
-//     cache: {}, packageCache: {}, fullPaths: true
-//   }));
+// Copy html file to dist
+gulp.task('html', function(){
+  return gulp.src([path.HTML_SRC])
+  .pipe(gulp.dest(path.HTML_PUBLIC))
+  .pipe(notify('Stego HTML Build Complete!'));
+})
 
-//   return watcher.on('update', function(){
-//     watcher.bundle
-//   })
-// })
+// Copy image files to dist
+gulp.task('images', function(){
+  gulp.src([path.IMAGES_SRC])
+  .pipe(gulp.dest(path.IMAGES_PUBLIC))
+  .pipe(notify('Stego assets have been copied over!'));
+})
 
-// gulp.task('default', [''])
+// JS Watch task
+gulp.task('watch-js', function(){
+  var watcher = watchify(browserify({
+    entries: [path.ENTRY_POINT],
+    transform: [reactify],
+    debug: true,
+    cache: {}, packageCache: {}, fullPaths: true
+  }));
+
+  return watcher.on('update', function(){
+    watcher.bundle()
+    .pipe(source(path.OUT))
+    .pipe(gulp.dest(path.PUBLIC))
+    .pipe(notify('WATCH: Stego JS Build Complete!'));
+  })
+    .bundle()
+    .pipe(source(path.OUT))
+    .pipe(gulp.dest(path.PUBLIC));
+});
+
+// CSS Watch task
+gulp.task('watch-css', function(){
+  gulp.watch(path.CSS_SRC, function(){
+    return gulp.src(path.CSS_SRC)
+    .pipe(minifyCSS())
+    .pipe(gulp.dest(path.CSS_PUBLIC))
+    .pipe(notify('WATCH: Stego Styles Build Complete!'));
+  })
+});
+
+// HTML Watch task
+gulp.task('watch-html', function(){
+  gulp.watch(path.HTML_SRC, function(){
+    return gulp.src([path.HTML_SRC])
+    .pipe(gulp.dest(path.HTML_PUBLIC))
+    .pipe(notify('WATCH: Stego HTML Build Complete!'));
+  })
+});
+
+// When "gulp" is run in the terminal, this is what will be called
+gulp.task('default', ['watch-js', 'watch-css', 'watch-html']);
