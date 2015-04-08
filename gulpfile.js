@@ -17,7 +17,9 @@ var path = {
   OUT: 'bundle.js',
   PUBLIC: './client/dist/public/js',
   IMAGES_SRC: './client/src/images/**',
-  IMAGES_PUBLIC: './client/dist/public/images'
+  IMAGES_PUBLIC: './client/dist/public/images',
+  BOWER_SRC: './client/src/bower_components/**',
+  BOWER_PUBLIC: './client/dist/bower_components'
 };
 
 // Compile JSX file to build.js
@@ -54,6 +56,13 @@ gulp.task('images', function(){
   .pipe(notify('Stego assets have been copied over!'));
 })
 
+// Copy bower components to dist
+gulp.task('bower', function(){
+  gulp.src([path.BOWER_SRC])
+  .pipe(gulp.dest(path.BOWER_PUBLIC))
+  .pipe(notify('Bower components have been copied over!'));
+})
+
 // JS Watch task
 gulp.task('watch-js', function(){
   var watcher = watchify(browserify({
@@ -75,12 +84,12 @@ gulp.task('watch-js', function(){
 });
 
 // CSS Watch task
-gulp.task('watch-css', function(){
+gulp.task('watch-css', function(x){
   gulp.watch(path.CSS_SRC, function(){
     return gulp.src(path.CSS_SRC)
     .pipe(minifyCSS())
     .pipe(gulp.dest(path.CSS_PUBLIC))
-    .pipe(notify('WATCH: Stego Styles Build Complete!'));
+    .pipe(notify(x,'WATCH: Stego Styles Build Complete!'));
   })
 });
 
@@ -94,4 +103,5 @@ gulp.task('watch-html', function(){
 });
 
 // When "gulp" is run in the terminal, this is what will be called
+gulp.task('build', ['js', 'css', 'html', 'images', 'bower']);
 gulp.task('default', ['watch-js', 'watch-css', 'watch-html']);
