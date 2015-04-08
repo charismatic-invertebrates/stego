@@ -1,7 +1,7 @@
 // This is the App Component, it hosts App-wide resources.
 
 var React = require('react');
-var Landscape = require('../components/Landscape.jsx');
+var Landscape = require('./components/Landscape.jsx');
 
 var App = React.createClass({
 
@@ -23,4 +23,4 @@ var App = React.createClass({
 
 });
 
-module.exports = App;
+React.render(<App/>, document.body);

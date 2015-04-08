@@ -6,8 +6,8 @@ var Dino = React.createClass({
     return (
       <div className="dino-container">
         <div className="stego-body">
-          <div className="eye left-eye animated rubberband infinite"></div>
-          <div className="eye right-eye animated rubberband infinite"></div>
+          <div className="eye left-eye"></div>
+          <div className="eye right-eye"></div>
           <div className="mouth"></div>
           <div className="left-arm animated hinge"></div>
           <div className="right-arm"></div>
