@@ -3,41 +3,33 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var reactify = require('reactify');
-var watchify = require('watchify');
 var source = require('vinyl-source-stream');
+var notify = require('gulp-notify');
+var minifyCSS = require('gulp-minify-css');
 
 var path = {
-  ENTRY_POINT: './client/main/stego.js',
-  DEST_BUILD: './build',
-  OUT: './stego.js'
+  HTML: './client/main/stego.html',
+  ENTRY_POINT: './client/src/js/App.jsx',
+  OUT: 'bundle.js',
+  PUBLIC: './client/dist/public/js',
+  CSS_SRC: './client/src/css/style.css',
+  CSS_PUBLIC: './client/dist/public/css'
 };
 
-gulp.task('browserify', function() {
-  var b = browserify();
-  b.transform(reactify);
-  b.add(path.ENTRY_POINT);
-  return b.bundle()
-    .pipe(source('stego.js'))
-    .pipe(gulp.dest(path.DEST_BUILD));
-});
-
-gulp.task('watch', function() {
-  var watcher = watchify(browserify({
+gulp.task('build', function(){
+  browserify({
     entries: [path.ENTRY_POINT],
-    transform: [reactify],
-    debug: true,
-    cache: {}, packageCache: {}, fullPaths: true
-  }));
-
-  return watcher.on('update', function (){
-    watcher.bundle()
-      .pipe(source(path.OUT))
-      .pipe(gulp.dest(path.DEST_BUILD));
-      console.log('Updated');
+    transform: [reactify]
   })
-    .bundle()
-    .pipe(source(path.OUT))
-    .pipe(gulp.dest(path.DEST_BUILD));
+  .bundle()
+  .pipe(source(path.OUT))
+  .pipe(gulp.dest(path.PUBLIC))
+  .pipe(notify('Stego Build Complete!'));
 });
 
-gulp.task('default', ['watch']);
+gulp.task('styles', function(){
+  return gulp.src(path.CSS_SRC)
+  .pipe(minifyCSS())
+  .pipe(gulp.dest(path.CSS_PUBLIC))
+  .pipe(notify('Styles Build Complete!'));
+});
