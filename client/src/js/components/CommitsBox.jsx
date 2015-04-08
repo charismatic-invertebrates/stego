@@ -1,6 +1,5 @@
 var React = require('react');
 
-
 var CommitsBox = React.createClass({
 
   render: function() {

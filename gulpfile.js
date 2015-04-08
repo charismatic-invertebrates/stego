@@ -84,12 +84,12 @@ gulp.task('watch-js', function(){
 });
 
 // CSS Watch task
-gulp.task('watch-css', function(x){
+gulp.task('watch-css', function(){
   gulp.watch(path.CSS_SRC, function(){
     return gulp.src(path.CSS_SRC)
     .pipe(minifyCSS())
     .pipe(gulp.dest(path.CSS_PUBLIC))
-    .pipe(notify(x,'WATCH: Stego Styles Build Complete!'));
+    .pipe(notify('WATCH: Stego Styles Build Complete!'));
   })
 });
 
