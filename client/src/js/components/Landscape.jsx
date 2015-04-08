@@ -3,7 +3,7 @@ var Clock = require('./Clock.jsx');
 var CommitsBox = require('./CommitsBox.jsx');
 var StepsBox = require('./StepsBox.jsx');
 var Dino = require('./Dino.jsx');
-var Authentication = require('../authentication/auth.jsx');
+var Authentication = require('./auth.jsx');
 
 var Landscape = React.createClass({
 

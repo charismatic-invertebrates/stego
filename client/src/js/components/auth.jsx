@@ -4,7 +4,7 @@
 // Require statements.  OAuth is for the OAuth.io API we are using to abstract authentication.  Key is our private key provided by OAuth.io.  You must create this file and export your own private key for it to work.
 var React = require('react');
 var $ = require('jquery');
-var key = require('../../server/config/secureAuth.js');
+var key = require('../../../../server/config/secureAuth.js');
 
 var test = chrome;
 

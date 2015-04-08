@@ -2,7 +2,7 @@
 
 var React = require('react');
 var Landscape = require('./components/Landscape.jsx');
-var Auth = require('../authentication/auth.jsx');
+var Auth = require('./components/auth.jsx');
 
 var App = React.createClass({
 
