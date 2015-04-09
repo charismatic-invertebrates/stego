@@ -7,6 +7,7 @@ var source = require('vinyl-source-stream');
 var notify = require('gulp-notify');
 var minifyCSS = require('gulp-minify-css');
 var watchify = require('watchify');
+var karma = require('karma').server;
 
 var path = {
   HTML_SRC: './client/src/stego.html',
@@ -22,6 +23,14 @@ var path = {
   BOWER_SRC: './client/src/bower_components/**',
   BOWER_PUBLIC: './client/dist/bower_components'
 };
+
+// TODO: CREATE TEST TASK HERE
+gulp.task('test', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
 
 // Compile JSX file to build.js
 gulp.task('js', function(){
