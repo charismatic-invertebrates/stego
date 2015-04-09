@@ -4,8 +4,7 @@ var Chart = require('./Chart.jsx');
 var CommitsBox = React.createClass({
 
   loginGithub: function(e) {
-    e.preventDefault();
-    this.props.auth.login();
+    this.props.auth.login('github');
   },
 
   logUser: function() {
