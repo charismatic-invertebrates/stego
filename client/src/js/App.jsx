@@ -51,13 +51,28 @@ var App = React.createClass({
               client_secret : keys.github.clientSecret
             },
             redirect_uri: 'https://bmlpebnpaikchpcabnbieodibjbhcggf.chromiumapp.org/githubToken',
+            callback: function(res) {
+                        app.setState(React.addons.update(app.state, {
+                          userInfo: {github: {
+                            name: {$set: res.name},
+                            username: {$set: res.login},
+                            reposUrl: {$set: res.repos_url}
+                          } }
+                        }));
+                        console.log('Set github user: ', app.state);
+                      }
           };
           break;
         case 'github-user':
           callParams = {
             url: 'https://api.github.com/user',
             data: {access_token: app.state.userInfo.github.token},
-          }
+          };
+          break;
+        case 'github-commits':
+          callParams = {
+
+          };
           break;
 
         case 'fitbit':
@@ -71,25 +86,14 @@ var App = React.createClass({
       return callParams;
     };
 
-
-    // userInfo: {
-    //   github: {
-    //     requestGithub: function(apiRequest, callback) {
-    //       var self = this;
-    //       
-    //     },
-    //     username: null,
-    //     alias: null,
-    //     reposUrl: null,
-    //     token: null,
-    //   }
-    // },
     return {
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
 
-        chrome.identity.launchWebAuthFlow(
-          {'url': callParams.loginUrl, 'interactive': true},
+        chrome.identity.launchWebAuthFlow({
+          'url': callParams.loginUrl,
+          'interactive': true
+          },
           function(redirectUrl) {
             // This may be Github specific:
             var code = redirectUrl.split('?code=')[1];
@@ -105,24 +109,13 @@ var App = React.createClass({
                 app.setState(React.addons.update(app.state, {
                   userInfo: {github: {token: {$set: token} } }
                 }));
-                console.log(app.state.userInfo);
+                console.log('User info saved after login: ', app.state.userInfo);
 
                 // We need to refactor this call to work with all APIs
-                app.auth.makeRequest(provider, 'user', function(res) {
-                  if( provider === 'github' ) {
-                    app.setState(React.addons.update(app.state, {
-                      userInfo: {github: {
-                        name: {$set: res.name},
-                        username: {$set: res.login},
-                        reposUrl: {$set: res.repos_url}
-                      } }
-                    }));
-                  }
-                  console.log(app.state);
-                }); 
+                app.auth.makeRequest(provider, 'user', callParams.callback); 
               },
               fail: function(err) {
-                console.error(err);
+                console.error('failed to authenticate: ', err);
               }
             });
         
