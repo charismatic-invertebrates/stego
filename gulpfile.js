@@ -24,7 +24,7 @@ var path = {
   BOWER_PUBLIC: './client/dist/bower_components'
 };
 
-// Test task
+// TODO: CREATE TEST TASK HERE
 gulp.task('test', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
