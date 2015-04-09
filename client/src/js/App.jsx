@@ -36,20 +36,47 @@ var App = React.createClass({
   auth: function(){
     var app = this;
 
+    var setAJAXParams = function(provider, usage) {
+      var callLoc = provider + '-' + usage;
+      console.log(callLoc);
+
+      // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
+      switch(callLoc) {
+        case 'github-login':
+          callParams = {
+            loginUrl: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
+            tokenUrl: 'https://github.com/login/oauth/access_token',
+            data: {
+              client_id : keys.github.clientID,
+              client_secret : keys.github.clientSecret
+            },
+            redirect_uri: 'https://bmlpebnpaikchpcabnbieodibjbhcggf.chromiumapp.org/githubToken',
+          };
+          break;
+        case 'github-user':
+          callParams = {
+            url: 'https://api.github.com/user',
+            data: {access_token: app.state.userInfo.github.token},
+          }
+          break;
+
+        case 'fitbit':
+          url = 'https://www.fitbit.com/oauth/request_token?oauth_consumer_key=' + keys.fitbit.consumerKey;
+          break;
+
+        case 'jawbone':
+          url = 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID;
+          break;
+      }
+      return callParams;
+    };
+
 
     // userInfo: {
     //   github: {
     //     requestGithub: function(apiRequest, callback) {
     //       var self = this;
-    //       $.ajax({
-    //         type: 'GET',
-    //         url: 'https://api.github.com' + apiRequest,
-    //         data: {access_token: self.token},
-    //         success: function(res){
-    //           console.log(res);
-    //           callback(res);
-    //         }
-    //       });
+    //       
     //     },
     //     username: null,
     //     alias: null,
@@ -59,49 +86,29 @@ var App = React.createClass({
     // },
     return {
       login: function(provider) {
-        var authDetails;
-
-        // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make calls to multiple locations via the input to login.
-        switch(provider) {
-          case 'github':
-            authDetails = {
-              loginUrl: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
-              tokenUrl: 'https://github.com/login/oauth/access_token',
-              data: {
-                client_id : keys.github.clientID,
-                client_secret : keys.github.clientSecret
-              },
-              redirect_uri: 'https://bmlpebnpaikchpcabnbieodibjbhcggf.chromiumapp.org/githubToken'
-            }
-            break;
-
-          case 'fitbit':
-            url = 'https://www.fitbit.com/oauth/request_token?oauth_consumer_key=' + keys.fitbit.consumerKey;
-            break;
-          case 'jawbone':
-            url = 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID;
-            break;
-        }
+        var callParams = setAJAXParams(provider, 'login');
 
         chrome.identity.launchWebAuthFlow(
-          {'url': authDetails.loginUrl, 'interactive': true},
+          {'url': callParams.loginUrl, 'interactive': true},
           function(redirectUrl) {
+            // This may be Github specific:
             var code = redirectUrl.split('?code=')[1];
-            authDetails.data.code = code;
+            callParams.data.code = code;
 
             $.ajax({
               type: 'POST',
-              url: authDetails.tokenUrl,
-              data: authDetails.data,
-              redirect_uri: authDetails.redirect_uri,
+              url: callParams.tokenUrl,
+              data: callParams.data,
+              redirect_uri: callParams.redirect_uri,
               success: function(res) {
                 var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-                console.log(app.state);
                 app.setState(React.addons.update(app.state, {
                   userInfo: {github: {token: {$set: token} } }
                 }));
-                console.log(app.state);
-                // self.userInfo.github.token = token;
+                console.log(app.state.userInfo);
+
+                // // We need to refactor this call to work with all APIs
+
                 // self.userInfo.github.requestGithub('/user', function(res){
                 //   var github = self.userInfo.github;
                 //   github.username = ;
@@ -117,6 +124,22 @@ var App = React.createClass({
           }
         );
       },
+
+      makeRequest: function(provider, usage, cb) {
+        var callParams = setAJAXParams(provider, usage);
+        console.log(callParams);
+        $.ajax({
+          type: 'GET',
+          url: callParams.url,
+          data: callParams.data,
+          success: function(res){
+            console.log(res);
+            cb(res);
+          }
+        });
+
+
+      }
 
     };
 
