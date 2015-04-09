@@ -94,8 +94,8 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
-        <StepsBox auth={this.props.auth} />
-        <CommitsBox auth={this.props.auth} />
+        <StepsBox auth={this.props.auth} user={this.props.userInfo} />
+        <CommitsBox auth={this.props.auth} user={this.props.userInfo} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino />
       </div>
