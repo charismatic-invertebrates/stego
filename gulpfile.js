@@ -16,6 +16,7 @@ var path = {
   ENTRY_POINT: './client/src/js/App.jsx',
   OUT: 'bundle.js',
   PUBLIC: './client/dist/public/js',
+  JS_SRC: './client/src/js/**.js',
   IMAGES_SRC: './client/src/images/**',
   IMAGES_PUBLIC: './client/dist/public/images',
   BOWER_SRC: './client/src/bower_components/**',
@@ -61,6 +62,13 @@ gulp.task('bower', function(){
   gulp.src([path.BOWER_SRC])
   .pipe(gulp.dest(path.BOWER_PUBLIC))
   .pipe(notify('Bower components have been copied over!'));
+})
+
+// Copy non-JSX JS files to dist
+gulp.task('js-src', function(){
+  gulp.src([path.JS_SRC])
+  .pipe(gulp.dest(path.PUBLIC))
+  .pipe(notify('JS sources have been copied over!'));
 })
 
 // JS Watch task
