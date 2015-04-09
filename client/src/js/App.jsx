@@ -10,19 +10,30 @@ var App = React.createClass({
     // Here we should check if there is already an existing user, and set the userInfo values as such.
 
     return {
-      userInfo: {
-        username: 'Fred',
-        github: null,
-        fitness: null
-        },
-      auth : Auth
     };
+  },
+
+  auth: {
+    userInfo: {
+
+    },
+
+    login: function() {
+      console.log('login');
+      chrome.identity.launchWebAuthFlow(
+        {'url': 'https://github.com/login/oauth/authorize', 'interactive': true},
+        function(redirect_url) {
+          console.log(redirect_url);
+        }
+      );
+    },
+
   },
 
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape user={this.state.userInfo} auth={this.state.auth} />
+        <Landscape user={this.state.userInfo} auth={this.auth} />
       </div>
     );
   }

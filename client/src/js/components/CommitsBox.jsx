@@ -5,7 +5,7 @@ var CommitsBox = React.createClass({
 
   loginGithub: function(e) {
     e.preventDefault();
-    this.props.auth.login('github', username, password);
+    this.props.auth.login();
   },
 
   logUser: function() {
@@ -18,6 +18,7 @@ var CommitsBox = React.createClass({
         <h2>Commits</h2>
         <Chart parentId="commits-chart" parentValue="50" />
         <div className="loginGithub">Login to Github</div>
+        <div onClick={this.loginGithub}>Login to Github</div>
         <div onClick={this.logUser}>Console log userInfo</div>
       </div>
     );
