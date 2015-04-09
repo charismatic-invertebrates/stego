@@ -17,6 +17,17 @@ var App = React.createClass({
   auth: {
     userInfo: {
       github: {
+        requestGithub: function(apiRequest) {
+          var self = this;
+          $.ajax({
+            type: 'GET',
+            url: 'https://api.github.com' + apiRequest,
+            data: {access_token: self.token},
+            success: function(res){
+              console.log(res);
+            }
+          });
+        },
         token: null,
       }
     },

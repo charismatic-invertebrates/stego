@@ -8,7 +8,7 @@ var CommitsBox = React.createClass({
   },
 
   logUser: function() {
-    console.log(this.props.auth.userInfo);
+    console.log(this.props.auth.userInfo.github.requestGithub('/user'));
   },
 
   render: function() {
