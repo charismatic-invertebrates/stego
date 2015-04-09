@@ -46,7 +46,12 @@ table {
   border-spacing: 0;
 }
 
+/*Sass Classes*/
+$eye-size: 3px;
+
+
 /* Main */
+
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-shadow: -1px -1px 6px #57C3FF;
@@ -161,7 +166,7 @@ h2 {
 .eye {
   background-color: black;
   border-radius: 50%;
-  border-width: 3px;
+  border-width: $eye-size;
   border-style: solid;
   border-color: black;
   width: 1px;
