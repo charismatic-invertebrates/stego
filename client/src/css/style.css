@@ -131,6 +131,11 @@ h2 {
   left: 1em;
 }
 
+.chart {
+  width: 400px;
+  height: 400px;
+}
+
 .dino-container {
   position: relative;
   bottom: -2em;
