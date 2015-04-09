@@ -18,6 +18,7 @@ var App = React.createClass({
           name: null,
           username: null,
           reposUrl: null,
+          repos: null,
           token: null
         },
         fitness: {
@@ -51,6 +52,12 @@ var App = React.createClass({
               client_secret : keys.github.clientSecret
             },
             redirect_uri: 'https://bmlpebnpaikchpcabnbieodibjbhcggf.chromiumapp.org/githubToken',
+          };
+          break;
+        case 'github-user':
+          callParams = {
+            url: 'https://api.github.com/user',
+            data: {access_token: app.state.userInfo.github.token},
             callback: function(res) {
                         app.setState(React.addons.update(app.state, {
                           userInfo: {github: {
@@ -63,10 +70,23 @@ var App = React.createClass({
                       }
           };
           break;
-        case 'github-user':
+        case 'github-repos': 
           callParams = {
-            url: 'https://api.github.com/user',
+            url: app.state.userInfo.github.reposUrl,
             data: {access_token: app.state.userInfo.github.token},
+            callback: function(repos){
+              var reposList = [];
+              repos.forEach(function(repo) {
+                reposList.push(repo.name);
+              });
+              app.setState(React.addons.update(app.state, {
+                userInfo: {github: {
+                  repos: {$set: reposList}
+                }}
+              }));
+              console.log('Saved user repos: ', reposList);
+              console.log('Confirm via log User');
+            }
           };
           break;
         case 'github-commits':
@@ -115,7 +135,7 @@ var App = React.createClass({
                 app.auth.makeRequest(provider, 'user', callParams.callback); 
               },
               fail: function(err) {
-                console.error('failed to authenticate: ', err);
+                console.error('Failed to authenticate: ', err);
               }
             });
         
@@ -130,9 +150,12 @@ var App = React.createClass({
           type: 'GET',
           url: callParams.url,
           data: callParams.data,
-          success: function(res){
+          success: function(res) {
             console.log(res);
             callParams.callback(res);
+          },
+          fail: function(err) {
+            console.err('GET request failed: ', err);
           }
         });
 
