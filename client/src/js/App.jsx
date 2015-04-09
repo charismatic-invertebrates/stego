@@ -123,7 +123,7 @@ var App = React.createClass({
         );
       },
 
-      makeRequest: function(provider, usage, cb) {
+      makeRequest: function(provider, usage) {
         var callParams = setAJAXParams(provider, usage);
         console.log(callParams);
         $.ajax({
@@ -132,7 +132,7 @@ var App = React.createClass({
           data: callParams.data,
           success: function(res){
             console.log(res);
-            cb(res);
+            callParams.callback(res);
           }
         });
 
