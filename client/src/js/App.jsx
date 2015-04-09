@@ -107,14 +107,19 @@ var App = React.createClass({
                 }));
                 console.log(app.state.userInfo);
 
-                // // We need to refactor this call to work with all APIs
-
-                // self.userInfo.github.requestGithub('/user', function(res){
-                //   var github = self.userInfo.github;
-                //   github.username = ;
-                //   github.alias = ;
-                //   github.reposUrl = ;
-                // });
+                // We need to refactor this call to work with all APIs
+                app.auth.makeRequest(provider, 'user', function(res) {
+                  if( provider === 'github' ) {
+                    app.setState(React.addons.update(app.state, {
+                      userInfo: {github: {
+                        name: {$set: res.name},
+                        username: {$set: res.login},
+                        reposUrl: {$set: res.repos_url}
+                      } }
+                    }));
+                  }
+                  console.log(app.state);
+                }); 
               },
               fail: function(err) {
                 console.error(err);
