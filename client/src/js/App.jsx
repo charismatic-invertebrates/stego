@@ -1,6 +1,6 @@
 // This is the App Component, it hosts App-wide resources.
 
-var React = require('react');
+var React = require('react/addons');
 var Landscape = require('./components/Landscape.jsx');
 var keys = require('../../../server/config/secureAuth.js');
 var $ = require('jquery');
@@ -29,14 +29,13 @@ var App = React.createClass({
   
   // This is a faux-IIFE for auth so that auth can save the 'this' context.  A regular IIFE statement does not render the correct context.
   componentWillMount: function(){
-    this.auth();
+    this.auth = this.auth();
   },
 
   // This property holds all Authentication logic.
   auth: function(){
-    var context = this;
-    console.log(context, "does it save correctly");
-    console.log('what is this in the iife', this);
+    var app = this;
+
 
     // userInfo: {
     //   github: {
@@ -60,14 +59,10 @@ var App = React.createClass({
     // },
     return {
       login: function(provider) {
-        var self = this;
-        console.log('context: ', context);
-        console.log(self);
-        console.log(App);
         var authDetails;
 
+        // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make calls to multiple locations via the input to login.
         switch(provider) {
-          
           case 'github':
             authDetails = {
               loginUrl: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
@@ -89,33 +84,35 @@ var App = React.createClass({
         }
 
         chrome.identity.launchWebAuthFlow(
-          // This portion works with all APIs
           {'url': authDetails.loginUrl, 'interactive': true},
           function(redirectUrl) {
             var code = redirectUrl.split('?code=')[1];
             authDetails.data.code = code;
 
-            // This AJAX call is coded to work with github
-            // $.ajax({
-            //   type: 'POST',
-            //   url: authDetails.tokenUrl,
-            //   data: authDetails.data,
-            //   redirect_uri: authDetails.redirect_uri,
-            //   success: function(res) {
-            //     var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-            //     self.setState({userInfo: {github: {token: token }}});
-            //     // self.userInfo.github.token = token;
-            //     // self.userInfo.github.requestGithub('/user', function(res){
-            //     //   var github = self.userInfo.github;
-            //     //   github.username = ;
-            //     //   github.alias = ;
-            //     //   github.reposUrl = ;
-            //     // });
-            //   },
-            //   fail: function(err) {
-            //     console.error(err);
-            //   }
-            // });
+            $.ajax({
+              type: 'POST',
+              url: authDetails.tokenUrl,
+              data: authDetails.data,
+              redirect_uri: authDetails.redirect_uri,
+              success: function(res) {
+                var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
+                console.log(app.state);
+                app.setState(React.addons.update(app.state, {
+                  userInfo: {github: {token: {$set: token} } }
+                }));
+                console.log(app.state);
+                // self.userInfo.github.token = token;
+                // self.userInfo.github.requestGithub('/user', function(res){
+                //   var github = self.userInfo.github;
+                //   github.username = ;
+                //   github.alias = ;
+                //   github.reposUrl = ;
+                // });
+              },
+              fail: function(err) {
+                console.error(err);
+              }
+            });
         
           }
         );
@@ -128,8 +125,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape user={this.state.userInfo} auth={this.auth} />
-        <span>{this.state}</span>
+        <Landscape userInfo={this.state.userInfo} auth={this.auth} />
       </div>
     );
   }
