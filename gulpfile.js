@@ -8,11 +8,12 @@ var notify = require('gulp-notify');
 var minifyCSS = require('gulp-minify-css');
 var watchify = require('watchify');
 var karma = require('karma').server;
+var sass = require('gulp-sass');
 
 var path = {
   HTML_SRC: './client/src/stego.html',
   HTML_PUBLIC: './client/dist/public',
-  CSS_SRC: './client/src/css/style.css',
+  CSS_SRC: './client/src/css/style.scss',
   CSS_PUBLIC: './client/dist/public/css',
   ENTRY_POINT: './client/src/js/App.jsx',
   OUT: 'bundle.js',
@@ -32,8 +33,38 @@ gulp.task('test', function (done) {
   }, done);
 });
 
+// Copy image files to dist
+gulp.task('images', function(){
+  gulp.src([path.IMAGES_SRC])
+  .pipe(gulp.dest(path.IMAGES_PUBLIC))
+  .pipe(notify('Stego assets have been copied over!'));
+});
+
+// Copy bower components to dist
+gulp.task('bower', function(){
+  gulp.src([path.BOWER_SRC])
+  .pipe(gulp.dest(path.BOWER_PUBLIC))
+  .pipe(notify('Bower components have been copied over!'));
+});
+
+// Copy HTML file to dist
+gulp.task('html', function(){
+  return gulp.src([path.HTML_SRC])
+  .pipe(gulp.dest(path.HTML_PUBLIC))
+  .pipe(notify('Stego HTML Build Complete!'));
+});
+
+// HTML Watch task
+gulp.task('watch-html', function(){
+  gulp.watch(path.HTML_SRC, function(){
+    return gulp.src([path.HTML_SRC])
+    .pipe(gulp.dest(path.HTML_PUBLIC))
+    .pipe(notify('WATCH: Stego HTML Build Complete!'));
+  });
+});
+
 // Compile JSX file to build.js
-gulp.task('js', function(){
+gulp.task('jsx', function(){
   browserify({
     entries: [path.ENTRY_POINT],
     transform: [reactify]
@@ -44,44 +75,8 @@ gulp.task('js', function(){
     .pipe(notify('Stego JS Build Complete!'));
 });
 
-// Minify styles files to dist
-gulp.task('css', function(){
-  return gulp.src(path.CSS_SRC)
-    .pipe(minifyCSS())
-    .pipe(gulp.dest(path.CSS_PUBLIC))
-    .pipe(notify('Stego CSS Build Complete!'));
-});
-
-// Copy html file to dist
-gulp.task('html', function(){
-  return gulp.src([path.HTML_SRC])
-  .pipe(gulp.dest(path.HTML_PUBLIC))
-  .pipe(notify('Stego HTML Build Complete!'));
-})
-
-// Copy image files to dist
-gulp.task('images', function(){
-  gulp.src([path.IMAGES_SRC])
-  .pipe(gulp.dest(path.IMAGES_PUBLIC))
-  .pipe(notify('Stego assets have been copied over!'));
-})
-
-// Copy bower components to dist
-gulp.task('bower', function(){
-  gulp.src([path.BOWER_SRC])
-  .pipe(gulp.dest(path.BOWER_PUBLIC))
-  .pipe(notify('Bower components have been copied over!'));
-})
-
-// Copy non-JSX JS files to dist
-gulp.task('js-src', function(){
-  gulp.src([path.JS_SRC])
-  .pipe(gulp.dest(path.PUBLIC))
-  .pipe(notify('JS sources have been copied over!'));
-})
-
-// JS Watch task
-gulp.task('watch-js', function(){
+// JSX Watch task
+gulp.task('watch-jsx', function(){
   var watcher = watchify(browserify({
     entries: [path.ENTRY_POINT],
     transform: [reactify],
@@ -100,25 +95,42 @@ gulp.task('watch-js', function(){
     .pipe(gulp.dest(path.PUBLIC));
 });
 
-// CSS Watch task
+// Compile Sass and minify styles files to dist
+gulp.task('css', function(){
+  gulp.src(path.CSS_SRC)
+    .pipe(sass())
+    .pipe(minifyCSS())
+    .pipe(gulp.dest(path.CSS_PUBLIC))
+    .pipe(notify('Stego CSS Build Complete!'));
+});
+
+// Sass/CSS Watch task
 gulp.task('watch-css', function(){
   gulp.watch(path.CSS_SRC, function(){
-    return gulp.src(path.CSS_SRC)
+    gulp.src(path.CSS_SRC)
+    .pipe(sass())
     .pipe(minifyCSS())
     .pipe(gulp.dest(path.CSS_PUBLIC))
     .pipe(notify('WATCH: Stego Styles Build Complete!'));
-  })
+  });
 });
 
-// HTML Watch task
-gulp.task('watch-html', function(){
-  gulp.watch(path.HTML_SRC, function(){
-    return gulp.src([path.HTML_SRC])
-    .pipe(gulp.dest(path.HTML_PUBLIC))
-    .pipe(notify('WATCH: Stego HTML Build Complete!'));
-  })
+// Copy non-JSX Javascript files to dist
+gulp.task('js', function(){
+  gulp.src([path.JS_SRC])
+  .pipe(gulp.dest(path.PUBLIC))
+  .pipe(notify('JS sources have been copied over!'));
+});
+
+// Watch for changes in non-JSX Javscript files
+gulp.task('watch-js', function(){
+  gulp.watch(path.JS_SRC, function(){
+    return gulp.src([path.JS_SRC])
+    .pipe(gulp.dest(path.PUBLIC))
+    .pipe(notify('JS sources have been copied over!'));
+  });
 });
 
 // When "gulp" is run in the terminal, this is what will be called
-gulp.task('build', ['js', 'css', 'html', 'images', 'bower', 'js-src']);
-gulp.task('default', ['watch-js', 'watch-css', 'watch-html']);
+gulp.task('build', ['js', 'html', 'jsx', 'css', 'images', 'bower']);
+gulp.task('default', ['js', 'jsx', 'html', 'css', 'watch-js', 'watch-jsx', 'watch-html', 'watch-css']);
