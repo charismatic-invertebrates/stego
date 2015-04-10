@@ -28,3 +28,4 @@ dist/
 node_modules/
 GitFit/node_modules/
 bower_components/
+server/config/secureAuth.js
