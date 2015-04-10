@@ -134,3 +134,4 @@ gulp.task('watch-js', function(){
 // When "gulp" is run in the terminal, this is what will be called
 gulp.task('build', ['js', 'html', 'jsx', 'css', 'images', 'bower']);
 gulp.task('default', ['js', 'jsx', 'html', 'css', 'watch-js', 'watch-jsx', 'watch-html', 'watch-css']);
+gulp.task('dev', ['build', 'default']);
