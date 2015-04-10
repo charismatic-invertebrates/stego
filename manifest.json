@@ -12,7 +12,8 @@
 
   "permissions": [
     "activeTab",
-    "<all_urls>"
+    "<all_urls>",
+    "identity"
   ],
 
   "chrome_url_overrides": {
