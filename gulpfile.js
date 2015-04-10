@@ -72,7 +72,7 @@ gulp.task('jsx', function(){
   .bundle()
     .pipe(source(path.OUT))
     .pipe(gulp.dest(path.PUBLIC))
-    .pipe(notify('Stego JS Build Complete!'));
+    .pipe(notify('Stego JSX Build Complete!'));
 });
 
 // JSX Watch task
@@ -132,6 +132,5 @@ gulp.task('watch-js', function(){
 });
 
 // When "gulp" is run in the terminal, this is what will be called
-gulp.task('build', ['js', 'html', 'jsx', 'css', 'images', 'bower']);
-gulp.task('default', ['js', 'jsx', 'html', 'css', 'watch-js', 'watch-jsx', 'watch-html', 'watch-css']);
-gulp.task('dev', ['build', 'default']);
+gulp.task('build', ['jsx', 'js', 'html', 'css', 'images', 'bower']);
+gulp.task('default', ['watch-js', 'watch-jsx', 'watch-html', 'watch-css']);

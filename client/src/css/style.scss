@@ -46,9 +46,6 @@ table {
   border-spacing: 0;
 }
 
-/*Sass Classes*/
-$eye-size: 3px;
-
 
 /* Main */
 
@@ -156,81 +153,125 @@ h2 {
 
 /* Stego Dinosaur */
 
+// Stego Asset Sizes
+$eye-size: 10px;
+$body-width: 227px;
+$body-height: 326px;
+$leftarm-width: 73px;
+$leftarm-height: 68px;
+$rightarm-width: 35px;
+$rightarm-height: 64px;
+$leftleg-width: 36px;
+$leftleg-height: 27px;
+$rightleg-width: 39px;
+$rightleg-height: 30px;
+$mouth-width: 104px;
+$mouth-height: 38px;
+$tail-width: 122px;
+$tail-height: 96px;
+
+// Stego Asset Positions (X,Y)
+$left-eye-pos: 40px,100px;
+$right-eye-pos: 120px,105px;
+$leftarm-pos: -4px, 105px;
+$rightarm-pos: 120px, 203px;
+$leftleg-pos: 60px, 310px;
+$rightleg-pos: 115px, 310px;
+$mouth-pos: 33px,133px;
+$tail-pos: 155px,225px;
+
+// Stego Z-Indexes
+$body-z: 2;
+$eye-z: 3;
+$leftarm-z: 1;
+$rightarm-z: 3;
+$leftleg-z: 2;
+$rightleg-z: 2;
+$mouth-z: 3;
+$tail-z: 1;
+
+
 .stego-body {
   margin: 0 auto;
-  width: 211px;
-  height: 304px;
+  width: $body-width;
+  height: $body-height;
   background-image: url('../images/stego-parts/stego-body.png');
+  z-index: $body-z;
 }
-
 
 .eye {
   background-color: black;
   border-radius: 50%;
-  border-width: $eye-size;
+  border-width: 1px;
   border-style: solid;
   border-color: black;
-  width: 1px;
-  height: 1px;
+  width: $eye-size;
+  height: $eye-size;
   position: absolute;
+  z-index: $eye-z;
 }
 
 .eye.left-eye {
-  transform: translate(50px,80px);
+  transform: translate($left-eye-pos);
 }
 
 .eye.right-eye {
-  transform: translate(130px,85px);
+  transform: translate($right-eye-pos);
 }
 
 .mouth {
-  width: 102px;
-  height: 31px;
+  width: $mouth-width;
+  height: $mouth-height;
   background-image: url('../images/stego-parts/stego-mouth.png');
   position: absolute;
-  transform: translate(40px,125px);
+  transform: translate($mouth-pos);
+  z-index: $mouth-z;
 }
 
 .left-arm {
-  width: 46px;
-  height: 45px;
+  width: $leftarm-width;
+  height: $leftarm-height;
   position: absolute;
   background-image: url('../images/stego-parts/stego-leftarm.png');
-  transform: translate(-25px,105px);
+  transform: translate($leftarm-pos);
+  z-index: $leftarm-z;
   /*-webkit-animation: wave 1s linear infinite;*/
 }
 
 .right-arm {
-  width: 26px;
-  height: 44px;
+  width: $rightarm-width;
+  height: $rightarm-height;
   position: absolute;
   background-image: url('../images/stego-parts/stego-rightarm.png');
-  transform: translate(145px,178px);
+  transform: translate($rightarm-pos);
+  z-index: $rightarm-z;
 }
 
 .left-leg {
-  width: 36px;
-  height: 20px;
+  width: $leftleg-width;
+  height: $leftleg-height;
   background-image: url('../images/stego-parts/stego-leftleg.png');
   position: absolute;
-  transform: translate(38px,296px);
+  transform: translate($leftleg-pos);
+  z-index: $leftleg-z;
 }
 
 .right-leg {
-  width: 34px;
-  height: 21px;
+  width: $rightleg-width;
+  height: $rightleg-height;
   background-image: url('../images/stego-parts/stego-rightleg.png');
   position: absolute;
-  transform: translate(130px,297px);
+  transform: translate($rightleg-pos);
+  z-index: $rightleg-z;
 }
 
 .tail {
-  width: 101px;
-  height: 63px;
+  width: $tail-width;
+  height: $tail-height;
   background-image: url('../images/stego-parts/stego-tail.png');
   position: absolute;
-  transform: translate(160px,220px);
-
+  transform: translate($tail-pos);
+  z-index: $tail-z;
 }
 
 /*Animations*/
@@ -272,7 +313,7 @@ h2 {
 
   100% {
     -webkit-transform: translate3d(0, 700px, 0);
-    transform: translate3d(0, 200px, 0);
+    transform: translate3d(-35px, 158px, 200px);
   }
 }
 
