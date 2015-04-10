@@ -19,6 +19,7 @@ var App = React.createClass({
           username: null,
           reposUrl: null,
           repos: null,
+          commitsByRepo: [],
           token: null
         },
         fitness: {
@@ -37,7 +38,7 @@ var App = React.createClass({
   auth: function(){
     var app = this;
 
-    var setAJAXParams = function(provider, usage) {
+    var setAJAXParams = function(provider, usage, param) {
       var callLoc = provider + '-' + usage;
       console.log(callLoc);
 
@@ -58,12 +59,12 @@ var App = React.createClass({
           callParams = {
             url: 'https://api.github.com/user',
             data: {access_token: app.state.userInfo.github.token},
-            callback: function(res) {
+            callback: function(user) {
                         app.setState(React.addons.update(app.state, {
                           userInfo: {github: {
-                            name: {$set: res.name},
-                            username: {$set: res.login},
-                            reposUrl: {$set: res.repos_url}
+                            name: {$set: user.name},
+                            username: {$set: user.login},
+                            reposUrl: {$set: user.repos_url}
                           } }
                         }));
                         console.log('Set github user: ', app.state);
@@ -91,7 +92,20 @@ var App = React.createClass({
           break;
         case 'github-commits':
           callParams = {
-
+            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/stats/contributors',
+            data: {access_token: app.state.userInfo.github.token},
+            callback: function(repoAuthors) {
+              repoAuthors.forEach(function(authorInfo) {
+                if( authorInfo.author.login === app.state.userInfo.github.name || authorInfo.author.login === app.state.userInfo.github.username ) {
+                  console.log('at least trying to modify our state');
+                  app.setState(React.addons.update(app.state, {
+                    userInfo: {github: {
+                      commitsByRepo: {$push: [{repo: param, stats: authorInfo}]}
+                    }}
+                  }));
+                }
+              });
+            }
           };
           break;
 
@@ -143,8 +157,8 @@ var App = React.createClass({
         );
       },
 
-      makeRequest: function(provider, usage) {
-        var callParams = setAJAXParams(provider, usage);
+      makeRequest: function(provider, usage, param) {
+        var callParams = setAJAXParams(provider, usage, param);
         console.log(callParams);
         $.ajax({
           type: 'GET',
@@ -158,12 +172,8 @@ var App = React.createClass({
             console.err('GET request failed: ', err);
           }
         });
-
-
       }
-
     };
-
   },
 
   render: function() {

@@ -16,7 +16,10 @@ var CommitsBox = React.createClass({
   },
 
   getCommits: function(){
-    this.props.auth.makeRequest('github', 'commits');
+    var request = this.props.auth.makeRequest;
+    this.props.user.github.repos.forEach(function(repo) {
+      request('github', 'commits', repo);
+    });
   },
 
 
