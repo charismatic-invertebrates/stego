@@ -15,6 +15,7 @@
     "<all_urls>",
     "identity"
   ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3xiDPP82tNdhIJ1uf5Ij8r7vGdSKsPrVl3Q1QFw4OhS5wnFSht2fN1ooZBZrjmAC/JD6TvrZ/kuTuRCSi49prFzlBGa1ZWA8VbRzc03fUQRFdC7XlfLalgC/SVxhWD59ryg6lynpZeQ3BJp+VsLNLSaXXDynVu2KBWVxBhENac0PgItR/JFWwW37Mz7osHtYYxxb0FX8wRk8X6jC/YFqocaWXlK/hdDrIW+4fmIOr70Z0kyQRnBhS/Le990cSHTp2d8Jm83NVLP8E/LivfDYGN1R/k7V/VkxhRNHpJ1wwvHlQlalEFXN3R8NL9thz253jMCaie83diqV7Yo+aSfS+wIDAQAB",
 
   "chrome_url_overrides": {
     "newtab": "client/dist/public/stego.html"
