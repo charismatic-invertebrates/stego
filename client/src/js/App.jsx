@@ -44,13 +44,31 @@ var App = React.createClass({
       switch(callLoc) {
         case 'github-login':
           callParams = {
-            loginUrl: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
-            tokenUrl: 'https://github.com/login/oauth/access_token',
+            url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
+            callback: function(res) {
+              return res.split('?code=')[1];
+            }
+          };
+          break;
+        case 'github-getToken':
+          callParams = {
+            url: 'https://github.com/login/oauth/access_token',
             data: {
+              code: param,
               client_id : keys.github.clientID,
               client_secret : keys.github.clientSecret
             },
-            redirect_uri: 'https://bmlpebnpaikchpcabnbieodibjbhcggf.chromiumapp.org/githubToken',
+            redirect_uri: 'https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/githubToken',
+            callback: function(res){
+              var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
+              app.setState(React.addons.update(app.state, {
+                userInfo: {github: {token: {$set: token} } }
+              }));
+              console.log('User info saved after login: ', app.state.userInfo);
+
+                // We need to refactor this call to work with all APIs
+              app.auth.makeRequest(provider, 'user'); 
+            }
           };
           break;
         case 'github-user':
@@ -66,6 +84,7 @@ var App = React.createClass({
                           } }
                         }));
                         console.log('Set github user: ', app.state);
+                        app.auth.makeRequest(provider, 'repos');
                       }
           };
           break;
@@ -75,6 +94,7 @@ var App = React.createClass({
             data: {access_token: app.state.userInfo.github.token},
             callback: function(repos){
               var reposList = [];
+              
               repos.forEach(function(repo) {
                 reposList.push(repo.name);
               });
@@ -83,8 +103,13 @@ var App = React.createClass({
                   repos: {$set: reposList}
                 }}
               }));
+              
               console.log('Saved user repos: ', reposList);
               console.log('Confirm via log User');
+
+              app.state.userInfo.github.repos.forEach(function(repo) {
+                app.auth.makeRequest('github', 'commits', repo);
+              });
             }
           };
           break;
@@ -95,7 +120,6 @@ var App = React.createClass({
             callback: function(repoAuthors) {
               repoAuthors.forEach(function(authorInfo) {
                 if( authorInfo.author.login === app.state.userInfo.github.name || authorInfo.author.login === app.state.userInfo.github.username ) {
-                  console.log('at least trying to modify our state');
                   app.setState(React.addons.update(app.state, {
                     userInfo: {github: {
                       commitsByRepo: {$push: [{repo: param, stats: authorInfo}]}
@@ -107,50 +131,58 @@ var App = React.createClass({
           };
           break;
 
-        case 'fitbit':
-          url = 'https://www.fitbit.com/oauth/request_token?oauth_consumer_key=' + keys.fitbit.consumerKey;
+        case 'fitbit-login':
+          callParams = {
+            url: 'https://api.fitbit.com/oauth/request_token?oauth_consumer_key=' + keys.fitbit.consumerKey,
+            data: {},
+          };
           break;
 
         case 'jawbone':
           url = 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID;
           break;
       }
+      console.log(callParams);
       return callParams;
     };
 
     return {
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
+        console.log('Ajax call with params: ', callParams); 
 
         chrome.identity.launchWebAuthFlow({
-          'url': callParams.loginUrl,
+          'url': callParams.url,
           'interactive': true
           },
           function(redirectUrl) {
             // This may be Github specific:
-            var code = redirectUrl.split('?code=')[1];
-            callParams.data.code = code;
+            var code = callParams.callback(redirectUrl);
+            // callParams.data.code = code;
+            console.log(redirectUrl);
+
+            app.auth.postRequest(provider, 'getToken', code);
 
             // This function may be modularized out
-            $.ajax({
-              type: 'POST',
-              url: callParams.tokenUrl,
-              data: callParams.data,
-              redirect_uri: callParams.redirect_uri,
-              success: function(res) {
-                var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-                app.setState(React.addons.update(app.state, {
-                  userInfo: {github: {token: {$set: token} } }
-                }));
-                console.log('User info saved after login: ', app.state.userInfo);
+            // $.ajax({
+            //   type: 'POST',
+            //   url: callParams.tokenUrl,
+            //   data: callParams.data,
+            //   redirect_uri: callParams.redirect_uri,
+            //   success: function(res) {
+            //     var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
+            //     app.setState(React.addons.update(app.state, {
+            //       userInfo: {github: {token: {$set: token} } }
+            //     }));
+            //     console.log('User info saved after login: ', app.state.userInfo);
 
-                // We need to refactor this call to work with all APIs
-                app.auth.makeRequest(provider, 'user', callParams.callback); 
-              },
-              fail: function(err) {
-                console.error('Failed to authenticate: ', err);
-              }
-            });
+            //     // We need to refactor this call to work with all APIs
+            //     app.auth.makeRequest(provider, 'user', callParams.callback); 
+            //   },
+            //   fail: function(err) {
+            //     console.error('Failed to authenticate: ', err);
+            //   }
+            // });
         
           }
         );
@@ -165,13 +197,32 @@ var App = React.createClass({
           url: callParams.url,
           data: callParams.data,
           success: function(res) {
-            console.log(res);
+            console.log('GET response: ', res);
             callParams.callback(res);
           },
           fail: function(err) {
-            console.err('GET request failed: ', err);
+            console.error('GET request failed: ', err);
           }
         });
+      },
+
+      postRequest: function(provider, usage, param) {
+        var callParams = setAJAXParams(provider, usage, param);
+        console.log(callParams);
+        $.ajax({
+          type: 'POST',
+          url: callParams.url,
+          data: callParams.data,
+          redirect_uri: callParams.redirect_uri,
+          success: function(res) {
+            console.log('POST response: ', res);
+            callParams.callback(res);
+          },
+          fail: function(err) {
+            console.error('POST request failed: ', err);
+          }
+        });
+
       }
     };
   },
