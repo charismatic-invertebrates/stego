@@ -8,10 +8,8 @@ var $ = require('jquery');
 var App = React.createClass({
 
   getInitialState: function() {
-    // Here we should check if there is already an existing user, and set the userInfo values as such.
 
     return {
-
       // This property holds all user properties
       userInfo: {
         github: {
@@ -133,6 +131,7 @@ var App = React.createClass({
             var code = redirectUrl.split('?code=')[1];
             callParams.data.code = code;
 
+            // This function may be modularized out
             $.ajax({
               type: 'POST',
               url: callParams.tokenUrl,
@@ -156,7 +155,8 @@ var App = React.createClass({
           }
         );
       },
-
+      
+      // This function is modularized to make all GET requests for all APIs
       makeRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
         console.log(callParams);

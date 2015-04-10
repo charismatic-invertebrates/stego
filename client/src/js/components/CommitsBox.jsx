@@ -22,28 +22,6 @@ var CommitsBox = React.createClass({
     });
   },
 
-
-// var yearCommits = function(since) {
-//     githubID.commits = 0;
-//     github.get('users/' + githubID.alias + '/repos')
-//       .done(function(repos) {
-//         _.each(repos, function(repo) {
-//           github.get('repos/' + githubID.alias + '/' + repo.name + '/stats/contributors')
-//             .done(function(contributors) {
-//               console.log(repo.name);
-//               console.log(contributors);
-//               _.each(contributors, function(info){console.log('name: ',info.author.login, 'commits: ', info.total)});
-//             })
-//             .fail(function(err) {
-//               console.error(err);
-//             });
-//         });
-//       })
-//       .fail(function(err) {
-//         console.error(err);
-//       });
-//   }
-
   render: function() {
     return (
       <div className="commits-box">
