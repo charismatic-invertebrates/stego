@@ -137,13 +137,32 @@ var App = React.createClass({
         case 'fitbit-login':
           callParams = {
             url: 'https://api.fitbit.com/oauth/request_token?oauth_consumer_key=' + keys.fitbit.consumerKey,
-            data: {},
           };
           break;
 
-        case 'jawbone':
-          url = 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID;
+        case 'jawbone-login':
+          callParams = {
+            url: 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID + '&redirect_uri=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/jawbone',
+          };
           break;
+        case 'jawbone-getToken':
+          callParams = {
+            url: 'https://jawbone.com/auth/oauth2/token',
+            data: {
+              client_id: keys.jawbone.clientID,
+              client_secret: keys.jawbone.clientSecret,
+              grant_type: 'authorization_code',
+              code: param,
+            },
+            callback: function(res) {
+              var token = res.access_token;
+              app.setState(React.addons.update(app.state, {
+                userInfo: {fitness: {token: {$set: token} } }
+              }));
+              console.log(res);
+              console.log('saved userInfo: ', app.state.userInfo.fitness);
+            },
+          };
       }
       console.log(callParams);
       return callParams;
@@ -161,7 +180,7 @@ var App = React.createClass({
           },
           function(redirectUrl) {
             console.log(redirectUrl);
-            var code = callParams.callback(redirectUrl);
+            var code = redirectUrl.split('?code=')[1];
             app.auth.postRequest(provider, 'getToken', code);
           }
         );
