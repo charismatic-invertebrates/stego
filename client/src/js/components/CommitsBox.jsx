@@ -27,7 +27,6 @@ var CommitsBox = React.createClass({
       <div className="commits-box">
         <h2>Commits</h2>
         <Chart parentId="commits-chart" parentValue="50" />
-        <div className="loginGithub">Login to Github</div>
         <div onClick={this.loginGithub}>Login to Github</div>
         <div onClick={this.logUser}>Console log userInfo</div>
         <div onClick={this.getAndSaveRepos}>Get, save, and log Repo names</div>
