@@ -7,8 +7,10 @@ var source = require('vinyl-source-stream');
 var notify = require('gulp-notify');
 var minifyCSS = require('gulp-minify-css');
 var watchify = require('watchify');
+var jasmine = require('gulp-jasmine');
 var karma = require('karma').server;
 var sass = require('gulp-sass');
+var react = require('gulp-react');
 
 var path = {
   HTML_SRC: './client/src/stego.html',
@@ -22,15 +24,27 @@ var path = {
   IMAGES_SRC: './client/src/images/**',
   IMAGES_PUBLIC: './client/dist/public/images',
   BOWER_SRC: './client/src/bower_components/**',
-  BOWER_PUBLIC: './client/dist/bower_components'
+  BOWER_PUBLIC: './client/dist/bower_components',
+  SPEC: './spec/client/**.js',
+  JSX_SRC: './client/src/js/components/**',
+  SPEC_JSX_SRC: './spec/client/**',
+  COMPILED: './spec/compiled'
 };
 
-// TODO: CREATE TEST TASK HERE
+// Convert JSX templates to individual JS files
+gulp.task('react', function() {
+  return gulp.src([path.JSX_SRC, path.SPEC_JSX_SRC])
+    .pipe(react())
+    .pipe(gulp.dest(path.COMPILED));
+});
+
 gulp.task('test', function (done) {
-  karma.start({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done);
+  // karma.start({
+  //   configFile: __dirname + '/karma.conf.js',
+  //   singleRun: true
+  // }, done);
+  return gulp.src([path.SPEC])
+    .pipe(jasmine());
 });
 
 // Copy image files to dist
