@@ -48,7 +48,20 @@ table {
 
 /*Sass Classes*/
 $eye-size: 3px;
-
+$body-width: 227px;
+$body-height: 326px;
+$leftarm-width: 73px;
+$leftarm-height: 68px;
+$rightarm-width: 35px;
+$rightarm-height: 64px;
+$leftleg-width: 36px;
+$leftleg-height: 27px;
+$rightleg-width: 39px;
+$rightleg-height: 30px;
+$mouth-width: 104px;
+$mouth-height: 38px;
+$tail-width: 122px;
+$tail-height: 96px;
 
 /* Main */
 
@@ -158,11 +171,10 @@ h2 {
 
 .stego-body {
   margin: 0 auto;
-  width: 211px;
-  height: 304px;
+  width: $body-width;
+  height: $body-height;
   background-image: url('../images/stego-parts/stego-body.png');
 }
-
 
 .eye {
   background-color: black;
@@ -184,16 +196,16 @@ h2 {
 }
 
 .mouth {
-  width: 102px;
-  height: 31px;
+  width: $mouth-width;
+  height: $mouth-height;
   background-image: url('../images/stego-parts/stego-mouth.png');
   position: absolute;
   transform: translate(40px,125px);
 }
 
 .left-arm {
-  width: 46px;
-  height: 45px;
+  width: $leftarm-width;
+  height: $leftarm-height;
   position: absolute;
   background-image: url('../images/stego-parts/stego-leftarm.png');
   transform: translate(-25px,105px);
@@ -201,32 +213,32 @@ h2 {
 }
 
 .right-arm {
-  width: 26px;
-  height: 44px;
+  width: $rightarm-width;
+  height: $rightarm-height;
   position: absolute;
   background-image: url('../images/stego-parts/stego-rightarm.png');
   transform: translate(145px,178px);
 }
 
 .left-leg {
-  width: 36px;
-  height: 20px;
+  width: $leftleg-width;
+  height: $leftleg-height;
   background-image: url('../images/stego-parts/stego-leftleg.png');
   position: absolute;
   transform: translate(38px,296px);
 }
 
 .right-leg {
-  width: 34px;
-  height: 21px;
+  width: $rightleg-width;
+  height: $rightleg-height;
   background-image: url('../images/stego-parts/stego-rightleg.png');
   position: absolute;
   transform: translate(130px,297px);
 }
 
 .tail {
-  width: 101px;
-  height: 63px;
+  width: $tail-width;
+  height: $tail-height;
   background-image: url('../images/stego-parts/stego-tail.png');
   position: absolute;
   transform: translate(160px,220px);
