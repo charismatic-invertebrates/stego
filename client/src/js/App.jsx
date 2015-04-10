@@ -21,7 +21,9 @@ var App = React.createClass({
           token: null
         },
         fitness: {
-          username: null,
+          firstName: null,
+          lastName: null,
+          xid: null
         }
       }
     };
@@ -41,7 +43,12 @@ var App = React.createClass({
     // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options.
     var setAJAXParams = function(provider, usage, param) {
       var callLoc = provider + '-' + usage;
+      var updateState = function(update) {
+        app.setState(React.addons.update(app.state, update));
+      };
+
       console.log(callLoc);
+
 
       // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
       switch(callLoc) {
@@ -64,9 +71,9 @@ var App = React.createClass({
             redirect_uri: 'https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/githubToken',
             callback: function(res){
               var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-              app.setState(React.addons.update(app.state, {
-                userInfo: {github: {token: {$set: token} } }
-              }));
+              updateState({ 
+                userInfo: {github: {token: {$set: token} } } 
+              });
               console.log('User info saved after login: ', app.state.userInfo);
 
                 // We need to refactor this call to work with all APIs
@@ -79,15 +86,15 @@ var App = React.createClass({
             url: 'https://api.github.com/user',
             data: {access_token: app.state.userInfo.github.token},
             callback: function(user) {
-                        app.setState(React.addons.update(app.state, {
+                        updateState({
                           userInfo: {github: {
                             name: {$set: user.name},
                             username: {$set: user.login},
                             reposUrl: {$set: user.repos_url}
                           } }
-                        }));
-                        console.log('Set github user: ', app.state);
-                        app.auth.makeRequest(provider, 'repos');
+                        });
+                      console.log('Set github user: ', app.state);
+                      app.auth.makeRequest(provider, 'repos');
                       }
           };
           break;
@@ -101,12 +108,11 @@ var App = React.createClass({
               repos.forEach(function(repo) {
                 reposList.push(repo.name);
               });
-              app.setState(React.addons.update(app.state, {
+              updateState({
                 userInfo: {github: {
                   repos: {$set: reposList}
                 }}
-              }));
-              
+              });
               console.log('Saved user repos: ', reposList);
               console.log('Confirm via log User');
 
@@ -121,13 +127,14 @@ var App = React.createClass({
             url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/stats/contributors',
             data: {access_token: app.state.userInfo.github.token},
             callback: function(repoAuthors) {
+              console.log(repoAuthors);
               repoAuthors.forEach(function(authorInfo) {
                 if( authorInfo.author.login === app.state.userInfo.github.name || authorInfo.author.login === app.state.userInfo.github.username ) {
-                  app.setState(React.addons.update(app.state, {
+                  updateState({
                     userInfo: {github: {
                       commitsByRepo: {$push: [{repo: param, stats: authorInfo}]}
                     }}
-                  }));
+                  });
                 }
               });
             }
@@ -161,8 +168,25 @@ var App = React.createClass({
               }));
               console.log(res);
               console.log('saved userInfo: ', app.state.userInfo.fitness);
+              app.auth.makeRequest(provider, 'user');
             },
           };
+          break;
+        case 'jawbone-user':
+          callParams = {
+            url: 'https://jawbone.com/nudge/api/v.1.1/users/@me',
+            header: {'Authorization': 'Bearer ' + app.state.userInfo.fitness.token},  
+            callback: function(res){
+              updateState({
+                userInfo: {fitness: {
+                  firstName: {$set: res.data.first},
+                  lastName: {$set: res.data.last},
+                  xid: {$set: res.data.xid}
+                }}
+              });
+            }
+          };
+          break;
       }
       console.log(callParams);
       return callParams;
@@ -193,6 +217,7 @@ var App = React.createClass({
         $.ajax({
           type: 'GET',
           url: callParams.url,
+          headers: callParams.header,
           data: callParams.data,
           success: function(res) {
             console.log('GET response: ', res);
