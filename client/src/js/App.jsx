@@ -155,7 +155,7 @@ var App = React.createClass({
         var callParams = setAJAXParams(provider, 'login');
         console.log('Ajax call with params: ', callParams); 
 
-        chrome.ident=ity.launchWebAuthFlow({
+        chrome.identity.launchWebAuthFlow({
           'url': callParams.url,
           'interactive': true
           },
