@@ -3,23 +3,14 @@ var Chart = require('./Chart.jsx');
 
 var CommitsBox = React.createClass({
 
+  // This function logs in to Github, and triggers a series of AJAX calls that extract the user's info, repos, and commits
   loginGithub: function(e) {
     this.props.auth.login('github');
   },
-
+  
+  // This function logs the user object saved in App.jsx's state
   logUser: function() {
     console.log(this.props.user);
-  },
-
-  getAndSaveRepos: function(){
-    this.props.auth.makeRequest('github', 'repos');
-  },
-
-  getCommits: function(){
-    var request = this.props.auth.makeRequest;
-    this.props.user.github.repos.forEach(function(repo) {
-      request('github', 'commits', repo);
-    });
   },
 
   render: function() {

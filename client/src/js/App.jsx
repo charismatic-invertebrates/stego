@@ -32,10 +32,13 @@ var App = React.createClass({
     this.auth = this.auth();
   },
 
-  // This property holds all Authentication logic.
+  // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
   auth: function(){
+
+    // We set 'app' to 'this' so that we can access this.state within different contexts.    
     var app = this;
 
+    // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options.
     var setAJAXParams = function(provider, usage, param) {
       var callLoc = provider + '-' + usage;
       console.log(callLoc);
@@ -147,43 +150,19 @@ var App = React.createClass({
     };
 
     return {
+      // This function is modularized to handle all Login requests for all APIs
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
         console.log('Ajax call with params: ', callParams); 
 
-        chrome.identity.launchWebAuthFlow({
+        chrome.ident=ity.launchWebAuthFlow({
           'url': callParams.url,
           'interactive': true
           },
           function(redirectUrl) {
-            // This may be Github specific:
-            var code = callParams.callback(redirectUrl);
-            // callParams.data.code = code;
             console.log(redirectUrl);
-
+            var code = callParams.callback(redirectUrl);
             app.auth.postRequest(provider, 'getToken', code);
-
-            // This function may be modularized out
-            // $.ajax({
-            //   type: 'POST',
-            //   url: callParams.tokenUrl,
-            //   data: callParams.data,
-            //   redirect_uri: callParams.redirect_uri,
-            //   success: function(res) {
-            //     var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-            //     app.setState(React.addons.update(app.state, {
-            //       userInfo: {github: {token: {$set: token} } }
-            //     }));
-            //     console.log('User info saved after login: ', app.state.userInfo);
-
-            //     // We need to refactor this call to work with all APIs
-            //     app.auth.makeRequest(provider, 'user', callParams.callback); 
-            //   },
-            //   fail: function(err) {
-            //     console.error('Failed to authenticate: ', err);
-            //   }
-            // });
-        
           }
         );
       },
@@ -206,6 +185,7 @@ var App = React.createClass({
         });
       },
 
+      // This function is modularized to make all POST requests for all APIs
       postRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
         console.log(callParams);
