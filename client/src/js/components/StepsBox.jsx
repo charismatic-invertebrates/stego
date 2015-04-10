@@ -7,6 +7,10 @@ var StepsBox = React.createClass({
     this.props.auth.login(service);
   },
 
+  logUser: function() {
+    console.log(this.props.user);
+  },
+
   render: function() {
     return (
       <div className="steps-box">
@@ -14,7 +18,7 @@ var StepsBox = React.createClass({
         <Chart parentId="steps-chart" parentValue="80" />
         <div onClick={this.loginUser.bind(null, 'fitbit')}>Login to FitBit</div>
         <div onClick={this.loginUser.bind(null, 'jawbone')}>Login to Jawbone</div>
-        <div>Console log user info</div>
+        <div onClick={this.logUser}>Console log user info</div>
       </div>
     );
   }
