@@ -1,11 +1,27 @@
 var React = require('react');
 
 var Chart = React.createClass({
-
-  componentDidMount: function() {
+  drawChart: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
-    loadLiquidFillGauge(this.props.parentId, this.props.parentValue, config);
+    config.maxValue = this.props.maxValue;
+    loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, false);
+  },
+
+  updateChart: function() {
+    var el = React.findDOMNode(this);
+    var config = liquidFillGaugeDefaultSettings();
+    loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, true);
+  },
+
+  componentDidMount: function() {
+    console.log('component did mount')
+    this.drawChart();
+  },
+
+  shouldComponentUpdate: function() {
+    this.updateChart();
+    return true;
   },
 
   render: function() {
