@@ -9,15 +9,15 @@ function liquidFillGaugeDefaultSettings(){
     maxValue: 100, // The gauge maximum value.
     circleThickness: 0.02, // The outer circle thickness as a percentage of its radius.
     circleFillGap: 0.02, // The size of the gap between the outer circle and wave circle as a percentage of the outer circles radius.
-    circleColor: '#178BCA', // The color of the outer circle.
+    circleColor: 'rgb(44, 181, 255)', // The color of the outer circle.
     waveHeight: 0.05, // The wave height as a percentage of the radius of the wave circle.
-    waveCount: 1, // The number of full waves per width of the wave circle.
+    waveCount: 3, // The number of full waves per width of the wave circle.
     waveRiseTime: 1000, // The amount of time in milliseconds for the wave to rise from 0 to its final height.
     waveAnimateTime: 18000, // The amount of time in milliseconds for a full wave to enter the wave circle.
     waveRise: true, // Control if the wave should rise from 0 to its full height, or start at its full height.
     waveHeightScaling: true, // Controls wave size scaling at low and high fill percentages. When true, wave height reaches its maximum at 50% fill, and minimum at 0% and 100% fill. This helps to prevent the wave from making the wave circle from appear totally full or empty when near its minimum or maximum fill.
     waveAnimate: true, // Controls if the wave scrolls or is static.
-    waveColor: '#178BCA', // The color of the fill wave.
+    waveColor: 'rgb(44, 181, 255)', // The color of the fill wave.
     waveOffset: 0, // The amount to initially offset the wave. 0 = no offset. 1 = offset of one full wave.
     textVertPosition: .5, // The height at which to display the percentage text withing the wave circle. 0 = bottom, 1 = top.
     textSize: 1, // The relative height of the text to display in the wave circle. 1 = 50%
@@ -218,16 +218,16 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     waveGroup.attr('transform','translate('+waveGroupXPosition+','+waveRiseScale(fillPercent)+')');
   }
 
-  if(config.waveAnimate) animateWave();
+  // if(config.waveAnimate) animateWave();
 
-  function animateWave() {
-    wave.transition()
-      .duration(config.waveAnimateTime)
-      .ease('linear')
-      .attr('transform','translate('+waveAnimateScale(1)+',0)')
-      .each('end', function(){
-          wave.attr('transform','translate('+waveAnimateScale(0)+',0)');
-          animateWave(config.waveAnimateTime);
-      });
-  }
+  // function animateWave() {
+  //   wave.transition()
+  //     .duration(config.waveAnimateTime)
+  //     .ease('linear')
+  //     .attr('transform','translate('+waveAnimateScale(1)+',0)')
+  //     .each('end', function(){
+  //         wave.attr('transform','translate('+waveAnimateScale(0)+',0)');
+  //         animateWave(config.waveAnimateTime);
+  //     });
+  // }
 }

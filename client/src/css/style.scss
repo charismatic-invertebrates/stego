@@ -75,20 +75,20 @@ h2 {
   display: inline-block;
   padding: 0.5em;
   margin: 0.2em;
-  background: rgb(23, 139, 202);
+  background: rgb(44, 181, 255);
   color: #fff;
   cursor: pointer;
   font-weight: 700;
   text-align: center;
-  text-shadow: -1px -1px 1px rgb(4, 86, 129);
+  text-shadow: -1px -1px 1px rgb(0, 139, 214);
   -moz-border-radius: 2px;
   border-radius: 2px;
-  -moz-box-shadow: 1px 1px 1px rgb(4, 86, 129);
-  box-shadow: 1px 1px 1px rgb(4, 86, 129);
+  -moz-box-shadow: 1px 1px 1px rgb(0, 139, 214);
+  box-shadow: 1px 1px 1px rgb(0, 139, 214);
 }
 
 .button:hover {
-  opacity: 0.8;
+  background: rgb(0, 181, 255);
 }
 
 .morning, .late-morning, .afternoon, .late-afternoon,
@@ -160,9 +160,13 @@ h2 {
   height: 350px;
 }
 
+.chart-container {
+  margin: 1em;
+}
+
 .dino-container {
-  position: relative;
-  bottom: -2em;
+  position: absolute;
+  bottom: 40px;
   left: 0;
   right: 0;
 }
