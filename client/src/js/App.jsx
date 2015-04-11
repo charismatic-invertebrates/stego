@@ -143,13 +143,13 @@ var App = React.createClass({
 
         case 'fitbit-login':
           callParams = {
-            url: 'https://api.fitbit.com/oauth/request_token?oauth_consumer_key=' + keys.fitbit.consumerKey,
+            url: 'https://api.fitbit.com/oauth/request_token?oauth_callback=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/fitbit&oauth_consumer_key=' + keys.fitbit.consumerKey,
           };
           break;
 
         case 'jawbone-login':
           callParams = {
-            url: 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID + '&redirect_uri=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/jawbone',
+            url: 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID + '&scope=move_read&redirect_uri=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/jawbone',
           };
           break;
         case 'jawbone-getToken':
@@ -184,6 +184,23 @@ var App = React.createClass({
                   xid: {$set: res.data.xid}
                 }}
               });
+              app.auth.makeRequest('jawbone', 'moves');
+            }
+          };
+          break;
+        case 'jawbone-moves':
+          callParams = {
+            url: 'https://jawbone.com/nudge/api/v.1.1/users/@me/moves',
+            header: {'Authorization': 'Bearer ' + app.state.userInfo.fitness.token},  
+            callback: function(res){
+              console.log(res);
+              // updateState({
+              //   userInfo: {fitness: {
+              //     firstName: {$set: res.data.first},
+              //     lastName: {$set: res.data.last},
+              //     xid: {$set: res.data.xid}
+              //   }}
+              // });
             }
           };
           break;
