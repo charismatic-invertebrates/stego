@@ -149,7 +149,7 @@ var App = React.createClass({
                   });
                 }
               });
-              console.log('totalCommits: ', app.state.userInfo.github.totalCommits);
+              // console.log('github info: ', app.state.userInfo.github);
             }
           };
           break;
