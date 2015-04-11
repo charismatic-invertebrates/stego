@@ -76,7 +76,7 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   // Data for building the clip wave area.
   var data = [];
   for(var i = 0; i <= 40*waveClipCount; i++){
-      data.push({x: i/(40*waveClipCount), y: (i/(40))});
+    data.push({x: i/(40*waveClipCount), y: (i/(40))});
   }
 
   // Scales for drawing the outer circle.
@@ -138,30 +138,7 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     gaugeGroup.select('#clipWave' + elementId).remove();
     gaugeGroup.select('defs').remove();
     gaugeGroup.select('g').attr('clip-path', 'url(#clipWave' + elementId + ')').remove();
-
-    waveGroup = gaugeGroup.append('defs')
-      .append('clipPath')
-      .attr('id', 'clipWave' + elementId);
-    wave = waveGroup.append('path')
-      .datum(data)
-      .attr('d', clipArea);
-
-    // The inner circle with the clipping wave attached.
-    fillCircleGroup = gaugeGroup.append('g')
-        .attr('clip-path', 'url(#clipWave' + elementId + ')');
-    fillCircleGroup.append('circle')
-        .attr('cx', radius)
-        .attr('cy', radius)
-        .attr('r', fillCircleRadius)
-        .style('fill', config.waveColor);
-      
-    // Text where the wave does not overlap.
-    gaugeGroup.select('text')
-      .text(value + percentText);
-
-    // Text where the wave does overlap.
-    fillCircleGroup.select('text')
-      .text(value + percentText);
+    gaugeGroup.select('text').remove();
 
   } else {
     // Center the gauge within the parent SVG.
@@ -174,6 +151,8 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
         .endAngle(gaugeCircleX(1))
         .outerRadius(gaugeCircleY(radius))
         .innerRadius(gaugeCircleY(radius-circleThickness));
+
+  }
 
     waveGroup = gaugeGroup.append('defs')
       .append('clipPath')
@@ -226,7 +205,6 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     //         .duration(config.waveRiseTime)
     //         .tween('text', textTween);
     // }
-  }
 
   // Make the wave rise. wave and waveGroup are separate so that horizontal and vertical movement can be controlled independently.
   var waveGroupXPosition = fillCircleMargin+fillCircleRadius*2-waveClipWidth;

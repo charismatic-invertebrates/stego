@@ -11,6 +11,7 @@ var Chart = React.createClass({
   updateChart: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
+    config.maxValue = this.props.maxValue;
     loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, true);
   },
 
