@@ -37,7 +37,7 @@ var CommitsBox = React.createClass({
       <div className="commits-box">
         <h2>Commits</h2>
         <Chart parentId="commits-chart" currentValue={this.props.user.github.totalCommits} maxValue={20} />
-        <a className="button" onClick={this.loginGithub}>Login to Github, get user, repos, and commits</a>
+        <a className="button" onClick={this.loginGithub}>Login to Github</a>
       </div>
     );
   }

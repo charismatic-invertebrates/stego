@@ -35,8 +35,14 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   var radius = Math.min(parseInt(gauge.style('width')), parseInt(gauge.style('height')))/2;
   var locationX = parseInt(gauge.style('width'))/2 - radius;
   var locationY = parseInt(gauge.style('height'))/2 - radius;
+  
+  var fillPercent;
 
-  var fillPercent = Math.max(config.minValue, Math.min(config.maxValue, value))/config.maxValue;
+  if (value > config.maxValue) {
+    fillPercent = 1;
+  } else {
+    fillPercent = Math.max(config.minValue, Math.min(config.maxValue, value))/config.maxValue;
+  }
 
   var waveHeightScale;
 
