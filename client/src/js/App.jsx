@@ -8,6 +8,7 @@ var $ = require('jquery');
 var App = React.createClass({
 
   getInitialState: function() {
+    this.setDay();
 
     return {
       // This property holds all user properties
@@ -43,6 +44,16 @@ var App = React.createClass({
   // This is a faux-IIFE for auth so that auth can save the 'this' context.  A regular IIFE statement does not render the correct context.
   componentWillMount: function(){
     this.auth = this.auth();
+  },
+
+  componentDidMount: function() {
+    this.setDay();
+  },
+
+  setDay: function() {
+    var iso = new Date().toISOString().replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
+
+    this.setState({day: iso});
   },
 
   // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
@@ -100,9 +111,10 @@ var App = React.createClass({
                   username: {$set: user.login},
                   reposUrl: {$set: user.repos_url}
                 } }
-              });
-              console.log('Set github user: ', app.state);
+
+              // console.log('Set github user: ', app.state);
               app.auth.makeRequest(provider, 'repos');
+            }
           };
           break;
         case 'github-repos': 
@@ -131,19 +143,17 @@ var App = React.createClass({
           break;
         case 'github-commits':
           callParams = {
-            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/stats/contributors',
+            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day,
             data: {access_token: app.state.userInfo.github.token},
-            callback: function(repoAuthors) {
-              console.log(repoAuthors);
-              repoAuthors.forEach(function(authorInfo) {
-                if( authorInfo.author.login === app.state.userInfo.github.name || authorInfo.author.login === app.state.userInfo.github.username ) {
-                  updateState({
-                    userInfo: {github: {
-                      commitsByRepo: {$push: [{repo: param, stats: authorInfo}]},
-                      totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
-                    }}
-                  });
-                }
+            callback: function(commits) {
+              commits.forEach(function(commitInfo) {
+                app.setState(React.addons.update(app.state, {
+                  userInfo: {github: {
+                    commitsByRepo: {$push: [{repo: param, stats: commitInfo}]},
+                    totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
+                  }}
+
+                }))
               });
             }
           };

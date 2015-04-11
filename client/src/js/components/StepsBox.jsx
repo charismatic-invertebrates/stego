@@ -15,7 +15,7 @@ var StepsBox = React.createClass({
     return (
       <div className="steps-box">
         <h2>Steps</h2>
-        <Chart parentId="steps-chart" currentValue={12000} maxValue={10000} />
+        <Chart parentId="steps-chart" currentValue={16000} maxValue={30000} />
         <a className="button" onClick={this.loginUser.bind(null, 'fitbit')}>Login to FitBit</a>
         <a className="button" onClick={this.loginUser.bind(null, 'jawbone')}>Login to Jawbone</a>
         <a className="button" onClick={this.logUser}>Console log user info</a>
