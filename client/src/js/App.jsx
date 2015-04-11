@@ -204,13 +204,11 @@ var App = React.createClass({
             header: {'Authorization': 'Bearer ' + app.state.userInfo.fitness.token},  
             callback: function(res){
               console.log(res);
-              // updateState({
-              //   userInfo: {fitness: {
-              //     firstName: {$set: res.data.first},
-              //     lastName: {$set: res.data.last},
-              //     xid: {$set: res.data.xid}
-              //   }}
-              // });
+              updateState({
+                userInfo: {fitness: {
+                  moves: {$set: res.data},
+                }}
+              });
             }
           };
           break;
