@@ -15,8 +15,14 @@ var Chart = React.createClass({
     loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, true);
   },
 
-  shouldComponentUpdate: function() {
-    this.updateChart();
+  componentDidMount: function() {
+    this.drawChart();
+  },
+
+  shouldComponentUpdate: function(nextProps) {
+    if (nextProps.currentValue !== this.props.currentValue) {
+      this.updateChart();
+    }
     return true;
   },
 
@@ -27,7 +33,6 @@ var Chart = React.createClass({
       </div>
     );
   }
-
 });
 
 module.exports = Chart;

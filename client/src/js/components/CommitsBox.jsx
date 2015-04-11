@@ -29,7 +29,6 @@ var CommitsBox = React.createClass({
 
     this.props.user.github.repos.forEach(function(repo) {
       request('github', 'commits', repo);
-      console.log(this.props.user.github.commitsByRepo);
     });
   },
 
