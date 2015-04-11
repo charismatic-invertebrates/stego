@@ -58,9 +58,6 @@ var App = React.createClass({
         app.setState(React.addons.update(app.state, update));
       };
 
-      // console.log(callLoc);
-
-
       // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
       switch(callLoc) {
         case 'github-login':
@@ -106,7 +103,6 @@ var App = React.createClass({
               });
               console.log('Set github user: ', app.state);
               app.auth.makeRequest(provider, 'repos');
-            }
           };
           break;
         case 'github-repos': 
@@ -149,7 +145,6 @@ var App = React.createClass({
                   });
                 }
               });
-              // console.log('github info: ', app.state.userInfo.github);
             }
           };
           break;
@@ -231,9 +226,7 @@ var App = React.createClass({
           'interactive': true
           },
           function(redirectUrl) {
-            // console.log(redirectUrl);
             var code = redirectUrl.split('?code=')[1];
-            app.auth.postRequest(provider, 'getToken', code);
           }
         );
       },
