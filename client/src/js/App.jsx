@@ -18,6 +18,7 @@ var App = React.createClass({
           reposUrl: null,
           repos: null,
           commitsByRepo: [],
+          totalCommits: 0,
           token: null
         },
         fitness: {
@@ -57,7 +58,7 @@ var App = React.createClass({
         app.setState(React.addons.update(app.state, update));
       };
 
-      console.log(callLoc);
+      // console.log(callLoc);
 
 
       // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
@@ -96,16 +97,16 @@ var App = React.createClass({
             url: 'https://api.github.com/user',
             data: {access_token: app.state.userInfo.github.token},
             callback: function(user) {
-                        updateState({
-                          userInfo: {github: {
-                            name: {$set: user.name},
-                            username: {$set: user.login},
-                            reposUrl: {$set: user.repos_url}
-                          } }
-                        });
-                      console.log('Set github user: ', app.state);
-                      app.auth.makeRequest(provider, 'repos');
-                      }
+              updateState({
+                userInfo: {github: {
+                  name: {$set: user.name},
+                  username: {$set: user.login},
+                  reposUrl: {$set: user.repos_url}
+                } }
+              });
+              console.log('Set github user: ', app.state);
+              app.auth.makeRequest(provider, 'repos');
+            }
           };
           break;
         case 'github-repos': 
@@ -124,7 +125,7 @@ var App = React.createClass({
                 }}
               });
               console.log('Saved user repos: ', reposList);
-              console.log('Confirm via log User');
+              // console.log('Confirm via log User');
 
               app.state.userInfo.github.repos.forEach(function(repo) {
                 app.auth.makeRequest('github', 'commits', repo);
@@ -142,11 +143,13 @@ var App = React.createClass({
                 if( authorInfo.author.login === app.state.userInfo.github.name || authorInfo.author.login === app.state.userInfo.github.username ) {
                   updateState({
                     userInfo: {github: {
-                      commitsByRepo: {$push: [{repo: param, stats: authorInfo}]}
+                      commitsByRepo: {$push: [{repo: param, stats: authorInfo}]},
+                      totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
                     }}
                   });
                 }
               });
+              console.log('totalCommits: ', app.state.userInfo.github.totalCommits);
             }
           };
           break;
@@ -213,7 +216,7 @@ var App = React.createClass({
           };
           break;
       }
-      console.log(callParams);
+      // console.log(callParams);
       return callParams;
     };
 
@@ -221,14 +224,14 @@ var App = React.createClass({
       // This function is modularized to handle all Login requests for all APIs
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
-        console.log('Ajax call with params: ', callParams); 
+        // console.log('Ajax call with params: ', callParams); 
 
         chrome.identity.launchWebAuthFlow({
           'url': callParams.url,
           'interactive': true
           },
           function(redirectUrl) {
-            console.log(redirectUrl);
+            // console.log(redirectUrl);
             var code = redirectUrl.split('?code=')[1];
             app.auth.postRequest(provider, 'getToken', code);
           }
@@ -238,14 +241,14 @@ var App = React.createClass({
       // This function is modularized to make all GET requests for all APIs
       makeRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
-        console.log(callParams);
+        // console.log(callParams);
         $.ajax({
           type: 'GET',
           url: callParams.url,
           headers: callParams.header,
           data: callParams.data,
           success: function(res) {
-            console.log('GET response: ', res);
+            // console.log('GET response: ', res);
             callParams.callback(res);
           },
           fail: function(err) {
@@ -257,7 +260,7 @@ var App = React.createClass({
       // This function is modularized to make all POST requests for all APIs
       postRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
-        console.log(callParams);
+        // console.log(callParams);
         $.ajax({
           type: 'POST',
           url: callParams.url,
