@@ -2,7 +2,7 @@ var React = require('react');
 
 var Chart = React.createClass({
 
-  componentDidMount: function() {
+  shouldComponentUpdate: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
     loadLiquidFillGauge(this.props.parentId, this.props.parentValue, config);
