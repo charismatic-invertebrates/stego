@@ -35,6 +35,7 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   var radius = Math.min(parseInt(gauge.style('width')), parseInt(gauge.style('height')))/2;
   var locationX = parseInt(gauge.style('width'))/2 - radius;
   var locationY = parseInt(gauge.style('height'))/2 - radius;
+
   var fillPercent = Math.max(config.minValue, Math.min(config.maxValue, value))/config.maxValue;
 
   var waveHeightScale;
@@ -102,6 +103,21 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
       .range([fillCircleMargin+fillCircleRadius*2,(fillCircleMargin+textPixels*0.7)])
       .domain([0,1]);
 
+  // Center the gauge within the parent SVG.
+  var gaugeGroup = gauge.append("g")
+      .attr('transform','translate('+locationX+','+locationY+')');
+
+  // Draw the outer circle.
+  var gaugeCircleArc = d3.svg.arc()
+      .startAngle(gaugeCircleX(0))
+      .endAngle(gaugeCircleX(1))
+      .outerRadius(gaugeCircleY(radius))
+      .innerRadius(gaugeCircleY(radius-circleThickness));
+  gaugeGroup.append("path")
+      .attr("d", gaugeCircleArc)
+      .style("fill", config.circleColor)
+      .attr('transform','translate('+radius+','+radius+')');
+
   // The clipping wave area.
   var clipArea = d3.svg.area()
       .x(function(d) { return waveScaleX(d.x); } )
@@ -110,8 +126,6 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   
   var text1;
   var text2;
-  var gaugeGroup;
-  var gaugeCircleArc;
   var waveGroup;
   var wave;
   var fillCircleGroup;
@@ -213,7 +227,6 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     //         .tween('text', textTween);
     // }
   }
-
 
   // Make the wave rise. wave and waveGroup are separate so that horizontal and vertical movement can be controlled independently.
   var waveGroupXPosition = fillCircleMargin+fillCircleRadius*2-waveClipWidth;

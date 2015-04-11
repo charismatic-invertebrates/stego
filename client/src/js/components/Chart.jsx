@@ -14,11 +14,6 @@ var Chart = React.createClass({
     loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, true);
   },
 
-  componentDidMount: function() {
-    console.log('component did mount')
-    this.drawChart();
-  },
-
   shouldComponentUpdate: function() {
     this.updateChart();
     return true;
