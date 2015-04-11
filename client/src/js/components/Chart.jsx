@@ -4,16 +4,18 @@ var Chart = React.createClass({
   drawChart: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
-    loadLiquidFillGauge(this.props.parentId, this.props.parentValue, config, false);
+    config.maxValue = this.props.maxValue;
+    loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, false);
   },
 
   updateChart: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
-    loadLiquidFillGauge(this.props.parentId, this.props.parentValue, config, true);
+    loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, true);
   },
 
   componentDidMount: function() {
+    console.log('component did mount')
     this.drawChart();
   },
 

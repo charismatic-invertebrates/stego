@@ -51,7 +51,7 @@ table {
 
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-shadow: -1px -1px 6px #57C3FF;
+  /*text-shadow: -1px -1px 6px #57C3FF;*/
 }
 
 h1, h2 {
@@ -69,6 +69,26 @@ h2 {
   font-size: 2.2em;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em;
+  margin: 0.2em;
+  background: rgb(23, 139, 202);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: -1px -1px 1px rgb(4, 86, 129);
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 1px 1px 1px rgb(4, 86, 129);
+  box-shadow: 1px 1px 1px rgb(4, 86, 129);
+}
+
+.button:hover {
+  opacity: 0.8;
 }
 
 .morning, .late-morning, .afternoon, .late-afternoon,
@@ -123,6 +143,7 @@ h2 {
   position: absolute;
   top: 2em;
   width: 400px;
+  text-align: center;
   z-index: 1000;
 }
 
@@ -135,8 +156,8 @@ h2 {
 }
 
 .chart {
-  width: 400px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
 }
 
 .dino-container {

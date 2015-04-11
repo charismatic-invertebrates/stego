@@ -7,9 +7,9 @@ function liquidFillGaugeDefaultSettings(){
   return {
     minValue: 0, // The gauge minimum value.
     maxValue: 100, // The gauge maximum value.
-    circleThickness: 0.05, // The outer circle thickness as a percentage of its radius.
-    circleFillGap: 0.05, // The size of the gap between the outer circle and wave circle as a percentage of the outer circles radius.
-    circleColor: "#178BCA", // The color of the outer circle.
+    circleThickness: 0.02, // The outer circle thickness as a percentage of its radius.
+    circleFillGap: 0.02, // The size of the gap between the outer circle and wave circle as a percentage of the outer circles radius.
+    circleColor: '#178BCA', // The color of the outer circle.
     waveHeight: 0.05, // The wave height as a percentage of the radius of the wave circle.
     waveCount: 1, // The number of full waves per width of the wave circle.
     waveRiseTime: 1000, // The amount of time in milliseconds for the wave to rise from 0 to its final height.
@@ -17,24 +17,24 @@ function liquidFillGaugeDefaultSettings(){
     waveRise: true, // Control if the wave should rise from 0 to its full height, or start at its full height.
     waveHeightScaling: true, // Controls wave size scaling at low and high fill percentages. When true, wave height reaches its maximum at 50% fill, and minimum at 0% and 100% fill. This helps to prevent the wave from making the wave circle from appear totally full or empty when near its minimum or maximum fill.
     waveAnimate: true, // Controls if the wave scrolls or is static.
-    waveColor: "#178BCA", // The color of the fill wave.
+    waveColor: '#178BCA', // The color of the fill wave.
     waveOffset: 0, // The amount to initially offset the wave. 0 = no offset. 1 = offset of one full wave.
     textVertPosition: .5, // The height at which to display the percentage text withing the wave circle. 0 = bottom, 1 = top.
     textSize: 1, // The relative height of the text to display in the wave circle. 1 = 50%
-    valueCountUp: true, // If true, the displayed value counts up from 0 to its final value upon loading. If false, the final value is displayed.
-    displayPercent: true, // If true, a % symbol is displayed after the value.
-    textColor: "#045681", // The color of the value text when the wave does not overlap it.
-    waveTextColor: "#A4DBf8" // The color of the value text when the wave overlaps it.
+    valueCountUp: false, // If true, the displayed value counts up from 0 to its final value upon loading. If false, the final value is displayed.
+    displayPercent: false, // If true, a % symbol is displayed after the value.
+    textColor: '#fff', // The color of the value text when the wave does not overlap it.
+    waveTextColor: '#A4DBf8' // The color of the value text when the wave overlaps it.
   };
 }
 
 function loadLiquidFillGauge(elementId, value, config, redraw) {
   if(config === null) config = liquidFillGaugeDefaultSettings();
 
-  var gauge = d3.select("#" + elementId);
-  var radius = Math.min(parseInt(gauge.style("width")), parseInt(gauge.style("height")))/2;
-  var locationX = parseInt(gauge.style("width"))/2 - radius;
-  var locationY = parseInt(gauge.style("height"))/2 - radius;
+  var gauge = d3.select('#' + elementId);
+  var radius = Math.min(parseInt(gauge.style('width')), parseInt(gauge.style('height')))/2;
+  var locationX = parseInt(gauge.style('width'))/2 - radius;
+  var locationY = parseInt(gauge.style('height'))/2 - radius;
   var fillPercent = Math.max(config.minValue, Math.min(config.maxValue, value))/config.maxValue;
 
   var waveHeightScale;
@@ -50,9 +50,9 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   }
 
   var textPixels = (config.textSize*radius/2);
-  var textFinalValue = parseFloat(value).toFixed(2);
-  var textStartValue = config.valueCountUp?config.minValue:textFinalValue;
-  var percentText = config.displayPercent?"%":"";
+  // var textFinalValue = parseFloat(value).toFixed(2);
+  // var textStartValue = config.valueCountUp?config.minValue:textFinalValue;
+  var percentText = config.displayPercent?'%':'';
   var circleThickness = config.circleThickness * radius;
   var circleFillGap = config.circleFillGap * radius;
   var fillCircleMargin = circleThickness + circleFillGap;
@@ -64,13 +64,13 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   var waveClipWidth = waveLength*waveClipCount;
 
   // Rounding functions so that the correct number of decimal places is always displayed as the value counts up.
-  var textRounder = function(value){ return Math.round(value); };
-  if(parseFloat(textFinalValue) != parseFloat(textRounder(textFinalValue))){
-      textRounder = function(value){ return parseFloat(value).toFixed(1); };
-  }
-  if(parseFloat(textFinalValue) != parseFloat(textRounder(textFinalValue))){
-      textRounder = function(value){ return parseFloat(value).toFixed(2); };
-  }
+  // var textRounder = function(value){ return Math.round(value); };
+  // if(parseFloat(textFinalValue) != parseFloat(textRounder(textFinalValue))){
+  //     textRounder = function(value){ return parseFloat(value).toFixed(1); };
+  // }
+  // if(parseFloat(textFinalValue) != parseFloat(textRounder(textFinalValue))){
+  //     textRounder = function(value){ return parseFloat(value).toFixed(2); };
+  // }
 
   // Data for building the clip wave area.
   var data = [];
@@ -102,21 +102,6 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
       .range([fillCircleMargin+fillCircleRadius*2,(fillCircleMargin+textPixels*0.7)])
       .domain([0,1]);
 
-  // Center the gauge within the parent SVG.
-  var gaugeGroup = gauge.append("g")
-      .attr('transform','translate('+locationX+','+locationY+')');
-
-  // Draw the outer circle.
-  var gaugeCircleArc = d3.svg.arc()
-      .startAngle(gaugeCircleX(0))
-      .endAngle(gaugeCircleX(1))
-      .outerRadius(gaugeCircleY(radius))
-      .innerRadius(gaugeCircleY(radius-circleThickness));
-  gaugeGroup.append("path")
-      .attr("d", gaugeCircleArc)
-      .style("fill", config.circleColor)
-      .attr('transform','translate('+radius+','+radius+')');
-
   // The clipping wave area.
   var clipArea = d3.svg.area()
       .x(function(d) { return waveScaleX(d.x); } )
@@ -125,93 +110,110 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   
   var text1;
   var text2;
+  var gaugeGroup;
+  var gaugeCircleArc;
   var waveGroup;
   var wave;
   var fillCircleGroup;
 
   if (redraw) {
-    waveGroup = gaugeGroup.select("defs")
-        .select("clipPath")
-        .attr("id", "clipWave" + elementId);
-    wave = waveGroup.select("path")
-        .datum(data)
-        .attr("d", clipArea);
+    // Center the gauge within the parent SVG.
+    gaugeGroup = gauge.select('g')
+      .attr('transform','translate('+locationX+','+locationY+')');
+
+    gaugeGroup.select('#clipWave' + elementId).remove();
+    gaugeGroup.select('defs').remove();
+    gaugeGroup.select('g').attr('clip-path', 'url(#clipWave' + elementId + ')').remove();
+
+    waveGroup = gaugeGroup.append('defs')
+      .append('clipPath')
+      .attr('id', 'clipWave' + elementId);
+    wave = waveGroup.append('path')
+      .datum(data)
+      .attr('d', clipArea);
 
     // The inner circle with the clipping wave attached.
-    fillCircleGroup = gaugeGroup.select("g")
-        .attr("clip-path", "url(#clipWave" + elementId + ")");
-    fillCircleGroup.select("circle")
-        .attr("cx", radius)
-        .attr("cy", radius)
-        .attr("r", fillCircleRadius)
-        .style("fill", config.waveColor);
-
-  // Text where the wave does not overlap.
-    text1 = gaugeGroup.select("text")
-      .text(value + percentText)
-      .attr("class", "liquidFillGaugeText")
-      .attr("text-anchor", "middle")
-      .attr("font-size", textPixels + "px")
-      .style("fill", config.textColor)
-      .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
+    fillCircleGroup = gaugeGroup.append('g')
+        .attr('clip-path', 'url(#clipWave' + elementId + ')');
+    fillCircleGroup.append('circle')
+        .attr('cx', radius)
+        .attr('cy', radius)
+        .attr('r', fillCircleRadius)
+        .style('fill', config.waveColor);
+      
+    // Text where the wave does not overlap.
+    gaugeGroup.select('text')
+      .text(value + percentText);
 
     // Text where the wave does overlap.
-    text2 = fillCircleGroup.select("text")
-      .text(value + percentText)
-      .attr("class", "liquidFillGaugeText")
-      .attr("text-anchor", "middle")
-      .attr("font-size", textPixels + "px")
-      .style("fill", config.waveTextColor)
-      .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
+    fillCircleGroup.select('text')
+      .text(value + percentText);
+
   } else {
-    waveGroup = gaugeGroup.append("defs")
-        .append("clipPath")
-        .attr("id", "clipWave" + elementId);
-    wave = waveGroup.append("path")
-        .datum(data)
-        .attr("d", clipArea);
+    // Center the gauge within the parent SVG.
+    gaugeGroup = gauge.append('g')
+        .attr('transform','translate('+locationX+','+locationY+')');
+
+    // Draw the outer circle.
+    gaugeCircleArc = d3.svg.arc()
+        .startAngle(gaugeCircleX(0))
+        .endAngle(gaugeCircleX(1))
+        .outerRadius(gaugeCircleY(radius))
+        .innerRadius(gaugeCircleY(radius-circleThickness));
+
+    waveGroup = gaugeGroup.append('defs')
+      .append('clipPath')
+      .attr('id', 'clipWave' + elementId);
+    wave = waveGroup.append('path')
+      .datum(data)
+      .attr('d', clipArea);
 
     // The inner circle with the clipping wave attached.
-    fillCircleGroup = gaugeGroup.append("g")
-        .attr("clip-path", "url(#clipWave" + elementId + ")");
-    fillCircleGroup.append("circle")
-        .attr("cx", radius)
-        .attr("cy", radius)
-        .attr("r", fillCircleRadius)
-        .style("fill", config.waveColor);
+    fillCircleGroup = gaugeGroup.append('g')
+        .attr('clip-path', 'url(#clipWave' + elementId + ')');
+    fillCircleGroup.append('circle')
+        .attr('cx', radius)
+        .attr('cy', radius)
+        .attr('r', fillCircleRadius)
+        .style('fill', config.waveColor);
 
-    text1 = gaugeGroup.append("text")
-      .text(textRounder(textStartValue) + percentText)
-      .attr("class", "liquidFillGaugeText")
-      .attr("text-anchor", "middle")
-      .attr("font-size", textPixels + "px")
-      .style("fill", config.textColor)
+    gaugeGroup.append('path')
+        .attr('d', gaugeCircleArc)
+        .style('fill', config.circleColor)
+        .attr('transform','translate('+radius+','+radius+')');
+
+    text1 = gaugeGroup.append('text')
+      .text(value + percentText)
+      .attr('class', 'liquidFillGaugeText')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', textPixels + 'px')
+      .style('fill', config.textColor)
       .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
 
     // Text where the wave does overlap.
-    text2 = fillCircleGroup.append("text")
-      .text(textRounder(textStartValue) + percentText)
-      .attr("class", "liquidFillGaugeText")
-      .attr("text-anchor", "middle")
-      .attr("font-size", textPixels + "px")
-      .style("fill", config.waveTextColor)
+    text2 = fillCircleGroup.append('text')
+      .text(value + percentText)
+      .attr('class', 'liquidFillGaugeText')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', textPixels + 'px')
+      .style('fill', config.waveTextColor)
       .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
-
+  
+    // Make the value count up.
+    // if(config.valueCountUp){
+    //     var textTween = function(){
+    //         var i = d3.interpolate(this.textContent, textFinalValue);
+    //         return function(t) { this.textContent = textRounder(i(t)) + percentText; }
+    //     };
+    //     text1.transition()
+    //         .duration(config.waveRiseTime)
+    //         .tween('text', textTween);
+    //     text2.transition()
+    //         .duration(config.waveRiseTime)
+    //         .tween('text', textTween);
+    // }
   }
 
-  // Make the value count up.
-  if(config.valueCountUp){
-      var textTween = function(){
-          var i = d3.interpolate(this.textContent, textFinalValue);
-          return function(t) { this.textContent = textRounder(i(t)) + percentText; }
-      };
-      text1.transition()
-          .duration(config.waveRiseTime)
-          .tween("text", textTween);
-      text2.transition()
-          .duration(config.waveRiseTime)
-          .tween("text", textTween);
-  }
 
   // Make the wave rise. wave and waveGroup are separate so that horizontal and vertical movement can be controlled independently.
   var waveGroupXPosition = fillCircleMargin+fillCircleRadius*2-waveClipWidth;
@@ -220,7 +222,7 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
       .transition()
       .duration(config.waveRiseTime)
       .attr('transform','translate('+waveGroupXPosition+','+waveRiseScale(fillPercent)+')')
-      .each("start", function(){ wave.attr('transform','translate(1,0)'); }); // This transform is necessary to get the clip wave positioned correctly when waveRise=true and waveAnimate=false. The wave will not position correctly without this, but it's not clear why this is actually necessary.
+      .each('start', function(){ wave.attr('transform','translate(1,0)'); }); // This transform is necessary to get the clip wave positioned correctly when waveRise=true and waveAnimate=false. The wave will not position correctly without this, but it's not clear why this is actually necessary.
   } else {
     waveGroup.attr('transform','translate('+waveGroupXPosition+','+waveRiseScale(fillPercent)+')');
   }
@@ -230,9 +232,9 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   function animateWave() {
     wave.transition()
       .duration(config.waveAnimateTime)
-      .ease("linear")
+      .ease('linear')
       .attr('transform','translate('+waveAnimateScale(1)+',0)')
-      .each("end", function(){
+      .each('end', function(){
           wave.attr('transform','translate('+waveAnimateScale(0)+',0)');
           animateWave(config.waveAnimateTime);
       });
