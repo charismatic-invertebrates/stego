@@ -51,9 +51,13 @@ var App = React.createClass({
   },
 
   setDay: function() {
-    var iso = new Date().toISOString().replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
+    // Time zone offset calculator from http://stackoverflow.com/a/28149561
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
+    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
 
-    this.setState({day: iso});
+    var startOfDay = localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
+
+    this.setState({day: startOfDay});
   },
 
   // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
@@ -75,6 +79,7 @@ var App = React.createClass({
           callParams = {
             url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
             callback: function(res) {
+              console.log('in login');
               return res.split('?code=')[1];
             }
           };
@@ -110,9 +115,9 @@ var App = React.createClass({
                   name: {$set: user.name},
                   username: {$set: user.login},
                   reposUrl: {$set: user.repos_url}
-                } }
+                }}
+              });
 
-              // console.log('Set github user: ', app.state);
               app.auth.makeRequest(provider, 'repos');
             }
           };
@@ -147,14 +152,14 @@ var App = React.createClass({
             data: {access_token: app.state.userInfo.github.token},
             callback: function(commits) {
               commits.forEach(function(commitInfo) {
-                app.setState(React.addons.update(app.state, {
+                updateState({
                   userInfo: {github: {
                     commitsByRepo: {$push: [{repo: param, stats: commitInfo}]},
                     totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
                   }}
-
-                }))
+                });
               });
+              // console.log(app.state.userInfo.github);
             }
           };
           break;
@@ -229,7 +234,7 @@ var App = React.createClass({
       // This function is modularized to handle all Login requests for all APIs
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
-        // console.log('Ajax call with params: ', callParams); 
+        console.log('Ajax call with params: ', callParams); 
 
         chrome.identity.launchWebAuthFlow({
           'url': callParams.url,
@@ -237,6 +242,7 @@ var App = React.createClass({
           },
           function(redirectUrl) {
             var code = redirectUrl.split('?code=')[1];
+            app.auth.makeRequest(provider, 'getToken', code);
           }
         );
       },
