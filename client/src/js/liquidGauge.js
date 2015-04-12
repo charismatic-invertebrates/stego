@@ -14,7 +14,7 @@ function liquidFillGaugeDefaultSettings(){
     waveCount: 3, // The number of full waves per width of the wave circle.
     waveRiseTime: 1000, // The amount of time in milliseconds for the wave to rise from 0 to its final height.
     waveAnimateTime: 18000, // The amount of time in milliseconds for a full wave to enter the wave circle.
-    waveRise: true, // Control if the wave should rise from 0 to its full height, or start at its full height.
+    waveRise: false, // Control if the wave should rise from 0 to its full height, or start at its full height.
     waveHeightScaling: true, // Controls wave size scaling at low and high fill percentages. When true, wave height reaches its maximum at 50% fill, and minimum at 0% and 100% fill. This helps to prevent the wave from making the wave circle from appear totally full or empty when near its minimum or maximum fill.
     waveAnimate: false, // Controls if the wave scrolls or is static.
     waveColor: '#178BCA', // The color of the fill wave.
@@ -63,15 +63,6 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   var waveClipCount = 1+config.waveCount;
   var waveClipWidth = waveLength*waveClipCount;
 
-  // Rounding functions so that the correct number of decimal places is always displayed as the value counts up.
-  // var textRounder = function(value){ return Math.round(value); };
-  // if(parseFloat(textFinalValue) != parseFloat(textRounder(textFinalValue))){
-  //     textRounder = function(value){ return parseFloat(value).toFixed(1); };
-  // }
-  // if(parseFloat(textFinalValue) != parseFloat(textRounder(textFinalValue))){
-  //     textRounder = function(value){ return parseFloat(value).toFixed(2); };
-  // }
-
   // Data for building the clip wave area.
   var data = [];
   for(var i = 0; i <= 40*waveClipCount; i++){
@@ -88,25 +79,25 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
 
   // Scales for controlling the position of the clipping path.
   var waveRiseScale = d3.scale.linear()
-      // The clipping area size is the height of the fill circle + the wave height, so we position the clip wave
-      // such that the it will won't overlap the fill circle at all when at 0%, and will totally cover the fill
-      // circle at 100%.
-      .range([(fillCircleMargin+fillCircleRadius*2+waveHeight),(fillCircleMargin-waveHeight)])
-      .domain([0,1]);
+    // The clipping area size is the height of the fill circle + the wave height, so we position the clip wave
+    // such that the it will won't overlap the fill circle at all when at 0%, and will totally cover the fill
+    // circle at 100%.
+    .range([(fillCircleMargin+fillCircleRadius*2+waveHeight),(fillCircleMargin-waveHeight)])
+    .domain([0,1]);
   var waveAnimateScale = d3.scale.linear()
-      .range([0, waveClipWidth-fillCircleRadius*2]) // Push the clip area one full wave then snap back.
-      .domain([0,1]);
+    .range([0, waveClipWidth-fillCircleRadius*2]) // Push the clip area one full wave then snap back.
+    .domain([0,1]);
 
   // Scale for controlling the position of the text within the gauge.
   var textRiseScaleY = d3.scale.linear()
-      .range([fillCircleMargin+fillCircleRadius*2,(fillCircleMargin+textPixels*0.7)])
-      .domain([0,1]);
+    .range([fillCircleMargin+fillCircleRadius*2,(fillCircleMargin+textPixels*0.7)])
+    .domain([0,1]);
 
   // The clipping wave area.
   var clipArea = d3.svg.area()
-      .x(function(d) { return waveScaleX(d.x); } )
-      .y0(function(d) { return waveScaleY(Math.sin(Math.PI*2*config.waveOffset*-1 + Math.PI*2*(1-config.waveCount) + d.y*2*Math.PI));} )
-      .y1(function(d) { return (fillCircleRadius*2 + waveHeight); } );
+    .x(function(d) { return waveScaleX(d.x); } )
+    .y0(function(d) { return waveScaleY(Math.sin(Math.PI*2*config.waveOffset*-1 + Math.PI*2*(1-config.waveCount) + d.y*2*Math.PI));} )
+    .y1(function(d) { return (fillCircleRadius*2 + waveHeight); } );
   
   var text1;
   var text2;
@@ -129,48 +120,19 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
   } else {
     // Center the gauge within the parent SVG.
     gaugeGroup = gauge.append('g')
-        .attr('transform','translate('+locationX+','+locationY+')');
+      .attr('transform','translate('+locationX+','+locationY+')');
 
     // Draw the outer circle.
     gaugeCircleArc = d3.svg.arc()
-        .startAngle(gaugeCircleX(0))
-        .endAngle(gaugeCircleX(1))
-        .outerRadius(gaugeCircleY(radius))
-        .innerRadius(gaugeCircleY(radius-circleThickness));
-
-    // waveGroup = gaugeGroup.append('defs')
-    //   .append('clipPath')
-    //   .attr('id', 'clipWave' + elementId);
-    // wave = waveGroup.append('path')
-    //   .datum(data)
-    //   .attr('d', clipArea);
-
-    // // The inner circle with the clipping wave attached.
-    // fillCircleGroup = gaugeGroup.append('g')
-    //     .attr('clip-path', 'url(#clipWave' + elementId + ')');
-    // fillCircleGroup.append('circle')
-    //     .attr('cx', radius)
-    //     .attr('cy', radius)
-    //     .attr('r', fillCircleRadius)
-    //     .style('fill', config.waveColor);
+      .startAngle(gaugeCircleX(0))
+      .endAngle(gaugeCircleX(1))
+      .outerRadius(gaugeCircleY(radius))
+      .innerRadius(gaugeCircleY(radius-circleThickness));
 
     gaugeGroup.append('path')
-        .attr('d', gaugeCircleArc)
-        .style('fill', config.circleColor)
-        .attr('transform','translate('+radius+','+radius+')');
-    // Make the value count up.
-    // if(config.valueCountUp){
-    //     var textTween = function(){
-    //         var i = d3.interpolate(this.textContent, textFinalValue);
-    //         return function(t) { this.textContent = textRounder(i(t)) + percentText; }
-    //     };
-    //     text1.transition() 
-    //         .duration(config.waveRiseTime)
-    //         .tween('text', textTween);
-    //     text2.transition()
-    //         .duration(config.waveRiseTime)
-    //         .tween('text', textTween);
-    // }
+      .attr('d', gaugeCircleArc)
+      .style('fill', config.circleColor)
+      .attr('transform','translate('+radius+','+radius+')');
   }
 
   waveGroup = gaugeGroup.append('defs')

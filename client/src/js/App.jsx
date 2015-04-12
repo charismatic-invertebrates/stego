@@ -151,7 +151,6 @@ var App = React.createClass({
             url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day,
             data: {access_token: app.state.userInfo.github.token},
             callback: function(commits) {
-              console.log('https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day);
               commits.forEach(function(commitInfo) {
                 updateState({
                   userInfo: {github: {
