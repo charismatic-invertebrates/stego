@@ -75,6 +75,7 @@ h2 {
   display: inline-block;
   padding: 0.5em;
   margin: 0.2em;
+<<<<<<< HEAD
   background: rgb(44, 181, 255);
   color: #fff;
   cursor: pointer;
@@ -86,6 +87,22 @@ h2 {
 
 .button:hover {
   background: rgb(0, 181, 255);
+=======
+  background: rgb(23, 139, 202);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: -1px -1px 1px rgb(4, 86, 129);
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 1px 1px 1px rgb(4, 86, 129);
+  box-shadow: 1px 1px 1px rgb(4, 86, 129);
+}
+
+.button:hover {
+  opacity: 0.8;
+>>>>>>> 70dfe95c3966e48239f75c507ec33fb87c48a7e3
 }
 
 .morning, .late-morning, .afternoon, .late-afternoon,
@@ -155,10 +172,13 @@ h2 {
 .chart {
   width: 350px;
   height: 350px;
+<<<<<<< HEAD
 }
 
 .chart-container {
   margin: 1em;
+=======
+>>>>>>> 70dfe95c3966e48239f75c507ec33fb87c48a7e3
 }
 
 .dino-container {

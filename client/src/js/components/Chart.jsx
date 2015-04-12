@@ -33,6 +33,12 @@ var Chart = React.createClass({
     if (nextProps.currentValue !== this.props.currentValue) {
       this.updateChart();
     }
+
+    this.drawChart();
+  },
+
+  shouldComponentUpdate: function() {
+    this.updateChart();
     return true;
   },
 

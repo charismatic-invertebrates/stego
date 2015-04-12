@@ -69,9 +69,13 @@ var App = React.createClass({
     // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options.
     var setAJAXParams = function(provider, usage, param) {
       var callLoc = provider + '-' + usage;
+<<<<<<< HEAD
       var updateState = function(update) {
         app.setState(React.addons.update(app.state, update));
       };
+=======
+      // console.log(callLoc);
+>>>>>>> 70dfe95c3966e48239f75c507ec33fb87c48a7e3
 
       // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
       switch(callLoc) {
@@ -159,7 +163,6 @@ var App = React.createClass({
                   }}
                 });
               });
-              // console.log(app.state.userInfo.github);
             }
           };
           break;
@@ -234,7 +237,7 @@ var App = React.createClass({
       // This function is modularized to handle all Login requests for all APIs
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
-        console.log('Ajax call with params: ', callParams); 
+        // console.log('Ajax call with params: ', callParams); 
 
         chrome.identity.launchWebAuthFlow({
           'url': callParams.url,
