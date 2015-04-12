@@ -34,11 +34,6 @@ var Chart = React.createClass({
       this.updateChart();
     }
 
-    this.drawChart();
-  },
-
-  shouldComponentUpdate: function() {
-    this.updateChart();
     return true;
   },
 
