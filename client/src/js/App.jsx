@@ -249,14 +249,12 @@ var App = React.createClass({
       // This function is modularized to make all GET requests for all APIs
       makeRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
-        // console.log(callParams);
         $.ajax({
           type: 'GET',
           url: callParams.url,
           headers: callParams.header,
           data: callParams.data,
           success: function(res) {
-            // console.log('GET response: ', res);
             callParams.callback(res);
           },
           fail: function(err) {
@@ -268,7 +266,6 @@ var App = React.createClass({
       // This function is modularized to make all POST requests for all APIs
       postRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
-        // console.log(callParams);
         $.ajax({
           type: 'POST',
           url: callParams.url,
