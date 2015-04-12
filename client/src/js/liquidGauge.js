@@ -124,30 +124,7 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     gaugeGroup.select('#clipWave' + elementId).remove();
     gaugeGroup.select('defs').remove();
     gaugeGroup.select('g').attr('clip-path', 'url(#clipWave' + elementId + ')').remove();
-
-    waveGroup = gaugeGroup.append('defs')
-      .append('clipPath')
-      .attr('id', 'clipWave' + elementId);
-    wave = waveGroup.append('path')
-      .datum(data)
-      .attr('d', clipArea);
-
-    // The inner circle with the clipping wave attached.
-    fillCircleGroup = gaugeGroup.append('g')
-        .attr('clip-path', 'url(#clipWave' + elementId + ')');
-    fillCircleGroup.append('circle')
-        .attr('cx', radius)
-        .attr('cy', radius)
-        .attr('r', fillCircleRadius)
-        .style('fill', config.waveColor);
-      
-    // Text where the wave does not overlap.
-    gaugeGroup.select('text')
-      .text(value + percentText);
-
-    // Text where the wave does overlap.
-    fillCircleGroup.select('text')
-      .text(value + percentText);
+    gaugeGroup.select('text').remove();
 
   } else {
     // Center the gauge within the parent SVG.
@@ -161,51 +138,33 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
         .outerRadius(gaugeCircleY(radius))
         .innerRadius(gaugeCircleY(radius-circleThickness));
 
-    waveGroup = gaugeGroup.append('defs')
-      .append('clipPath')
-      .attr('id', 'clipWave' + elementId);
-    wave = waveGroup.append('path')
-      .datum(data)
-      .attr('d', clipArea);
+    // waveGroup = gaugeGroup.append('defs')
+    //   .append('clipPath')
+    //   .attr('id', 'clipWave' + elementId);
+    // wave = waveGroup.append('path')
+    //   .datum(data)
+    //   .attr('d', clipArea);
 
-    // The inner circle with the clipping wave attached.
-    fillCircleGroup = gaugeGroup.append('g')
-        .attr('clip-path', 'url(#clipWave' + elementId + ')');
-    fillCircleGroup.append('circle')
-        .attr('cx', radius)
-        .attr('cy', radius)
-        .attr('r', fillCircleRadius)
-        .style('fill', config.waveColor);
+    // // The inner circle with the clipping wave attached.
+    // fillCircleGroup = gaugeGroup.append('g')
+    //     .attr('clip-path', 'url(#clipWave' + elementId + ')');
+    // fillCircleGroup.append('circle')
+    //     .attr('cx', radius)
+    //     .attr('cy', radius)
+    //     .attr('r', fillCircleRadius)
+    //     .style('fill', config.waveColor);
 
     gaugeGroup.append('path')
         .attr('d', gaugeCircleArc)
         .style('fill', config.circleColor)
         .attr('transform','translate('+radius+','+radius+')');
-
-    text1 = gaugeGroup.append('text')
-      .text(value + percentText)
-      .attr('class', 'liquidFillGaugeText')
-      .attr('text-anchor', 'middle')
-      .attr('font-size', textPixels + 'px')
-      .style('fill', config.textColor)
-      .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
-
-    // Text where the wave does overlap.
-    text2 = fillCircleGroup.append('text')
-      .text(value + percentText)
-      .attr('class', 'liquidFillGaugeText')
-      .attr('text-anchor', 'middle')
-      .attr('font-size', textPixels + 'px')
-      .style('fill', config.waveTextColor)
-      .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
-  
     // Make the value count up.
     // if(config.valueCountUp){
     //     var textTween = function(){
     //         var i = d3.interpolate(this.textContent, textFinalValue);
     //         return function(t) { this.textContent = textRounder(i(t)) + percentText; }
     //     };
-    //     text1.transition()
+    //     text1.transition() 
     //         .duration(config.waveRiseTime)
     //         .tween('text', textTween);
     //     text2.transition()
@@ -213,6 +172,39 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     //         .tween('text', textTween);
     // }
   }
+
+  waveGroup = gaugeGroup.append('defs')
+    .append('clipPath')
+    .attr('id', 'clipWave' + elementId);
+  wave = waveGroup.append('path')
+    .datum(data)
+    .attr('d', clipArea);
+
+  // The inner circle with the clipping wave attached.
+  fillCircleGroup = gaugeGroup.append('g')
+      .attr('clip-path', 'url(#clipWave' + elementId + ')');
+  fillCircleGroup.append('circle')
+      .attr('cx', radius)
+      .attr('cy', radius)
+      .attr('r', fillCircleRadius)
+      .style('fill', config.waveColor);
+
+  text1 = gaugeGroup.append('text')
+    .text(value + percentText)
+    .attr('class', 'liquidFillGaugeText')
+    .attr('text-anchor', 'middle')
+    .attr('font-size', textPixels + 'px')
+    .style('fill', config.textColor)
+    .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
+
+  // Text where the wave does overlap.
+  text2 = fillCircleGroup.append('text')
+    .text(value + percentText)
+    .attr('class', 'liquidFillGaugeText')
+    .attr('text-anchor', 'middle')
+    .attr('font-size', textPixels + 'px')
+    .style('fill', config.waveTextColor)
+    .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
 
 
   // Make the wave rise. wave and waveGroup are separate so that horizontal and vertical movement can be controlled independently.

@@ -69,13 +69,9 @@ var App = React.createClass({
     // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options.
     var setAJAXParams = function(provider, usage, param) {
       var callLoc = provider + '-' + usage;
-<<<<<<< HEAD
       var updateState = function(update) {
         app.setState(React.addons.update(app.state, update));
       };
-=======
-      // console.log(callLoc);
->>>>>>> 70dfe95c3966e48239f75c507ec33fb87c48a7e3
 
       // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
       switch(callLoc) {
@@ -155,6 +151,7 @@ var App = React.createClass({
             url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day,
             data: {access_token: app.state.userInfo.github.token},
             callback: function(commits) {
+              console.log('https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day);
               commits.forEach(function(commitInfo) {
                 updateState({
                   userInfo: {github: {
