@@ -10,15 +10,15 @@ var StepsBox = React.createClass({
   logUser: function() {
     console.log(this.props.user);
   },
-
+  
   render: function() {
     return (
       <div className="steps-box">
         <h2>Steps</h2>
-        <Chart parentId="steps-chart" parentValue="80" />
-        <div onClick={this.loginUser.bind(null, 'fitbit')}>Login to FitBit</div>
-        <div onClick={this.loginUser.bind(null, 'jawbone')}>Login to Jawbone</div>
-        <div onClick={this.logUser}>Console log user info</div>
+        <Chart parentId="steps-chart" currentValue={this.props.user.fitness.moves} max={this.props.max} />
+        <a className="button" onClick={this.loginUser.bind(null, 'fitbit')}>Login to FitBit</a>
+        <a className="button" onClick={this.loginUser.bind(null, 'jawbone')}>Login to Jawbone</a>
+        <a className="button" onClick={this.logUser}>Console log user info</a>
       </div>
     );
   }

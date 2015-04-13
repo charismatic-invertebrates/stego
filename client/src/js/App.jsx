@@ -8,7 +8,6 @@ var $ = require('jquery');
 var App = React.createClass({
 
   getInitialState: function() {
-
     return {
       // This property holds all user properties
       userInfo: {
@@ -18,11 +17,13 @@ var App = React.createClass({
           reposUrl: null,
           repos: null,
           commitsByRepo: [],
+          totalCommits: 0,
           token: null
         },
         fitness: {
           firstName: null,
           lastName: null,
+          moves: 0,
           xid: null
         },
         fitbitHardcoded: {
@@ -34,14 +35,30 @@ var App = React.createClass({
             '2015-04-08': {"activities":[],"goals":{"activeMinutes":30,"caloriesOut":2184,"distance":8.05,"floors":10,"steps":10000},"summary":{"activeScore":-1,"activityCalories":1482,"caloriesBMR":1629,"caloriesOut":2930,"distances":[{"activity":"total","distance":9.11},{"activity":"tracker","distance":9.11},{"activity":"loggedActivities","distance":0},{"activity":"veryActive","distance":4.47},{"activity":"moderatelyActive","distance":0.66},{"activity":"lightlyActive","distance":3.98},{"activity":"sedentaryActive","distance":0}],"elevation":170.69,"fairlyActiveMinutes":25,"floors":56,"lightlyActiveMinutes":231,"marginalCalories":906,"sedentaryMinutes":731,"steps":12121,"veryActiveMinutes":43}},
             '2015-04-09': {"activities":[],"goals":{"activeMinutes":30,"caloriesOut":2184,"distance":8.05,"floors":10,"steps":10000},"summary":{"activeScore":-1,"activityCalories":883,"caloriesBMR":1629,"caloriesOut":2453,"distances":[{"activity":"total","distance":4.22},{"activity":"tracker","distance":4.22},{"activity":"loggedActivities","distance":0},{"activity":"veryActive","distance":0.44},{"activity":"moderatelyActive","distance":0.37},{"activity":"lightlyActive","distance":3.4},{"activity":"sedentaryActive","distance":0}],"elevation":42.67,"fairlyActiveMinutes":11,"floors":14,"lightlyActiveMinutes":188,"marginalCalories":481,"sedentaryMinutes":844,"steps":5974,"veryActiveMinutes":6}}
           }
-        },
-      }
+        }
+      },
+      day: this.setDay()
     };
   },
   
   // This is a faux-IIFE for auth so that auth can save the 'this' context.  A regular IIFE statement does not render the correct context.
   componentWillMount: function(){
     this.auth = this.auth();
+  },
+
+  componentDidMount: function() {
+    this.setDay();
+  },
+
+  setDay: function() {
+    // Time zone offset calculator from http://stackoverflow.com/a/28149561
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
+    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
+
+    var startOfDay = localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
+    // var startOfDayAbbr = startOfDay.replace(/T00:00:00\.[0-9]+/, '');
+
+    return startOfDay;
   },
 
   // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
@@ -57,15 +74,13 @@ var App = React.createClass({
         app.setState(React.addons.update(app.state, update));
       };
 
-      console.log(callLoc);
-
-
       // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
       switch(callLoc) {
         case 'github-login':
           callParams = {
             url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
             callback: function(res) {
+              console.log('in login');
               return res.split('?code=')[1];
             }
           };
@@ -96,16 +111,16 @@ var App = React.createClass({
             url: 'https://api.github.com/user',
             data: {access_token: app.state.userInfo.github.token},
             callback: function(user) {
-                        updateState({
-                          userInfo: {github: {
-                            name: {$set: user.name},
-                            username: {$set: user.login},
-                            reposUrl: {$set: user.repos_url}
-                          } }
-                        });
-                      console.log('Set github user: ', app.state);
-                      app.auth.makeRequest(provider, 'repos');
-                      }
+              updateState({
+                userInfo: {github: {
+                  name: {$set: user.name},
+                  username: {$set: user.login},
+                  reposUrl: {$set: user.repos_url}
+                }}
+              });
+
+              app.auth.makeRequest(provider, 'repos');
+            }
           };
           break;
         case 'github-repos': 
@@ -123,8 +138,8 @@ var App = React.createClass({
                   repos: {$set: reposList}
                 }}
               });
-              console.log('Saved user repos: ', reposList);
-              console.log('Confirm via log User');
+              // console.log('Saved user repos: ', reposList);
+              // console.log('Confirm via log User');
 
               app.state.userInfo.github.repos.forEach(function(repo) {
                 app.auth.makeRequest('github', 'commits', repo);
@@ -134,18 +149,16 @@ var App = React.createClass({
           break;
         case 'github-commits':
           callParams = {
-            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/stats/contributors',
+            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day,
             data: {access_token: app.state.userInfo.github.token},
-            callback: function(repoAuthors) {
-              console.log(repoAuthors);
-              repoAuthors.forEach(function(authorInfo) {
-                if( authorInfo.author.login === app.state.userInfo.github.name || authorInfo.author.login === app.state.userInfo.github.username ) {
-                  updateState({
-                    userInfo: {github: {
-                      commitsByRepo: {$push: [{repo: param, stats: authorInfo}]}
-                    }}
-                  });
-                }
+            callback: function(commits) {
+              commits.forEach(function(commitInfo) {
+                updateState({
+                  userInfo: {github: {
+                    commitsByRepo: {$push: [{repo: param, stats: commitInfo}]},
+                    totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
+                  }}
+                });
               });
             }
           };
@@ -153,7 +166,7 @@ var App = React.createClass({
 
         case 'fitbit-login':
           callParams = {
-            url: 'https://api.fitbit.com/oauth/request_token?oauth_callback=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/fitbit&oauth_consumer_key=' + keys.fitbit.consumerKey,
+            url: 'https://api.fitbit.com/oauth/request_token?oauth_callback=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/fitbit&oauth_consumer_key=' + keys.fitbit.consumerKey
           };
           break;
 
@@ -213,7 +226,7 @@ var App = React.createClass({
           };
           break;
       }
-      console.log(callParams);
+      // console.log(callParams);
       return callParams;
     };
 
@@ -221,16 +234,15 @@ var App = React.createClass({
       // This function is modularized to handle all Login requests for all APIs
       login: function(provider) {
         var callParams = setAJAXParams(provider, 'login');
-        console.log('Ajax call with params: ', callParams); 
+        // console.log('Ajax call with params: ', callParams); 
 
         chrome.identity.launchWebAuthFlow({
           'url': callParams.url,
           'interactive': true
           },
           function(redirectUrl) {
-            console.log(redirectUrl);
             var code = redirectUrl.split('?code=')[1];
-            app.auth.postRequest(provider, 'getToken', code);
+            app.auth.makeRequest(provider, 'getToken', code);
           }
         );
       },
@@ -238,14 +250,12 @@ var App = React.createClass({
       // This function is modularized to make all GET requests for all APIs
       makeRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
-        console.log(callParams);
         $.ajax({
           type: 'GET',
           url: callParams.url,
           headers: callParams.header,
           data: callParams.data,
           success: function(res) {
-            console.log('GET response: ', res);
             callParams.callback(res);
           },
           fail: function(err) {
@@ -257,7 +267,6 @@ var App = React.createClass({
       // This function is modularized to make all POST requests for all APIs
       postRequest: function(provider, usage, param) {
         var callParams = setAJAXParams(provider, usage, param);
-        console.log(callParams);
         $.ajax({
           type: 'POST',
           url: callParams.url,

@@ -1,16 +1,12 @@
 var React = require('react');
-var Clock = require('./Clock.jsx');
-var CommitsBox = require('./CommitsBox.jsx');
-var StepsBox = require('./StepsBox.jsx');
-var Dino = require('./Dino.jsx');
+var Clock = require('./Clock.js');
+var CommitsBox = require('./CommitsBox.js');
+var StepsBox = require('./StepsBox.js');
+var Dino = require('./Dino.js');
 
-var Landscape = React.createClass({
+var Landscape = React.createClass({displayName: "Landscape",
 
   getInitialState: function() {
-    this.props.auth.login('github');
-    // this.props.auth.login('fitbit');
-    // this.props.auth.login('jawbone');
-
     return {
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
@@ -97,12 +93,12 @@ var Landscape = React.createClass({
 
   render: function() {
     return (
-      <div className={this.state.timeOfDay}>
-        <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
-        <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
-        <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
-      </div>
+      React.createElement("div", {className: this.state.timeOfDay}, 
+        React.createElement(StepsBox, {auth: this.props.auth, user: this.props.userInfo}), 
+        React.createElement(CommitsBox, {auth: this.props.auth, user: this.props.userInfo}), 
+        React.createElement(Clock, {parentTime: this.state.displayTime, parentMeridian: this.state.meridian}), 
+        React.createElement(Dino, null)
+      )
     );
   }
 });

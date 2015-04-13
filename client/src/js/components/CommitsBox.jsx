@@ -11,15 +11,15 @@ var CommitsBox = React.createClass({
   // This function logs the user object saved in App.jsx's state
   logUser: function() {
     console.log(this.props.user);
+    console.log(this.props.user.github.totalCommits);
   },
 
   render: function() {
     return (
       <div className="commits-box">
         <h2>Commits</h2>
-        <Chart parentId="commits-chart" parentValue="50" />
-        <div onClick={this.loginGithub}>Login to Github, get user, repos, and commits</div>
-        <div onClick={this.logUser}>Console log userInfo</div>
+        <Chart parentId="commits-chart" currentValue={this.props.user.github.totalCommits} max={this.props.max} />
+        <a className="button" onClick={this.loginGithub}>Login to Github</a>
       </div>
     );
   }

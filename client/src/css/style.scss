@@ -51,7 +51,7 @@ table {
 
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-shadow: -1px -1px 6px #57C3FF;
+  /*text-shadow: -1px -1px 6px #57C3FF;*/
 }
 
 h1, h2 {
@@ -69,6 +69,23 @@ h2 {
   font-size: 2.2em;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em;
+  margin: 0.2em;
+  background: rgb(23, 202, 173);
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  text-shadow: -1px -1px 1px rgb(0, 143, 120);
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px rgb(0, 143, 120);
+}
+
+.button:hover {
+  background: rgb(0, 181, 255);
 }
 
 .morning, .late-morning, .afternoon, .late-afternoon,
@@ -123,6 +140,7 @@ h2 {
   position: absolute;
   top: 2em;
   width: 400px;
+  text-align: center;
   z-index: 1000;
 }
 
@@ -135,23 +153,35 @@ h2 {
 }
 
 .chart {
-  width: 400px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
+  padding: 10px;
 }
 
-.dino-container {
-  position: relative;
-  bottom: -2em;
+.chart-container {
+  margin: 1em;
+}
+
+/* Stego Dinosaur */
+.stego-container {
+  position: absolute;
+  bottom: 40px;
   left: 0;
   right: 0;
 }
 
-.dino {
-  display: block;
-  margin: 0 auto;
+// Stego Moods
+.happy {
+  background: gold;
 }
 
-/* Stego Dinosaur */
+.neutral {
+  background: mediumturquoise;
+}
+
+.sad {
+  background: midnightblue;
+}
 
 // Stego Asset Sizes
 $eye-size: 14px;
