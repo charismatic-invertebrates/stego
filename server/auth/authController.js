@@ -1,4 +1,4 @@
- // Auth Controller
+// Auth Controller
 // ---------------
 //
 // The Auth controller handles requests passed from the User router.
