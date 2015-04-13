@@ -5,6 +5,7 @@ var CommitsBox = require('./CommitsBox.jsx');
 var StepsBox = require('./StepsBox.jsx');
 var Dino = require('./Dino.jsx');
 var CommitsPanel = require('./CommitsPanel.jsx');
+var StepsPanel = require('./StepsPanel.jsx');
 
 var Landscape = React.createClass({
 
@@ -121,6 +122,7 @@ var Landscape = React.createClass({
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
+        <StepsPanel auth={this.props.auth} user={this.props.userInfo} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
