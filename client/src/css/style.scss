@@ -162,19 +162,26 @@ h2 {
   margin: 1em;
 }
 
-.dino-container {
+/* Stego Dinosaur */
+.stego-container {
   position: absolute;
   bottom: 40px;
   left: 0;
   right: 0;
 }
 
-.dino {
-  display: block;
-  margin: 0 auto;
+// Stego Moods
+.happy {
+  background: gold;
 }
 
-/* Stego Dinosaur */
+.neutral {
+  background: mediumturquoise;
+}
+
+.sad {
+  background: midnightblue;
+}
 
 // Stego Asset Sizes
 $eye-size: 14px;

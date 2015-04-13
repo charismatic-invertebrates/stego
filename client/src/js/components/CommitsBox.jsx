@@ -3,12 +3,6 @@ var Chart = require('./Chart.jsx');
 
 var CommitsBox = React.createClass({
 
-  getInitialState: function() {
-    this.loginGithub();
-
-    return null;
-  },
-
   // This function logs in to Github, and triggers a series of AJAX calls that extract the user's info, repos, and commits
   loginGithub: function(e) {
     this.props.auth.login('github');
@@ -24,7 +18,7 @@ var CommitsBox = React.createClass({
     return (
       <div className="commits-box">
         <h2>Commits</h2>
-        <Chart parentId="commits-chart" currentValue={this.props.user.github.totalCommits} maxValue={20} />
+        <Chart parentId="commits-chart" currentValue={this.props.user.github.totalCommits} max={this.props.max} />
         <a className="button" onClick={this.loginGithub}>Login to Github</a>
       </div>
     );

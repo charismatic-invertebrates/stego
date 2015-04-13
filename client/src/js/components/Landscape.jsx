@@ -7,6 +7,10 @@ var Dino = require('./Dino.jsx');
 var Landscape = React.createClass({
 
   getInitialState: function() {
+    this.props.auth.login('github');
+    // this.props.auth.login('fitbit');
+    // this.props.auth.login('jawbone');
+
     return {
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
@@ -94,10 +98,10 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
-        <StepsBox auth={this.props.auth} user={this.props.userInfo} />
-        <CommitsBox auth={this.props.auth} user={this.props.userInfo} />
+        <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
+        <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino />
+        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
       </div>
     );
   }
