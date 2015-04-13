@@ -8,8 +8,7 @@ var authController = require('./authController.js');
 module.exports = function(app) {
   // Route from the /api/auth path. A POST request provides the code which we convert into a token by making a request from the relevant service.
   app.route('/getToken')
-    .get(function(req, res, next) {
-      console.log('authRoutes.js');
+    .get(authController.exchangeCode);
     //   // Get token
     //   authController.getToken;
     //   // Go to next handler
@@ -20,5 +19,4 @@ module.exports = function(app) {
     //   authController.getAvatarName;
     // })
     // .post(authController.saveauth);
-  });
 };
