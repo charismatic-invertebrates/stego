@@ -133,11 +133,13 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.2;
+  opacity: 0.5;
   background-size: cover;
+  -webkit-transition: opacity .5s ease-in;
   transition: opacity .5s ease-in;
 }
 
+<<<<<<< HEAD
 .time-of-day.active {
   opacity: 1;
 }

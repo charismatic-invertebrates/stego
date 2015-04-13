@@ -8,7 +8,7 @@ var Dino = require('./Dino.jsx');
 var Landscape = React.createClass({
 
   getInitialState: function() {
-    // this.props.auth.login('github');
+    this.props.auth.login('github');
     // this.props.auth.login('fitbit');
     // this.props.auth.login('jawbone');
 
@@ -16,7 +16,6 @@ var Landscape = React.createClass({
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
       meridian: this.checkMeridian(),
-      switchScape: 'active'
     }
   },
 
@@ -30,9 +29,9 @@ var Landscape = React.createClass({
     }
 
     // check at the beginning of each hour that the correct background is displayed
-    /*if (minutes === '00') {
+    if (minutes === '00') {
       this.setState({timeOfDay: this.checkTimeOfDay(hour)});
-    }*/
+    }
 
     if (hour > 12) {
       hour = hour - 12;
@@ -91,16 +90,22 @@ var Landscape = React.createClass({
     }, 500);
     
     setInterval(function() {
-      this.setState({timeOfDay: this.checkTimeOfDay()});
       this.setState({displayTime: this.checkDisplayTime()});
       this.setState({meridian: this.checkMeridian()});
-    }.bind(this), 10000);
+    }.bind(this), 2000);
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
+  componentWillUpdate: function(nextProps, nextState) {
     if (nextState.timeOfDay !== this.state.timeOfDay) {
       var el = React.findDOMNode(this.refs.lscape);
-      el.style.opacity = 0;
+      el.style.opacity = 0.8;
+    } 
+  },
+
+  componentDidUpdate: function(nextProps, nextState) {
+    if (nextState.timeOfDay !== this.state.timeOfDay) {
+      var el = React.findDOMNode(this.refs.lscape);
+
       setTimeout(function() {
         el.style.opacity = 1;
       }, 500);
