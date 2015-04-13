@@ -25,6 +25,7 @@ var App = React.createClass({
         fitness: {
           firstName: null,
           lastName: null,
+          moves: 0,
           xid: null
         },
         fitbitHardcoded: {
@@ -56,8 +57,10 @@ var App = React.createClass({
     var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
 
     var startOfDay = localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
+    var startOfDayAbbr = startOfDay.replace(/T00:00:00\.[0-9]+/, '');
 
     this.setState({day: startOfDay});
+    this.setState({dayAbbr: startOfDayAbbr});
   },
 
   // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
@@ -165,7 +168,7 @@ var App = React.createClass({
 
         case 'fitbit-login':
           callParams = {
-            url: 'https://api.fitbit.com/oauth/request_token?oauth_callback=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/fitbit&oauth_consumer_key=' + keys.fitbit.consumerKey,
+            url: 'https://api.fitbit.com/oauth/request_token?oauth_callback=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/fitbit&oauth_consumer_key=' + keys.fitbit.consumerKey
           };
           break;
 
