@@ -4,6 +4,7 @@ var Clock = require('./Clock.jsx');
 var CommitsBox = require('./CommitsBox.jsx');
 var StepsBox = require('./StepsBox.jsx');
 var Dino = require('./Dino.jsx');
+var CommitsPanel = require('./CommitsPanel.jsx');
 
 var Landscape = React.createClass({
 
@@ -121,6 +122,7 @@ var Landscape = React.createClass({
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
+        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
       </div>
