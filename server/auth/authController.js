@@ -37,8 +37,8 @@ var auth = {
       if (err){ 
         console.log(err);
       } else {
-        auth.get(body.access_token);
-        // console.log('body', body);
+        auth.get("", "",body.access_token);
+        // console.log('body', body.access_token);
         // userOptions.body.access_token = body.access_token;
         // userOptions.header = {
         //   'User-Agent': 'GitFit',
@@ -59,14 +59,19 @@ var auth = {
 
   get: function(provider, usage, param) {
     callParams = {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36',
+      header: {
+        'user-agent': 'GitFit',  
+      },
       url: 'https://api.github.com/user',
+      // options: {
+      //   uri: 'https://github.com/login/oauth/access_token'
+      //   },
       data: {
         access_token: param,
         // app.state.userInfo.github.token
       },
       callback: function(user) {
-        console.log('user', user)
+        console.log('callParams', callParams);
         // app.auth.makeRequest(provider, 'repos');
       }
     };
@@ -75,6 +80,10 @@ var auth = {
       type: 'GET',
       url: callParams.url,
       headers: callParams.header,
+      // options: {
+      //   uri: callParams.uri
+      // },
+      redirect_uri: 'http://localhost:8000',
       data: callParams.data
     }, function(err, res, body){ 
         if (err){
