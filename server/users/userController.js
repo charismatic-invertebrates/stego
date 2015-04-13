@@ -11,7 +11,7 @@ module.exports = {
   // Save a new user in our database
   saveUser: function(req, res, next) {
     var createUser = Q.nbind(User.create, User);
-
+    console.log(req.body);
     var newUser = {
       githubID: req.body.githubID,
       fitbitID: req.body.fitbitID,
@@ -26,6 +26,6 @@ module.exports = {
       })
       .fail(function(error) {
         next(error);
-      });
+      })
   }
 };
