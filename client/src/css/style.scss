@@ -75,13 +75,13 @@ h2 {
   display: inline-block;
   padding: 0.5em;
   margin: 0.2em;
-  background: rgb(44, 181, 255);
+  background: rgb(23, 202, 173);
   color: #fff;
   cursor: pointer;
   text-align: center;
-  text-shadow: -1px -1px 1px rgb(0, 139, 214);
+  text-shadow: -1px -1px 1px rgb(0, 143, 120);
   border-radius: 5px;
-  box-shadow: 1px 1px 1px rgb(0, 139, 214);
+  box-shadow: 1px 1px 1px rgb(0, 143, 120);
 }
 
 .button:hover {
@@ -155,6 +155,7 @@ h2 {
 .chart {
   width: 350px;
   height: 350px;
+  padding: 10px;
 }
 
 .chart-container {
