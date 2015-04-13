@@ -87,23 +87,23 @@ var App = React.createClass({
           break;
         case 'github-getToken':
           callParams = {
-            url: 'https://github.com/login/oauth/access_token',
-            data: {
-              code: param,
-              client_id : keys.github.clientID,
-              client_secret : keys.github.clientSecret
-            },
-            redirect_uri: 'https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/githubToken',
-            callback: function(res){
-              var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-              updateState({ 
-                userInfo: {github: {token: {$set: token} } } 
-              });
-              console.log('User info saved after login: ', app.state.userInfo);
+            url: 'http://localhost:8000/api/users/',
+            // data: {
+            //   code: param,
+            //   client_id : keys.github.clientID,
+            //   client_secret : keys.github.clientSecret
+            // },
+            // redirect_uri: 'https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/githubToken',
+            // callback: function(res){
+            //   var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
+            //   updateState({ 
+            //     userInfo: {github: {token: {$set: token} } } 
+            //   });
+            //   console.log('User info saved after login: ', app.state.userInfo);
 
-                // We need to refactor this call to work with all APIs
-              app.auth.makeRequest(provider, 'user'); 
-            }
+            //     // We need to refactor this call to work with all APIs
+            //   app.auth.makeRequest(provider, 'user'); 
+            // }
           };
           break;
         case 'github-user':
