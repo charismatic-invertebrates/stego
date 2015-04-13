@@ -26,6 +26,6 @@ module.exports = {
       })
       .fail(function(error) {
         next(error);
-      });
+      })
   }
 };
