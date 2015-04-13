@@ -3,13 +3,6 @@ var Chart = require('./Chart.jsx');
 
 var StepsBox = React.createClass({
 
-  getInitialState: function() {
-    this.loginUser.bind(null, 'fitbit');
-    this.loginUser.bind(null, 'jawbone');
-
-    return null;
-  },
-
   loginUser: function(service) {
     this.props.auth.login(service);
   },
@@ -22,7 +15,7 @@ var StepsBox = React.createClass({
     return (
       <div className="steps-box">
         <h2>Steps</h2>
-        <Chart parentId="steps-chart" currentValue={this.props.user.fitness.moves} maxValue={10000} />
+        <Chart parentId="steps-chart" currentValue={this.props.user.fitness.moves} max={this.props.max} />
         <a className="button" onClick={this.loginUser.bind(null, 'fitbit')}>Login to FitBit</a>
         <a className="button" onClick={this.loginUser.bind(null, 'jawbone')}>Login to Jawbone</a>
         <a className="button" onClick={this.logUser}>Console log user info</a>

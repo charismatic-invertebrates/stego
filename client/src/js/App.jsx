@@ -8,8 +8,6 @@ var $ = require('jquery');
 var App = React.createClass({
 
   getInitialState: function() {
-    this.setDay();
-
     return {
       // This property holds all user properties
       userInfo: {
@@ -37,8 +35,9 @@ var App = React.createClass({
             '2015-04-08': {"activities":[],"goals":{"activeMinutes":30,"caloriesOut":2184,"distance":8.05,"floors":10,"steps":10000},"summary":{"activeScore":-1,"activityCalories":1482,"caloriesBMR":1629,"caloriesOut":2930,"distances":[{"activity":"total","distance":9.11},{"activity":"tracker","distance":9.11},{"activity":"loggedActivities","distance":0},{"activity":"veryActive","distance":4.47},{"activity":"moderatelyActive","distance":0.66},{"activity":"lightlyActive","distance":3.98},{"activity":"sedentaryActive","distance":0}],"elevation":170.69,"fairlyActiveMinutes":25,"floors":56,"lightlyActiveMinutes":231,"marginalCalories":906,"sedentaryMinutes":731,"steps":12121,"veryActiveMinutes":43}},
             '2015-04-09': {"activities":[],"goals":{"activeMinutes":30,"caloriesOut":2184,"distance":8.05,"floors":10,"steps":10000},"summary":{"activeScore":-1,"activityCalories":883,"caloriesBMR":1629,"caloriesOut":2453,"distances":[{"activity":"total","distance":4.22},{"activity":"tracker","distance":4.22},{"activity":"loggedActivities","distance":0},{"activity":"veryActive","distance":0.44},{"activity":"moderatelyActive","distance":0.37},{"activity":"lightlyActive","distance":3.4},{"activity":"sedentaryActive","distance":0}],"elevation":42.67,"fairlyActiveMinutes":11,"floors":14,"lightlyActiveMinutes":188,"marginalCalories":481,"sedentaryMinutes":844,"steps":5974,"veryActiveMinutes":6}}
           }
-        },
-      }
+        }
+      },
+      day: this.setDay()
     };
   },
   
@@ -57,10 +56,9 @@ var App = React.createClass({
     var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
 
     var startOfDay = localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
-    var startOfDayAbbr = startOfDay.replace(/T00:00:00\.[0-9]+/, '');
+    // var startOfDayAbbr = startOfDay.replace(/T00:00:00\.[0-9]+/, '');
 
-    this.setState({day: startOfDay});
-    this.setState({dayAbbr: startOfDayAbbr});
+    return startOfDay;
   },
 
   // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
@@ -140,7 +138,7 @@ var App = React.createClass({
                   repos: {$set: reposList}
                 }}
               });
-              console.log('Saved user repos: ', reposList);
+              // console.log('Saved user repos: ', reposList);
               // console.log('Confirm via log User');
 
               app.state.userInfo.github.repos.forEach(function(repo) {

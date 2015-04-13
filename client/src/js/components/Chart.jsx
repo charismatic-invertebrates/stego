@@ -4,7 +4,7 @@ var Chart = React.createClass({
   drawChart: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
-    config.maxValue = this.props.maxValue;
+    config.maxValue = this.props.max;
 
     if (this.props.currentValue < (config.maxValue / 2)) {
       config.waveColor = 'rgb(213, 0, 94)';
@@ -16,7 +16,7 @@ var Chart = React.createClass({
   updateChart: function() {
     var el = React.findDOMNode(this);
     var config = liquidFillGaugeDefaultSettings();
-    config.maxValue = this.props.maxValue;
+    config.maxValue = this.props.max;
     
     if (this.props.currentValue < (config.maxValue / 2)) {
       config.waveColor = 'rgb(213, 0, 94)';
