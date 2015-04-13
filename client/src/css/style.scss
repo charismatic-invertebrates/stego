@@ -133,7 +133,13 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
+  opacity: 0.2;
   background-size: cover;
+  transition: opacity .5s ease-in;
+}
+
+.time-of-day.active {
+  opacity: 1;
 }
 
 
@@ -280,6 +286,12 @@ h2 {
 
 .chart-container {
   margin: 1em;
+}
+
+.clock {
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 /* Stego Dinosaur */
