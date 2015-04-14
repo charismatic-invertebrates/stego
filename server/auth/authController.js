@@ -80,18 +80,23 @@ var auth = {
                   name: parsedBody.name
                 };
                 return userAccounts;
-              })
+              });
               // get user info from jawbone
-              .then(function(userAccounts){
-                var fitnessUserParams = auth.assignReqParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
-                deferredGet(fitnessUserParams)
-                  .then(function(body){
-                    console.log('body', body);
-                  });
-              })
-              .then(function(userAccounts){
-                console.log('userAccounts', userAccounts);
-              }); 
+              // .then(function(userAccounts){
+              //   var fitnessUserParams = auth.assignReqParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
+              //   deferredGet(fitnessUserParams)
+              //     .then(function(body, req){
+              //       var parsedBody = JSON.parse(body[1]);
+              //       console.log('parsedBody', parsedBody);
+              //       // userAccounts.fitness.user = {
+              //       // xid: parsedBody.data.xid,
+              //       // name: parsedBody.name
+              //       // };
+              //     });
+              // })
+              // .then(function(userAccounts){
+              //   console.log('userAccounts', userAccounts);
+              // }); 
           });
       });
 
