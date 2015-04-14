@@ -9,40 +9,65 @@ var keys = require('../config/secureAuth.js');
 var $ = require('jquery');
 
 var auth = {
-  // Save a new user in our database
-  exchangeCode: function(req, res, next){
-    var options = {};
-    if (req.query.provider === 'github'){
-      options = {
+  // This function assigns paramaters for an API request.
+  assignReqParams: function(provider, usage, param){
+    var call = provider + '-' + usage;
+    var paramStore = {
+      
+      'github-getToken': {
         uri: 'https://github.com/login/oauth/access_token',
         method: 'GET',
         body: {
-          code: req.query.code,
-          client_id : keys.github.clientID,
-          client_secret : keys.github.clientSecret
+          code: param,
+          'client_id': keys.github.clientID,
+          'client_secret': keys.github.clientSecret
         },
         json: true
-      };
-      var userOptions = {
-        uri: 'https://api.github.com/user',
-        method: 'GET',
-        body: {
-          access_token: ''
+      },
+
+      'github-getUser': {
+        header: {
+          'user-agent': 'GitFit',
+          Authorization: 'token ' + param
         },
-        json: true
-      };
-    }
-    console.log('options', options);
-    request(options, function(err, res, body){
-      if (err){ 
+        url: 'https://api.github.com/user',
+        callback: function(user) {
+          console.log('come on down user:', user);
+          // app.auth.makeRequest(provider, 'repos');
+        }
+      }
+    };
+    return paramStore[call];
+  },
+
+  // Save a new user in our database
+  exchangeCode: function(req, res, next){
+    var result = auth.assignReqParams(req.query.provider, 'getToken', req.query.code);
+    auth.getRequest(result);
+    //console.log('can i assignReqParams', result);
+  },
+
+  getRequest: function(param, cb){
+    request(param, function(err, res, body){
+      if(err) {
         console.log(err);
       } else {
-        auth.get("", "",body.access_token);
+        console.log('touch my body:', body);
+        //do things
+      }
+    });
+
+  },
+    // request(options, function(err, res, body){
+    //   if (err){ 
+    //     console.log(err);
+    //   } else {
+    //     auth.get("", "",body.access_token);
         // console.log('body', body.access_token);
         // userOptions.body.access_token = body.access_token;
         // userOptions.header = {
         //   'User-Agent': 'GitFit',
-        //   Authorization: body.access_token + ' OAUTH-TOKEN'
+        // "Authorization: token OAUTH-TOKEN" https://api.github.com
         // };
         // console.log('userOptions is', userOptions)
         // request(userOptions, function(err, res, body){
@@ -53,14 +78,15 @@ var auth = {
         //   }
         // });
 
-      }
-    });
-  },
+  //     }
+  //   });
+  // },
 
   get: function(provider, usage, param) {
     callParams = {
       header: {
-        'user-agent': 'GitFit',  
+        'user-agent': 'GitFit',
+        Authorization: 'token ' + param
       },
       url: 'https://api.github.com/user',
       // options: {
