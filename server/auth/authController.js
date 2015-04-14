@@ -42,13 +42,14 @@ var auth = {
 
   // Save a new user in our database
   getTokenFromCode: function(req, res, next){
-    var tokenParams = auth.assignReqParams(req.query.provider, 'getToken', req.query.code);
-    auth.getRequest(tokenParams, function(body){
-      var userParams = auth.assignReqParams(req.query.provider, 'getUser', body.access_token);
-      auth.getRequest(userParams, function(body){
-        console.log('body', body);
-      });
-    });
+    console.log(req.query);
+    // var tokenParams = auth.assignReqParams(req.query.provider, 'getToken', req.query.code);
+    // auth.getRequest(tokenParams, function(body){
+    //   var userParams = auth.assignReqParams(req.query.provider, 'getUser', body.access_token);
+    //   auth.getRequest(userParams, function(body){
+    //     console.log('body', body);
+    //   });
+    // });
   },
 
   getRequest: function(param, cb){

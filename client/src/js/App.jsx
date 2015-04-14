@@ -246,22 +246,8 @@ var App = React.createClass({
         callParams = {
           url: 'http://localhost:8000/api/auth/getToken/',
           data: {
-            code: param,
-            provider: 'github'
-            // client_id : keys.github.clientID,
-            // client_secret : keys.github.clientSecret
+            accountCodes: param,
           },
-          // redirect_uri: 'https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/githubToken',
-          callback: function(res){
-            var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
-            updateState({ 
-              userInfo: {github: {token: {$set: token} } } 
-            });
-            console.log('User info saved after login: ', app.state.userInfo);
-
-              // We need to refactor this call to work with all APIs
-            app.auth.makeRequest(provider, 'user'); 
-          }
         };
         break;
       }
