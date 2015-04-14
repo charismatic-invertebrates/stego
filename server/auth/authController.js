@@ -1,4 +1,4 @@
-// Auth Controller
+ // Auth Controller
 // ---------------
 //
 // The Auth controller handles requests passed from the User router.
@@ -43,22 +43,20 @@ var auth = {
 
   // Save a new user in our database
   getTokenFromCode: function(req, res, next){
-
-    var deferred = Q.defer();
-    deferred.promise.then(function(userAccounts){
-    // get token from github
-      var tokenParams = auth.assignReqParams('github', 'getToken', userAccounts.github.code);
-      auth.getRequest(tokenParams, function(body){
-        console.log('BODY OF THE FIRST PROMISE', body);
-        userAccounts.github.token = body.access_token;
-        console.log('USER ACCOUNTS THAT SHOULD HAVE A TOKEN SAVED TO THEM UNDER GITHUB', userAccounts);
+    var userAccounts = req.query.accountCodes;
+    var tokenParams = auth.assignReqParams('github', 'getToken', userAccounts.github.code);
+    var deferredGet = Q.nfbind(request);
+    deferredGet(tokenParams)
+      .then(function(body){
+        console.log('body[0].body', body[0].body);
+        userAccounts.github.accessToken = body[0].body.access_token;
         return userAccounts;
+      })
+      .then(function(userAccounts){
+        console.log('This user account should have an access Token: ', userAccounts);
       });
-    })
+
     // get token from fitnessProvider
-    .then(function(userAccounts){
-      // console.log('This user account should have an access Token: ', userAccounts);
-    });
     // .then()
     // get user info from github
     // .then()
@@ -66,13 +64,8 @@ var auth = {
     // .then()
     // save user in database by github unique id if info from both services is available
     // .then()
-    deferred.resolve(req.query.accountCodes);
+    // deferred.resolve(req.query.accountCodes);
 
-    //   var userParams = auth.assignReqParams(req.query.provider, 'getUser', body.access_token);
-    //   auth.getRequest(userParams, function(body){
-    //     console.log('body', body);
-    //   });
-    // });
   },
 
   getRequest: function(param, cb){
