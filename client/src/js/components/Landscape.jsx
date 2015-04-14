@@ -22,7 +22,7 @@ var Landscape = React.createClass({
     var now = new Date();
     var hour = now.getHours();
     var minutes = now.getMinutes().toString();
-
+ 
     if (minutes.length === 1) {
       minutes = '0' + minutes;
     }
@@ -57,32 +57,26 @@ var Landscape = React.createClass({
     var timeOfDay;
 
     // wee hours of the morning and night
-    if (hour >= 0 && hour < 3) {
-      timeOfDay = 'night';
+    if (hour >= 0 && hour < 4) {
+      timeOfDay = 'latenight';
 
-    } else if (hour >= 3 && hour < 6) {
-      timeOfDay = 'late-night';
+    } else if (hour >= 4 && hour < 8) {
+      timeOfDay = 'dusk';
 
     // morning for normal humans
-    } else if (hour >= 6 && hour < 9) {
+    } else if (hour >= 8 && hour < 12) {
       timeOfDay = 'morning';
 
-    } else if (hour >= 9 && hour < 12) {
-      timeOfDay = 'late-morning';
-
-    // afternoon
-    } else if (hour >= 12 && hour < 15) {
+    } else if (hour >= 12 && hour < 16) {
       timeOfDay = 'afternoon';
 
-    } else if (hour >= 15 && hour < 18) {
-      timeOfDay = 'late-afternoon';
-
-    } else if (hour >= 18 && hour < 21) {
+    // afternoon
+    } else if (hour >= 16 && hour < 20) {
       timeOfDay = 'evening';
-    
-    } else if (hour >= 21 && hour < 24) {
-      timeOfDay = 'late-evening';
-      
+
+    } else if (hour >= 20 && hour < 24) {
+      timeOfDay = 'night';
+
     }
 
     return timeOfDay;
@@ -98,6 +92,7 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
+        <img src={'./images/landscape/sunmoon-latenight.png'} alt="" className={'sunmoon'}/>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />

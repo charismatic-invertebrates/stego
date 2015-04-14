@@ -89,7 +89,7 @@ h2 {
 }
 
 .morning, .late-morning, .afternoon, .late-afternoon,
-.evening, .late-evening, .night, .late-night {
+.evening, .late-evening, .night, .latenight {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,36 +98,50 @@ h2 {
   background-size: cover;
 }
 
-.morning {
-  background-image: url('http://i.imgur.com/VW2DYbL.png');
+.latenight {
+  background-image: url('../images/landscape/background-latenight.png');
 }
 
-.late-morning {
-  background-image: url('http://i.imgur.com/VW2DYbL.png');
+.dusk {
+  background-image: url('../images/landscape/background-dusk.png');
+}
+
+.morning {
+  background-image: url('../images/landscape/background-morning.png');
 }
 
 .afternoon {
-  background-image: url('http://i.imgur.com/UZKEjzG.png');
-}
-
-.late-afternoon {
-  background-image: url('http://i.imgur.com/6EhAM7G.png');
+  background-image: url('../images/landscape/background-afternoon.png');
 }
 
 .evening {
-  background-image: url('http://i.imgur.com/QOfZ5r8.png');
-}
-
-.late-evening {
-  background-image: url('http://i.imgur.com/Y4BHWJM.png');
+  background-image: url('../images/landscape/background-evening.png');
 }
 
 .night {
-  background-image: url('http://i.imgur.com/laSSeYN.png');
+  background-image: url('../images/landscape/background-night.png');
 }
 
-.late-night {
-  background-image: url('http://i.imgur.com/HaYuGQi.png');
+// .sunmoon {
+//   position: absolute;
+//   background-position: center top;
+//   z-index: 10;
+//   width: 164px;
+//   height: 165px;
+//   background-image: url('../images/landscape/sunmoon-latenight.png');
+//   border-radius: 80px;
+// }
+
+// Landscape Positions
+
+// Sun and Moon Colors
+$sunmoon-afternoon: ;
+
+.sunmoon {
+  position: absolute;
+  // box-shadow: 0px 0px 200px;
+  
+  -webkit-filter: drop-shadow(5px 5px 45px rgba(238,235,223,.7));
 }
 
 .meridian {
@@ -172,15 +186,15 @@ h2 {
 
 // Stego Moods
 .happy {
-  background: gold;
+  // background: gold;
 }
 
 .neutral {
-  background: mediumturquoise;
+  // background: mediumturquoise;
 }
 
 .sad {
-  background: midnightblue;
+  // background: midnightblue;
 }
 
 // Stego Asset Sizes
@@ -211,14 +225,14 @@ $mouth-pos: 45px,137px;
 $tail-pos: 155px,225px;
 
 // Stego Z-Indexes
-$body-z: 2;
-$eye-z: 3;
-$leftarm-z: 1;
-$rightarm-z: 3;
-$leftleg-z: 2;
-$rightleg-z: 2;
-$mouth-z: 3;
-$tail-z: 1;
+$body-z: 7;
+$eye-z: 8;
+$leftarm-z: 6;
+$rightarm-z: 8;
+$leftleg-z: 7;
+$rightleg-z: 7;
+$mouth-z: 8;
+$tail-z: 6;
 
 
 .stego-body {
