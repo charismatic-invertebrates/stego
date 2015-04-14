@@ -68,12 +68,19 @@ var auth = {
             console.log('githubUserParams', githubUserParams);
             deferredGet(githubUserParams)
               .then(function(body){
-                console.log('body', body);
+                var parsedBody = JSON.parse(body[0].body);
+                console.log('JSON.Parse: body[0].body', JSON.parse(body[0].body));
+                userAccounts.github.user = {
+                  id: parsedBody.id,
+                  username: parsedBody.login,
+                  name: parsedBody.name
+                };
+                return userAccounts;
               })
-          })
-          .then(function(userAccounts){
-            console.log('userAccounts', userAccounts);
-          }); 
+              .then(function(userAccounts){
+                console.log('userAccounts', userAccounts);
+              }); 
+          });
       });
 
     // .then()
