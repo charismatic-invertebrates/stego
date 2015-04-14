@@ -43,8 +43,31 @@ var auth = {
   // Save a new user in our database
   getTokenFromCode: function(req, res, next){
     console.log(req.query);
-    // var tokenParams = auth.assignReqParams(req.query.provider, 'getToken', req.query.code);
-    // auth.getRequest(tokenParams, function(body){
+    var githubCode = req.query.accountCodes.github.code;
+    var fitnessCode = req.query.accountCodes.fitness.code;
+    var fitnessProvider = req.query.accountCodes.fitness.provider;
+
+    var deferred = Q.defer();
+    deferred.promise.then(function(userAccounts){
+    // get token from github
+      var tokenParams = auth.assignReqParams('github', 'getToken', userAccounts.github.code);
+      return auth.getRequest(tokenParams, function(body){
+        userAccounts.github.token = body.access_token;
+        return userAccounts;
+    })
+    // get token from fitnessProvider
+    .then(function(userAccounts){
+      console.log(userAccounts);
+    })
+    // .then()
+    // get user info from github
+    // .then()
+    // get user info from fitnessProvider
+    // .then()
+    // save user in database by github unique id if info from both services is available
+    // .then()
+    .resolve(req.query.accountCodes);
+
     //   var userParams = auth.assignReqParams(req.query.provider, 'getUser', body.access_token);
     //   auth.getRequest(userParams, function(body){
     //     console.log('body', body);
