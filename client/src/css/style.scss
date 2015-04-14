@@ -88,8 +88,7 @@ h2 {
   background: rgb(0, 181, 255);
 }
 
-.morning, .late-morning, .afternoon, .late-afternoon,
-.evening, .late-evening, .night, .latenight {
+.latenight, .dusk, .morning, .afternoon, .evening, .night {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,6 +97,8 @@ h2 {
   background-size: cover;
 }
 
+
+// Background Images
 .latenight {
   background-image: url('../images/landscape/background-latenight.png');
 }
@@ -122,26 +123,72 @@ h2 {
   background-image: url('../images/landscape/background-night.png');
 }
 
-// .sunmoon {
-//   position: absolute;
-//   background-position: center top;
-//   z-index: 10;
-//   width: 164px;
-//   height: 165px;
-//   background-image: url('../images/landscape/sunmoon-latenight.png');
-//   border-radius: 80px;
-// }
+// Landscape Images
+.landscape {
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-position: bottom center;
+  z-index: 0;
+}
+
+.landscape.latenight {
+  background-image: url('../images/landscape/landscape-latenight.png');
+}
+
+.landscape.dusk {
+  background-image: url('../images/landscape/landscape-dusk.png');
+}
+
+.landscape.morning {
+  background-image: url('../images/landscape/landscape-morning.png');
+}
+
+.landscape.afternoon {
+  background-image: url('../images/landscape/landscape-afternoon.png');
+}
+
+.landscape.evening {
+  background-image: url('../images/landscape/landscape-evening.png');
+}
+
+.landscape.night {
+  background-image: url('../images/landscape/landscape-night.png');
+}
 
 // Landscape Positions
 
 // Sun and Moon Colors
-$sunmoon-afternoon: ;
 
-.sunmoon {
+.sunmoon-latenight {
   position: absolute;
-  // box-shadow: 0px 0px 200px;
-  
-  -webkit-filter: drop-shadow(5px 5px 45px rgba(238,235,223,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+}
+
+.sunmoon-dusk {
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,.7));
+}
+
+.sunmoon-morning {
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+}
+
+.sunmoon-afternoon {
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+}
+
+.sunmoon-evening {
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+}
+
+.sunmoon-night {
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
 }
 
 .meridian {
@@ -177,9 +224,10 @@ $sunmoon-afternoon: ;
 }
 
 /* Stego Dinosaur */
-.stego-container {
+.dino-container {
   position: absolute;
-  bottom: 40px;
+  margin: auto;
+  bottom: 8%;
   left: 0;
   right: 0;
 }

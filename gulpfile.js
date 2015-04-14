@@ -73,7 +73,6 @@ gulp.task('html', function(){
 gulp.task('watch-html', function(){
   gulp.watch(path.HTML_SRC, function(){
     return gulp.src([path.HTML_SRC])
-    .pipe(plumber())
     .pipe(gulp.dest(path.HTML_PUBLIC))
     .pipe(notify('WATCH: Stego HTML Build Complete!'));
   });

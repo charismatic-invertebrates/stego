@@ -92,7 +92,8 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={this.state.timeOfDay}>
-        <img src={'./images/landscape/sunmoon-latenight.png'} alt="" className={'sunmoon'}/>
+        <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
+        <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
