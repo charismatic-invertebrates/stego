@@ -36,8 +36,16 @@ var auth = {
           console.log('come on down user:', user);
           // app.auth.makeRequest(provider, 'repos');
         }
+      },
+
+      'jawbone-getToken': {
+        uri: 'https://jawbone.com/auth/oauth2/token?client_id=' + keys.jawbone.clientID + 
+          '&client_secret=' + keys.jawbone.clientSecret + 
+          '&grant_type=authorization_code' +
+          '&code=' + param,
       }
     };
+
     return paramStore[call];
   },
 
@@ -45,6 +53,7 @@ var auth = {
   getTokenFromCode: function(req, res, next){
     var userAccounts = req.query.accountCodes;
     var tokenParams = auth.assignReqParams('github', 'getToken', userAccounts.github.code);
+    var fitnessParams = auth.assignReqParams(userAccounts.fitness.provider, 'getToken', userAccounts.fitness.code);
     var deferredGet = Q.nfbind(request);
     deferredGet(tokenParams)
       .then(function(body){
@@ -53,7 +62,15 @@ var auth = {
         return userAccounts;
       })
       .then(function(userAccounts){
-        console.log('This user account should have an access Token: ', userAccounts);
+        console.log('fitnessParams', fitnessParams);
+        deferredGet(fitnessParams)
+          .done(function(body){
+            console.log('body', body);
+            return 'any given string';
+        });        
+      })
+      .then(function(token){
+        console.log('token', token);
       });
 
     // get token from fitnessProvider
