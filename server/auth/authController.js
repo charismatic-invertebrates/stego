@@ -32,10 +32,6 @@ var auth = {
           Authorization: 'token ' + param
         },
         url: 'https://api.github.com/user',
-        callback: function(user) {
-          console.log('come on down user:', user);
-          // app.auth.makeRequest(provider, 'repos');
-        }
       },
 
       'jawbone-getToken': {
@@ -57,26 +53,29 @@ var auth = {
     var deferredGet = Q.nfbind(request);
     deferredGet(tokenParams)
       .then(function(body){
-        console.log('body[0].body', body[0].body);
         userAccounts.github.accessToken = body[0].body.access_token;
         return userAccounts;
       })
       .then(function(userAccounts){
-        console.log('fitnessParams', fitnessParams);
         deferredGet(fitnessParams)
           .then(function(body){
-            console.log('body[0].body', body[0].body);
             userAccounts.fitness.accessToken = JSON.parse(body[0].body).access_token;
             return userAccounts;
         })        
+          // get user info from github 
+          .then(function(userAccounts){
+            var githubUserParams = auth.assignReqParams('github', 'getUser', userAccounts.github.accessToken);
+            console.log('githubUserParams', githubUserParams);
+            deferredGet(githubUserParams)
+              .then(function(body){
+                console.log('body', body);
+              })
+          })
           .then(function(userAccounts){
             console.log('userAccounts', userAccounts);
           }); 
       });
 
-    // get token from fitnessProvider
-    // .then()
-    // get user info from github
     // .then()
     // get user info from fitnessProvider
     // .then()
