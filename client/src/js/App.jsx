@@ -18,13 +18,16 @@ var App = React.createClass({
           repos: null,
           commitsByRepo: [],
           totalCommits: 0,
-          token: null
+          token: null,
+          code: null
         },
         fitness: {
+          provider: null,
           firstName: null,
           lastName: null,
           moves: 0,
-          xid: null
+          xid: null,
+          code: null
         },
         fitbitHardcoded: {
           user: {"avatar":"http://www.fitbit.com/images/profile/defaultProfile_100_male.gif","avatar150":"http://www.fitbit.com/images/profile/defaultProfile_150_male.gif","country":"US","dateOfBirth":"2015-04-05","displayName":"Chad","distanceUnit":"en_US","encodedId":"3BRL27","foodsLocale":"en_US","fullName":"Chad Fong","gender":"MALE","glucoseUnit":"en_US","height":170,"heightUnit":"en_US","locale":"en_US","memberSince":"2015-04-02","offsetFromUTCMillis":-25200000,"startDayOfWeek":"SUNDAY","strideLengthRunning":88.4,"strideLengthWalking":70.60000000000001,"timezone":"America/Los_Angeles","topBadges":[{"badgeGradientEndColor":"00D3D6","badgeGradientStartColor":"007273","badgeType":"DAILY_STEPS","category":"Daily Steps","cheers":[],"dateTime":"2015-04-05","description":"15,000 steps in a day","earnedMessage":"Congrats on earning your first Urban Boot badge!","encodedId":"228TMK","image100px":"http://static0.fitbit.com/images/badges_new/100px/badge_daily_steps15k.png","image125px":"http://static0.fitbit.com/images/badges_new/125px/badge_daily_steps15k.png","image300px":"http://static0.fitbit.com/images/badges_new/300px/badge_daily_steps15k.png","image50px":"http://static0.fitbit.com/images/badges_new/badge_daily_steps15k.png","image75px":"http://static0.fitbit.com/images/badges_new/75px/badge_daily_steps15k.png","marketingDescription":"You've walked 15,000 steps  And earned the Urban Boot badge!","mobileDescription":"With a number that's almost three times more than the national average, your step count is really heating up.","name":"Urban Boot (15,000 steps in a day)","shareImage640px":"http://static0.fitbit.com/images/badges_new/386px/share/badge_daily_steps15k.png","shareText":"I took 15,000 steps and earned the Urban Boot badge! #Fitbit","shortDescription":"15,000 steps","shortName":"Urban Boot","timesAchieved":1,"value":15000},{"badgeGradientEndColor":"38D7FF","badgeGradientStartColor":"2DB4D7","badgeType":"LIFETIME_DISTANCE","category":"Lifetime Distance","cheers":[],"dateTime":"2015-04-08","description":"26 lifetime miles","earnedMessage":"Whoa! You've earned the Marathon badge!","encodedId":"22B8MB","image100px":"http://static0.fitbit.com/images/badges_new/100px/badge_lifetime_miles26_2.png","image125px":"http://static0.fitbit.com/images/badges_new/125px/badge_lifetime_miles26_2.png","image300px":"http://static0.fitbit.com/images/badges_new/300px/badge_lifetime_miles26_2.png","image50px":"http://static0.fitbit.com/images/badges_new/badge_lifetime_miles26_2.png","image75px":"http://static0.fitbit.com/images/badges_new/75px/badge_lifetime_miles26_2.png","marketingDescription":"By reaching 26 lifetime miles, you've earned the Marathon badge!","mobileDescription":"You've walked your way to your first lifetime miles badge. If this is just the starting line, we can't wait to see where you finish!","name":"Marathon (26 lifetime miles)","shareImage640px":"http://static0.fitbit.com/images/badges_new/386px/share/badge_lifetime_miles26_2.png","shareText":"I covered 26 miles with my #Fitbit and earned the Marathon badge.","shortDescription":"26 miles","shortName":"Marathon","timesAchieved":1,"unit":"MILES","value":26},{"badgeGradientEndColor":"38D7FF","badgeGradientStartColor":"2DB4D7","badgeType":"DAILY_FLOORS","category":"Daily Climb","cheers":[],"dateTime":"2015-04-08","description":"50 floors in a day","earnedMessage":"Congrats on earning your first Lighthouse badge!","encodedId":"228TT7","image100px":"http://static0.fitbit.com/images/badges_new/100px/badge_daily_floors50.png","image125px":"http://static0.fitbit.com/images/badges_new/125px/badge_daily_floors50.png","image300px":"http://static0.fitbit.com/images/badges_new/300px/badge_daily_floors50.png","image50px":"http://static0.fitbit.com/images/badges_new/badge_daily_floors50.png","image75px":"http://static0.fitbit.com/images/badges_new/75px/badge_daily_floors50.png","marketingDescription":"You've climbed 50 floors to earn the Lighthouse badge!","mobileDescription":"With a floor count this high, you're a beacon of inspiration to us all!","name":"Lighthouse (50 floors in a day)","shareImage640px":"http://static0.fitbit.com/images/badges_new/386px/share/badge_daily_floors50.png","shareText":"I climbed 50 flights of stairs and earned the Lighthouse badge! #Fitbit","shortDescription":"50 floors","shortName":"Lighthouse","timesAchieved":1,"value":50}],"waterUnit":"en_US","waterUnitName":"fl oz","weight":68,"weightUnit":"en_US"},
@@ -79,9 +82,13 @@ var App = React.createClass({
         case 'github-login':
           callParams = {
             url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
-            callback: function(res) {
+            callback: function(code) {
               console.log('in login');
-              return res.split('?code=')[1];
+              updateState({
+                userInfo: {github: {
+                  code: {$set: code}
+                }}
+              });
             }
           };
           break;
@@ -174,6 +181,15 @@ var App = React.createClass({
         case 'jawbone-login':
           callParams = {
             url: 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID + '&scope=move_read&redirect_uri=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/jawbone',
+            callback: function(code) {
+              console.log('in login');
+              updateState({
+                userInfo: {fitness: {
+                  provider: {$set: provider},
+                  code: {$set: code}
+                }}
+              });
+            }
           };
           break;
         case 'jawbone-getToken':
@@ -226,8 +242,29 @@ var App = React.createClass({
             }
           };
           break;
+        case 'paired-getTokens':
+        callParams = {
+          url: 'http://localhost:8000/api/auth/getToken/',
+          data: {
+            code: param,
+            provider: 'github'
+            // client_id : keys.github.clientID,
+            // client_secret : keys.github.clientSecret
+          },
+          // redirect_uri: 'https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/githubToken',
+          callback: function(res){
+            var token = res.match(/(?:access_token=)[a-zA-Z0-9]+/g)[0].split('access_token=')[1];
+            updateState({ 
+              userInfo: {github: {token: {$set: token} } } 
+            });
+            console.log('User info saved after login: ', app.state.userInfo);
+
+              // We need to refactor this call to work with all APIs
+            app.auth.makeRequest(provider, 'user'); 
+          }
+        };
+        break;
       }
-      // console.log(callParams);
       return callParams;
     };
 
@@ -242,10 +279,32 @@ var App = React.createClass({
           'interactive': true
           },
           function(redirectUrl) {
+            var user = app.state.userInfo;
             var code = redirectUrl.split('?code=')[1];
-            app.auth.makeRequest(provider, 'getToken', code);
+            callParams.callback(code);
+            if( user.fitness.code === null || user.github.code === null ) {
+              console.log('authenticate with both providers please');
+            }
           }
         );
+      },
+
+      pairAccounts: function(){
+        var user = app.state.userInfo;
+        if( user.fitness.code === null || user.github.code === null ) {
+          console.log('authenticate with both providers please');
+        } else {
+          var accounts = {
+            github: {
+              code: user.github.code
+            },
+            fitness: {
+              provider: user.fitness.provider,
+              code: user.fitness.code
+            }
+          }
+          app.auth.makeRequest('paired', 'getTokens', accounts);
+        }
       },
       
       // This function is modularized to make all GET requests for all APIs
