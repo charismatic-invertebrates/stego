@@ -64,13 +64,14 @@ var auth = {
       .then(function(userAccounts){
         console.log('fitnessParams', fitnessParams);
         deferredGet(fitnessParams)
-          .done(function(body){
-            console.log('body', body);
-            return 'any given string';
-        });        
-      })
-      .then(function(token){
-        console.log('token', token);
+          .then(function(body){
+            console.log('body[0].body', body[0].body);
+            userAccounts.fitness.accessToken = JSON.parse(body[0].body).access_token;
+            return userAccounts;
+        })        
+          .then(function(userAccounts){
+            console.log('userAccounts', userAccounts);
+          }); 
       });
 
     // get token from fitnessProvider
