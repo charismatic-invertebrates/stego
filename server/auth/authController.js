@@ -26,8 +26,8 @@ var auth = {
       },
 
       'github-getUser': {
-        header: {
-          'user-agent': 'GitFit',
+        headers: {
+          'User-Agent': 'GitFit',
           Authorization: 'token ' + param
         },
         url: 'https://api.github.com/user',
@@ -42,8 +42,13 @@ var auth = {
 
   // Save a new user in our database
   exchangeCode: function(req, res, next){
-    var result = auth.assignReqParams(req.query.provider, 'getToken', req.query.code);
-    auth.getRequest(result);
+    var tokenParams = auth.assignReqParams(req.query.provider, 'getToken', req.query.code);
+    auth.getRequest(tokenParams, function(body){
+      var userParams = auth.assignReqParams(req.query.provider, 'getUser', body.access_token);
+      auth.getRequest(userParams, function(body){
+        console.log('body', body);
+      });
+    });
     //console.log('can i assignReqParams', result);
   },
 
@@ -52,11 +57,10 @@ var auth = {
       if(err) {
         console.log(err);
       } else {
-        console.log('touch my body:', body);
-        //do things
+        console.log('param:', param);
+        cb(body);
       }
     });
-
   },
     // request(options, function(err, res, body){
     //   if (err){ 
@@ -85,7 +89,7 @@ var auth = {
   get: function(provider, usage, param) {
     callParams = {
       header: {
-        'user-agent': 'GitFit',
+        'User-Agent': 'GitFit',
         Authorization: 'token ' + param
       },
       url: 'https://api.github.com/user',
