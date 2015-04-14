@@ -39,6 +39,11 @@ var auth = {
           '&client_secret=' + keys.jawbone.clientSecret + 
           '&grant_type=authorization_code' +
           '&code=' + param,
+      },
+
+      'jawbone-getUser':{
+        url: 'https://jawbone.com/nudge/api/v.1.1/users/@me',
+        headers: {'Authorization': 'Bearer ' + param},  
       }
     };
 
@@ -65,7 +70,6 @@ var auth = {
           // get user info from github 
           .then(function(userAccounts){
             var githubUserParams = auth.assignReqParams('github', 'getUser', userAccounts.github.accessToken);
-            console.log('githubUserParams', githubUserParams);
             deferredGet(githubUserParams)
               .then(function(body){
                 var parsedBody = JSON.parse(body[0].body);
@@ -76,6 +80,14 @@ var auth = {
                   name: parsedBody.name
                 };
                 return userAccounts;
+              })
+              // get user info from jawbone
+              .then(function(userAccounts){
+                var fitnessUserParams = auth.assignReqParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
+                deferredGet(fitnessUserParams)
+                  .then(function(body){
+                    console.log('body', body);
+                  });
               })
               .then(function(userAccounts){
                 console.log('userAccounts', userAccounts);
