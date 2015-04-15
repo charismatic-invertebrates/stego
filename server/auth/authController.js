@@ -6,6 +6,7 @@
 var Q = require('q');
 var request = require('request');
 var keys = require('../config/secureAuth.js');
+var user = require('../users/userController.js');
 var $ = require('jquery');
 
 var auth = {
@@ -80,6 +81,9 @@ var auth = {
                   name: parsedBody.name
                 };
                 return userAccounts;
+              })
+              .then(function(userAccounts){
+                user.saveUser(userAccounts);
               });
               // get user info from jawbone
               // .then(function(userAccounts){

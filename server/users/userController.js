@@ -9,23 +9,35 @@ var User = require('./userModel.js');
 module.exports = {
 
   // Save a new user in our database
-  saveUser: function(req, res, next) {
+  saveUser: function(userAccount) {
+
+    console.log('IS THIS WHAT I EXPECT IT TO BE?', userAccount);
     var createUser = Q.nbind(User.create, User);
-    console.log(req.body);
+    
     var newUser = {
-      githubID: req.body.githubID,
-      fitbitID: req.body.fitbitID,
-      jawboneID: req.body.jawboneID,
+
+      xid: userAccount.github.user.id,
+      githubUsername: userAccount.github.user.username,
+      githubName: userAccount.github.user.name,
+      repos: 'repos are incoming',
+      commits: 'commits are incoming',
+      provider: userAccount.fitness.provider,
+      steps: 'steps are incoming',
+      githubToken: userAccount.github.accessToken,
+      fitnessToken: userAccount.fitness.accessToken,
+
     };
 
     createUser(newUser)
       .then(function(createdUser) {
-        if (createdUser) {
-          res.json(createdUser);
-        }
+        console.log('MONGO USER', createdUser);
+      //   if (createdUser) {
+      //     res.json(createdUser);
+      //   }
+      // })
       })
       .fail(function(error) {
-        next(error);
-      })
+        console.log(error);
+      });
   }
 };

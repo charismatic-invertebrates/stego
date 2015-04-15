@@ -8,19 +8,21 @@ var mongoose = require('mongoose');
 // The user Schema:
 var UserSchema = new mongoose.Schema({
 
-  githubID: String,
+  xid: String,
+  githubUsername: String,
+  githubName: String,
+  repos: String,
+  commits: String,
+  provider: String,
+  steps: String,
   githubToken: String,
-  
-  fitbitID: String,
-  fitbitToken: String,
-  
-  jawboneID: String,
-  jawboneToken: String,
-  
+  fitnessToken: String,
   createdAt: {
     type: Date,
     default: Date.now 
-  }
+  },
+
+
 });
 
 module.exports = mongoose.model('User', UserSchema);
