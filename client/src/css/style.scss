@@ -45,7 +45,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-// Keyframes
+// Landscape Keyframes
 
 @-webkit-keyframes hinge {
   0% {
@@ -88,14 +88,6 @@ table {
   }
 }
 
-@-webkit-keyframes blink {
-  0% {transform: scale(1,1);}
-  2% {transform: scale(1,0);}
-  4% {transform: scale(1,0);}
-  5% {transform: scale(1,1);}
-  100% {transform: scale(1,1);}
-}
-
 // Animation mixins
 @mixin rotating {
   -webkit-animation: rotating 120s linear infinite;
@@ -111,11 +103,6 @@ table {
 @mixin fadein {
   -webkit-animation: fadein 1s;
   animation: fadein 1s;
-}
-
-@mixin blink {
-  -webkit-animation: blink 6s linear infinite;
-  animation-delay:2s;
 }
 
 /* Main */
@@ -342,6 +329,8 @@ h2 {
   // background: midnightblue;
 }
 
+
+
 // Stego Asset Sizes
 $eye-size: 14px;
 $body-width: 227px;
@@ -379,6 +368,36 @@ $rightleg-z: 7;
 $mouth-z: 8;
 $tail-z: 6;
 
+// Stego Timing
+$blink-seconds: 4s;
+$blink-delay: 2s;
+
+// Stego Keyframes
+@-webkit-keyframes left-eye-blink {
+  0% {transform: translate($left-eye-pos) scale(1,1);}
+  5% {transform: translate($left-eye-pos) scale(1,0);}
+  8% {transform: translate($left-eye-pos) scale(1,0);}
+  10% {transform: translate($left-eye-pos) scale(1,1);}
+  100% {transform: translate($left-eye-pos) scale(1,1);}
+}
+
+@mixin left-eye-blink {
+  -webkit-animation: left-eye-blink $blink-seconds linear infinite;
+  animation-delay: $blink-delay;
+}
+
+@-webkit-keyframes right-eye-blink {
+  0% {transform: translate($right-eye-pos) scale(1,1);}
+  5% {transform: translate($right-eye-pos) scale(1,0);}
+  8% {transform: translate($right-eye-pos) scale(1,0);}
+  10% {transform: translate($right-eye-pos) scale(1,1);}
+  100% {transform: translate($right-eye-pos) scale(1,1);}
+}
+
+@mixin right-eye-blink {
+  -webkit-animation: right-eye-blink $blink-seconds linear infinite;
+  animation-delay: $blink-delay;
+}
 
 .stego-body {
   margin: 0 auto;
@@ -389,7 +408,6 @@ $tail-z: 6;
 }
 
 .eye {
-  // @include blink;
   background-color: black; 
   border-radius: 50%;
   border-width: 1px;
@@ -402,11 +420,13 @@ $tail-z: 6;
 }
 
 .eye.left-eye {
-  transform: translate($left-eye-pos);
+  @include left-eye-blink;
+  // transform: translate($left-eye-pos);
 }
 
 .eye.right-eye {
-  transform: translate($right-eye-pos);
+  @include right-eye-blink;
+  // transform: translate($right-eye-pos);
 }
 
 .mouth {
