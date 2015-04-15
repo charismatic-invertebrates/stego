@@ -45,12 +45,77 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+// Keyframes
+
+@-webkit-keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: bottom right;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 40deg);
+    -webkit-transform-origin: bottom right;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(-35px, 158px, 200px);
+  }
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
 
 
-// Mixins
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes blink {
+  0% {transform: scale(1,1);}
+  2% {transform: scale(1,0);}
+  4% {transform: scale(1,0);}
+  5% {transform: scale(1,1);}
+  100% {transform: scale(1,1);}
+}
+
+// Animation mixins
+@mixin rotating {
+  -webkit-animation: rotating 120s linear infinite;
+  animation: rotating 120s linear infinite;
+}
+
+@mixin hinge {
+  -webkit-animation-name: hinge;
+  animation-name: hinge;
+}
+
+
 @mixin fadein {
   -webkit-animation: fadein 1s;
-  // -webkit-animation-timing-function: ease-in-out;
+  animation: fadein 1s;
+}
+
+@mixin blink {
+  -webkit-animation: blink 6s linear infinite;
+  animation-delay:2s;
 }
 
 /* Main */
@@ -220,6 +285,7 @@ h2 {
   -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
   left: 20%;
   top: 7%;
+  @include rotating;
 }
 
 .meridian {
@@ -323,7 +389,8 @@ $tail-z: 6;
 }
 
 .eye {
-  background-color: black;
+  // @include blink;
+  background-color: black; 
   border-radius: 50%;
   border-width: 1px;
   border-style: solid;
@@ -411,44 +478,10 @@ $tail-z: 6;
   animation-iteration-count: infinite;
 }
 
-.animated.hinge {
+.animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-delay: .5s;
   animation-delay: .5s;
-}
-
-@-webkit-keyframes hinge {
-  0% {
-    -webkit-transform-origin: top left;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  20%, 60% {
-    -webkit-transform: rotate3d(0, 0, 1, 80deg);
-    -webkit-transform-origin: bottom right;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  40%, 80% {
-    -webkit-transform: rotate3d(0, 0, 1, 40deg);
-    -webkit-transform-origin: bottom right;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  100% {
-    -webkit-transform: translate3d(0, 700px, 0);
-    transform: translate3d(-35px, 158px, 200px);
-  }
-}
-
-@-webkit-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-
-.hinge {
-  -webkit-animation-name: hinge;
-  animation-name: hinge;
+  @include hinge;
 }
