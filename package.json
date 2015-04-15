@@ -2,52 +2,52 @@
   "name": "gitfit",
   "version": "1.0.0",
   "description": "GitFit encourages programmers to embrace a balanced and healthy lifestyle.",
-  "main": "gulpfile.js",
-  "directories": {
-    "test": "tests"
+  "main": "server.js",
+  "scripts": {
+    "test": "npm run test-server",
+    "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charismatic-invertebrates/gitfit"
+  },
+  "author": "",
+  "license": "Proprietary",
+  "bugs": {
+    "url": "https://github.com/charismatic-invertebrates/gitfit/issues"
+  },
+  "homepage": "https://github.com/charismatic-invertebrates/gitfit",
   "dependencies": {
     "body-parser": "^1.12.2",
     "browserify": "^9.0.7",
-    "chai": "^2.2.0",
     "express": "^4.12.3",
     "gulp": "^3.8.11",
-    "gulp-jasmine": "^2.0.1",
     "gulp-minify-css": "^1.0.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.0.0",
     "gulp-react": "^3.0.1",
     "gulp-sass": "^1.3.3",
-    "gulp-watchify": "^0.5.0",
-    "jasmine": "^2.2.1",
     "jquery": "^2.1.3",
-    "karma": "^0.12.31",
-    "mongodb": "^2.0.27",
+    "mongodb": "^2.0.25",
     "mongoose": "^4.0.1",
     "morgan": "^1.5.2",
     "nodemon": "^1.3.7",
     "q": "^1.2.0",
     "react": "^0.13.1",
     "reactify": "^1.1.0",
-    "supertest": "^0.15.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.1.0"
+    "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
-    "mocha": "^2.2.3"
-  },
-  "scripts": {
-    "test": "mocha",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/millionhari/gitfit.git"
-  },
-  "author": "",
-  "license": "Proprietary",
-  "bugs": {
-    "url": "https://github.com/millionhari/gitfit/issues"
-  },
-  "homepage": "https://github.com/millionhari/gitfit"
+    "chai": "*",
+    "gulp-jasmine": "^2.0.1",
+    "jasmine": "^2.2.1",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5",
+    "karma-requirejs": "^0.2.2",
+    "mocha": "*",
+    "requirejs": "^2.1.17",
+    "supertest": "*",
+    "watchify": "^3.1.0"
+  }
 }

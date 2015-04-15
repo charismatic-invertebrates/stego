@@ -47,7 +47,18 @@ table {
 }
 
 
+// Mixins
+@mixin fadein {
+  -webkit-animation: fadein 1s;
+  // -webkit-animation-timing-function: ease-in-out;
+}
+
 /* Main */
+
+html, img {
+  @include fadein;
+}
+
 
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -89,6 +100,7 @@ h2 {
 }
 
 .latenight, .dawn, .morning, .afternoon, .evening, .night {
+  @include fadein;
   position: fixed;
   top: 0;
   left: 0;
@@ -131,6 +143,7 @@ h2 {
   position: absolute;
   background-position: bottom center;
   z-index: -1;
+  @include fadein;
 }
 
 .landscape.latenight {
@@ -283,7 +296,7 @@ $tail-height: 96px;
 // Stego Asset Positions (X,Y)
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
-$leftarm-pos: -4px, 105px;
+$leftarm-pos: 5px, 105px;
 $rightarm-pos: 120px, 203px;
 $leftleg-pos: 60px, 310px;
 $rightleg-pos: 115px, 310px;
@@ -401,6 +414,8 @@ $tail-z: 6;
 .animated.hinge {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
+  -webkit-animation-delay: .5s;
+  animation-delay: .5s;
 }
 
 @-webkit-keyframes hinge {
@@ -425,6 +440,11 @@ $tail-z: 6;
     -webkit-transform: translate3d(0, 700px, 0);
     transform: translate3d(-35px, 158px, 200px);
   }
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 
