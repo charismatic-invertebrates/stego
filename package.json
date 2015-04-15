@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/charismatic-invertebrates/gitfit",
   "dependencies": {
+    "bcrypt": "^0.8.2",
     "body-parser": "^1.12.2",
     "browserify": "^9.0.7",
     "express": "^4.12.3",
@@ -35,7 +36,10 @@
     "q": "^1.2.0",
     "react": "^0.13.1",
     "reactify": "^1.1.0",
-    "vinyl-source-stream": "^1.1.0"
+    "request": "^2.55.0",
+    "supertest": "^0.15.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.1.0"
   },
   "devDependencies": {
     "chai": "*",
