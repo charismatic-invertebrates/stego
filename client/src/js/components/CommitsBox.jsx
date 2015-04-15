@@ -9,9 +9,12 @@ var CommitsBox = React.createClass({
   },
   
   // This function logs the user object saved in App.jsx's state
-  logUser: function() {
-    console.log(this.props.user);
-    console.log(this.props.user.github.totalCommits);
+  pairAccounts: function() {
+    this.props.auth.pairAccounts();
+  },
+
+  getAccount: function() {
+    this.props.auth.getServerAccount();
   },
 
   render: function() {
@@ -20,6 +23,8 @@ var CommitsBox = React.createClass({
         <h2>Commits</h2>
         <Chart parentId="commits-chart" currentValue={this.props.user.github.totalCommits} max={this.props.max} />
         <a className="button" onClick={this.loginGithub}>Login to Github</a>
+        <a className="button" onClick={this.pairAccounts}>Pair Accounts</a>
+        <a className="button" onClick={this.getAccount}>Get Account from Server</a>
       </div>
     );
   }
