@@ -39,5 +39,10 @@ module.exports = {
       .fail(function(error) {
         console.log(error);
       });
+  },
+
+  getUser: function(req, res, next) {
+    console.log(req);
+    res.send('This is totally working');
   }
 };

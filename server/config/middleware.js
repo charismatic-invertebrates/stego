@@ -29,7 +29,7 @@ module.exports = function(app, express) {
   app.use(helpers.handleErrors);
 
   // Use the user router for all user requests
-  app.use('/api/users', userRouter);
+  app.use('/api/user', userRouter);
   app.use('/api/auth', authRouter);
 
   // Inject Express routers into route files

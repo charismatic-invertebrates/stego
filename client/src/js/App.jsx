@@ -250,6 +250,17 @@ var App = React.createClass({
           },
         };
         break;
+        case 'server-getAccount':
+        callParams = {
+          url: 'http://localhost:8000/api/user/',
+          data: {
+            accountCodes: 'this should be passed along',
+          },
+          callback: function(res) {
+            console.log('this is the response from our server, should be our account: ', res);
+          }
+        };
+        break;
       }
       return callParams;
     };
@@ -291,6 +302,10 @@ var App = React.createClass({
           }
           app.auth.makeRequest('paired', 'getTokens', accounts);
         }
+      },
+
+      getServerAccount: function(){
+        app.auth.makeRequest('server', 'getAccount');
       },
       
       // This function is modularized to make all GET requests for all APIs
