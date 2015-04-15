@@ -49,16 +49,15 @@ module.exports = {
   },
 
   getUser: function(req, res, next) {
-    console.log(req);
-    res.send('This is totally working');
+    module.exports.findUser(req.url.split('xid=')[1], res);
   },
 
-  findUser: function(xid) {
+  findUser: function(xid, res) {
     var findOneUser = Q.nbind(User.findOne, User);
 
-    findOneUser({xid: xid})
+    return findOneUser({xid: xid})
       .then(function(foundUser) {
-        console.log('I FOUND THIS FOR YOU: ', foundUser);
+        res.json(foundUser);
       });
   }
 };

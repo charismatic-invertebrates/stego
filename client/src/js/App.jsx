@@ -250,6 +250,9 @@ var App = React.createClass({
           },
           callback: function(res) {
             console.log(res);
+            localStorage.setItem('xid', res.xid);
+            localStorage.setItem('commits', res.commits);
+            localStorage.setItem('steps', res.steps);
           }
         };
         break;
@@ -257,7 +260,7 @@ var App = React.createClass({
         callParams = {
           url: 'http://localhost:8000/api/user/',
           data: {
-            accountCodes: 'this should be passed along',
+            xid: localStorage.xid,
           },
           callback: function(res) {
             console.log('this is the response from our server, should be our account: ', res);
