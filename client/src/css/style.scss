@@ -46,31 +46,6 @@ table {
   border-spacing: 0;
 }
 // Landscape Keyframes
-
-@-webkit-keyframes hinge {
-  0% {
-    -webkit-transform-origin: top left;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  20%, 60% {
-    -webkit-transform: rotate3d(0, 0, 1, 80deg);
-    -webkit-transform-origin: bottom right;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  40%, 80% {
-    -webkit-transform: rotate3d(0, 0, 1, 40deg);
-    -webkit-transform-origin: bottom right;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  100% {
-    -webkit-transform: translate3d(0, 700px, 0);
-    transform: translate3d(-35px, 158px, 200px);
-  }
-}
-
 @-webkit-keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -94,9 +69,9 @@ table {
   animation: rotating 120s linear infinite;
 }
 
-@mixin hinge {
-  -webkit-animation-name: hinge;
-  animation-name: hinge;
+@mixin wave {
+  -webkit-animation-name: wave;
+  animation-name: wave;
 }
 
 
@@ -335,8 +310,8 @@ h2 {
 $eye-size: 14px;
 $body-width: 227px;
 $body-height: 326px;
-$leftarm-width: 73px;
-$leftarm-height: 68px;
+$leftarm-width: 35px;
+$leftarm-height: 93px;
 $rightarm-width: 35px;
 $rightarm-height: 64px;
 $leftleg-width: 36px;
@@ -351,7 +326,7 @@ $tail-height: 96px;
 // Stego Asset Positions (X,Y)
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
-$leftarm-pos: 5px, 105px;
+$leftarm-pos: 40px, 208px;
 $rightarm-pos: 120px, 203px;
 $leftleg-pos: 60px, 310px;
 $rightleg-pos: 115px, 310px;
@@ -361,7 +336,7 @@ $tail-pos: 155px,225px;
 // Stego Z-Indexes
 $body-z: 7;
 $eye-z: 8;
-$leftarm-z: 6;
+$leftarm-z: -1;
 $rightarm-z: 8;
 $leftleg-z: 7;
 $rightleg-z: 7;
@@ -371,12 +346,19 @@ $tail-z: 6;
 // Stego Timing
 $blink-seconds: 4s;
 $blink-delay: 2s;
+$wave-seconds: 1.5s;
+$wave-delay: 1s;
+$right-arm-sway-seconds: 4s;
+$tail-sway-seconds: 3s;
 
-// Stego Keyframes
+
+/* Stego Keyframe Animations */
+
+// Left Eye Blink
 @-webkit-keyframes left-eye-blink {
   0% {transform: translate($left-eye-pos) scale(1,1);}
-  5% {transform: translate($left-eye-pos) scale(1,0);}
-  8% {transform: translate($left-eye-pos) scale(1,0);}
+  2% {transform: translate($left-eye-pos) scale(1,0);}
+  3% {transform: translate($left-eye-pos) scale(1,0);}
   10% {transform: translate($left-eye-pos) scale(1,1);}
   100% {transform: translate($left-eye-pos) scale(1,1);}
 }
@@ -386,18 +368,75 @@ $blink-delay: 2s;
   animation-delay: $blink-delay;
 }
 
+// Right Eye Blink
 @-webkit-keyframes right-eye-blink {
   0% {transform: translate($right-eye-pos) scale(1,1);}
-  5% {transform: translate($right-eye-pos) scale(1,0);}
-  8% {transform: translate($right-eye-pos) scale(1,0);}
+  2% {transform: translate($right-eye-pos) scale(1,0);}
+  3% {transform: translate($right-eye-pos) scale(1,0);}
   10% {transform: translate($right-eye-pos) scale(1,1);}
   100% {transform: translate($right-eye-pos) scale(1,1);}
 }
 
 @mixin right-eye-blink {
   -webkit-animation: right-eye-blink $blink-seconds linear infinite;
-  animation-delay: $blink-delay;
 }
+
+// Left Hand Wave
+@-webkit-keyframes wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  20% {transform: translate($leftarm-pos) rotate(135deg)};
+  30% {transform: translate($leftarm-pos) rotate(105deg)};
+  40% {transform: translate($leftarm-pos) rotate(135deg)};
+  45% {transform: translate($leftarm-pos) rotate(135deg)};
+  80% {transform: translate($leftarm-pos) rotate(0deg)};
+}
+
+@mixin wave {
+  -webkit-animation: wave $wave-seconds $wave-delay;
+}
+
+// Right Arm Sway
+@-webkit-keyframes right-arm-sway {
+  0% {transform: translate($rightarm-pos) rotate(-2.5deg)};
+  50% {transform: translate($rightarm-pos) rotate(2.5deg)};
+  100% {transform: translate($rightarm-pos) rotate(-2.5deg)};
+}
+
+@mixin right-arm-sway {
+  -webkit-animation: right-arm-sway $right-arm-sway-seconds ease-in-out infinite;
+}
+
+// Tail Sway
+@-webkit-keyframes tail-sway {
+  0% {transform: translate($tail-pos) rotate(0deg)};
+  50% {transform: translate($tail-pos) rotate(2deg)};
+  100% {transform: translate($tail-pos) rotate(0deg)};
+}
+
+@mixin tail-sway {
+  -webkit-animation: tail-sway $tail-sway-seconds ease-in-out infinite;
+}
+
+
+// .animated {
+//   -webkit-animation-duration: 1s;
+//   animation-duration: 1s;
+// }
+
+// .animated.infinite {
+//   -webkit-animation-iteration-count: infinite;
+//   animation-iteration-count: infinite;
+// }
+
+// .animated {
+//   -webkit-animation-duration: 1s;
+//   animation-duration: 1s;
+//   -webkit-animation-delay: .5s;
+//   animation-delay: .5s;
+//   @include wave;
+// }
+
+
 
 .stego-body {
   margin: 0 auto;
@@ -444,8 +483,9 @@ $blink-delay: 2s;
   position: absolute;
   background-image: url('../images/stego-parts/stego-leftarm.png');
   transform: translate($leftarm-pos);
+  transform-origin: center top;
   z-index: $leftarm-z;
-  /*-webkit-animation: wave 1s linear infinite;*/
+  @include wave;
 }
 
 .right-arm {
@@ -454,7 +494,9 @@ $blink-delay: 2s;
   position: absolute;
   background-image: url('../images/stego-parts/stego-rightarm.png');
   transform: translate($rightarm-pos);
+  transform-origin: center top;
   z-index: $rightarm-z;
+  @include right-arm-sway;
 }
 
 .left-leg {
@@ -480,28 +522,8 @@ $blink-delay: 2s;
   height: $tail-height;
   background-image: url('../images/stego-parts/stego-tail.png');
   position: absolute;
+  transform-origin: center left;
   transform: translate($tail-pos);
   z-index: $tail-z;
-}
-
-/*Animations*/
-
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.animated.infinite {
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-}
-
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-delay: .5s;
-  animation-delay: .5s;
-  @include hinge;
+  @include tail-sway;
 }
