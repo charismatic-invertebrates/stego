@@ -248,6 +248,9 @@ var App = React.createClass({
           data: {
             accountCodes: param,
           },
+          callback: function(res) {
+            console.log(res);
+          }
         };
         break;
         case 'server-getAccount':

@@ -9,7 +9,7 @@ var User = require('./userModel.js');
 module.exports = {
 
   // Save a new user in our database
-  saveUser: function(userAccount) {
+  saveUser: function(req, res, userAccount) {
 
     console.log('IS THIS WHAT I EXPECT IT TO BE?', userAccount);
     var createUser = Q.nbind(User.create, User);
@@ -31,6 +31,7 @@ module.exports = {
     createUser(newUser)
       .then(function(createdUser) {
         console.log('MONGO USER', createdUser);
+        res.json(createdUser);
         module.exports.findUser(createdUser.xid);
       })
       .fail(function(error) {

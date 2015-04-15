@@ -83,7 +83,7 @@ var auth = {
                 return userAccounts;
               })
               .then(function(userAccounts){
-                console.log('can we return something from a save?', user.saveUser(userAccounts));
+                console.log('can we return something from a save?', user.saveUser(req, res, userAccounts));
               });
               // get user info from jawbone
               // .then(function(userAccounts){
