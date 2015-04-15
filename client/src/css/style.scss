@@ -88,8 +88,7 @@ h2 {
   background: rgb(0, 181, 255);
 }
 
-.morning, .late-morning, .afternoon, .late-afternoon,
-.evening, .late-evening, .night, .late-night {
+.latenight, .dawn, .morning, .afternoon, .evening, .night {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,36 +97,116 @@ h2 {
   background-size: cover;
 }
 
-.morning {
-  background-image: url('http://i.imgur.com/VW2DYbL.png');
+
+// Background Images
+.latenight {
+  background-image: url('../images/landscape/background-latenight.png');
 }
 
-.late-morning {
-  background-image: url('http://i.imgur.com/VW2DYbL.png');
+.dawn {
+  background-image: url('../images/landscape/background-dawn.png');
+}
+
+.morning {
+  background-image: url('../images/landscape/background-morning.png');
 }
 
 .afternoon {
-  background-image: url('http://i.imgur.com/UZKEjzG.png');
-}
-
-.late-afternoon {
-  background-image: url('http://i.imgur.com/6EhAM7G.png');
+  background-image: url('../images/landscape/background-afternoon.png');
 }
 
 .evening {
-  background-image: url('http://i.imgur.com/QOfZ5r8.png');
-}
-
-.late-evening {
-  background-image: url('http://i.imgur.com/Y4BHWJM.png');
+  background-image: url('../images/landscape/background-evening.png');
 }
 
 .night {
-  background-image: url('http://i.imgur.com/laSSeYN.png');
+  background-image: url('../images/landscape/background-night.png');
 }
 
-.late-night {
-  background-image: url('http://i.imgur.com/HaYuGQi.png');
+// Landscape Images
+.landscape {
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-position: bottom center;
+  z-index: -1;
+}
+
+.landscape.latenight {
+  background-image: url('../images/landscape/landscape-latenight.png');
+}
+
+.landscape.dawn {
+  background-image: url('../images/landscape/landscape-dawn.png');
+}
+
+.landscape.morning {
+  background-image: url('../images/landscape/landscape-morning.png');
+}
+
+.landscape.afternoon {
+  background-image: url('../images/landscape/landscape-afternoon.png');
+}
+
+.landscape.evening {
+  background-image: url('../images/landscape/landscape-evening.png');
+}
+
+.landscape.night {
+  background-image: url('../images/landscape/landscape-night.png');
+}
+
+// Landscape Positions
+
+// Sun and Moon Colors
+
+.sunmoon-latenight {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
+  right: 20%;
+  top: 7%;
+}
+
+.sunmoon-dawn {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,1));
+  left: 5%;
+  top: 8%;
+}
+
+.sunmoon-morning {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,194,43,1));
+  left: 25%;
+  top: 0;
+}
+
+.sunmoon-afternoon {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,186,16,1));
+  right: 25%;
+  top: 0;
+}
+
+.sunmoon-evening {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,1));
+  right: 5%;
+  top: 25%;
+}
+
+.sunmoon-night {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
+  left: 20%;
+  top: 7%;
 }
 
 .meridian {
@@ -163,24 +242,25 @@ h2 {
 }
 
 /* Stego Dinosaur */
-.stego-container {
+.dino-container {
   position: absolute;
-  bottom: 40px;
+  margin: auto;
+  bottom: 8%;
   left: 0;
   right: 0;
 }
 
 // Stego Moods
 .happy {
-  background: gold;
+  // background: gold;
 }
 
 .neutral {
-  background: mediumturquoise;
+  // background: mediumturquoise;
 }
 
 .sad {
-  background: midnightblue;
+  // background: midnightblue;
 }
 
 // Stego Asset Sizes
@@ -211,14 +291,14 @@ $mouth-pos: 45px,137px;
 $tail-pos: 155px,225px;
 
 // Stego Z-Indexes
-$body-z: 2;
-$eye-z: 3;
-$leftarm-z: 1;
-$rightarm-z: 3;
-$leftleg-z: 2;
-$rightleg-z: 2;
-$mouth-z: 3;
-$tail-z: 1;
+$body-z: 7;
+$eye-z: 8;
+$leftarm-z: 6;
+$rightarm-z: 8;
+$leftleg-z: 7;
+$rightleg-z: 7;
+$mouth-z: 8;
+$tail-z: 6;
 
 
 .stego-body {

@@ -11,6 +11,7 @@ var jasmine = require('gulp-jasmine');
 var karma = require('karma').server;
 var sass = require('gulp-sass');
 var react = require('gulp-react');
+var plumber = require('gulp-plumber');
 
 var path = {
   HTML_SRC: './client/src/stego.html',
@@ -100,6 +101,7 @@ gulp.task('watch-jsx', function(){
 
   return watcher.on('update', function(){
     watcher.bundle()
+    .pipe(plumber())
     .pipe(source(path.OUT))
     .pipe(gulp.dest(path.PUBLIC))
     .pipe(notify('WATCH: Stego JS Build Complete!'));
@@ -122,6 +124,7 @@ gulp.task('css', function(){
 gulp.task('watch-css', function(){
   gulp.watch(path.CSS_SRC, function(){
     gulp.src(path.CSS_SRC)
+    .pipe(plumber())
     .pipe(sass())
     .pipe(minifyCSS())
     .pipe(gulp.dest(path.CSS_PUBLIC))
@@ -140,6 +143,7 @@ gulp.task('js', function(){
 gulp.task('watch-js', function(){
   gulp.watch(path.JS_SRC, function(){
     return gulp.src([path.JS_SRC])
+    .pipe(plumber())
     .pipe(gulp.dest(path.PUBLIC))
     .pipe(notify('JS sources have been copied over!'));
   });
