@@ -293,10 +293,20 @@ h2 {
   right: 0;
 }
 
+.panel-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
 .panel {
   width: 500px;
   z-index: 1000;
   padding: 1em;
+  color: #fff;
   background: rgba(5, 5, 5, 0.9);
   -webkit-box-shadow: 1px 1px 10px #222;
   box-shadow: 1px 1px 10px #222;
