@@ -326,7 +326,7 @@ $tail-height: 96px;
 // Stego Asset Positions (X,Y)
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
-$leftarm-pos: 45px, 195px;
+$leftarm-pos: 40px, 208px;
 $rightarm-pos: 120px, 203px;
 $leftleg-pos: 60px, 310px;
 $rightleg-pos: 115px, 310px;
@@ -348,6 +348,8 @@ $blink-seconds: 4s;
 $blink-delay: 2s;
 $wave-seconds: 1.5s;
 $wave-delay: 1s;
+$right-arm-sway-seconds: 2s;
+
 
 /* Stego Keyframe Animations */
 @-webkit-keyframes left-eye-blink {
@@ -386,7 +388,16 @@ $wave-delay: 1s;
 
 @mixin wave {
   -webkit-animation: wave $wave-seconds $wave-delay;
-  -webkit-animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes right-arm-sway {
+  0% {transform: translate($rightarm-pos) rotate(-5deg)};
+  50% {transform: translate($rightarm-pos) rotate(5deg)};
+  100% {transform: translate($rightarm-pos) rotate(-5deg)};
+}
+
+@mixin right-arm-sway {
+  -webkit-animation: right-arm-sway $right-arm-sway-seconds ease-in-out infinite;
 }
 
 // .animated {
@@ -465,7 +476,9 @@ $wave-delay: 1s;
   position: absolute;
   background-image: url('../images/stego-parts/stego-rightarm.png');
   transform: translate($rightarm-pos);
+  transform-origin: center top;
   z-index: $rightarm-z;
+  @include right-arm-sway;
 }
 
 .left-leg {
