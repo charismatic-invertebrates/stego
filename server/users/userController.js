@@ -5,6 +5,7 @@
 
 var Q = require('q');
 var User = require('./userModel.js');
+var UserServer = require('./userServerModel.js');
 
 module.exports = {
 
@@ -13,9 +14,9 @@ module.exports = {
 
     console.log('IS THIS WHAT I EXPECT IT TO BE?', userAccount);
     var createUser = Q.nbind(User.create, User);
+    var createUserServer = Q.nbind(UserServer.create, UserServer);
     
     var newUser = {
-
       xid: userAccount.github.user.id,
       githubUsername: userAccount.github.user.username,
       githubName: userAccount.github.user.name,
@@ -23,9 +24,13 @@ module.exports = {
       commits: 'commits are incoming',
       provider: userAccount.fitness.provider,
       steps: 'steps are incoming',
+    };
+
+    var newUserServer = {
+      xid: userAccount.github.user.id,
+      provider: userAccount.fitness.provider,
       githubToken: userAccount.github.accessToken,
       fitnessToken: userAccount.fitness.accessToken,
-
     };
 
     createUser(newUser)
@@ -33,6 +38,10 @@ module.exports = {
         console.log('MONGO USER', createdUser);
         res.json(createdUser);
         module.exports.findUser(createdUser.xid);
+        createUserServer(newUserServer)
+          .fail(function(error) {
+            console.log(error);
+          });
       })
       .fail(function(error) {
         console.log(error);
