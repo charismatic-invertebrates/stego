@@ -88,7 +88,7 @@ h2 {
   background: rgb(0, 181, 255);
 }
 
-.latenight, .dusk, .morning, .afternoon, .evening, .night {
+.latenight, .dawn, .morning, .afternoon, .evening, .night {
   position: fixed;
   top: 0;
   left: 0;
@@ -103,8 +103,8 @@ h2 {
   background-image: url('../images/landscape/background-latenight.png');
 }
 
-.dusk {
-  background-image: url('../images/landscape/background-dusk.png');
+.dawn {
+  background-image: url('../images/landscape/background-dawn.png');
 }
 
 .morning {
@@ -130,15 +130,15 @@ h2 {
   height: 100%;
   position: absolute;
   background-position: bottom center;
-  z-index: 0;
+  z-index: -1;
 }
 
 .landscape.latenight {
   background-image: url('../images/landscape/landscape-latenight.png');
 }
 
-.landscape.dusk {
-  background-image: url('../images/landscape/landscape-dusk.png');
+.landscape.dawn {
+  background-image: url('../images/landscape/landscape-dawn.png');
 }
 
 .landscape.morning {
@@ -162,33 +162,51 @@ h2 {
 // Sun and Moon Colors
 
 .sunmoon-latenight {
+  z-index: -2;
   position: absolute;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
+  right: 20%;
+  top: 7%;
 }
 
-.sunmoon-dusk {
+.sunmoon-dawn {
+  z-index: -2;
   position: absolute;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,1));
+  left: 5%;
+  top: 8%;
 }
 
 .sunmoon-morning {
+  z-index: -2;
   position: absolute;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,194,43,1));
+  left: 25%;
+  top: 0;
 }
 
 .sunmoon-afternoon {
+  z-index: -2;
   position: absolute;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,186,16,1));
+  right: 25%;
+  top: 0;
 }
 
 .sunmoon-evening {
+  z-index: -2;
   position: absolute;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,1));
+  right: 5%;
+  top: 25%;
 }
 
 .sunmoon-night {
+  z-index: -2;
   position: absolute;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,.7));
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
+  left: 20%;
+  top: 7%;
 }
 
 .meridian {
