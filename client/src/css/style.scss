@@ -348,10 +348,13 @@ $blink-seconds: 4s;
 $blink-delay: 2s;
 $wave-seconds: 1.5s;
 $wave-delay: 1s;
-$right-arm-sway-seconds: 2s;
+$right-arm-sway-seconds: 4s;
+$tail-sway-seconds: 3s;
 
 
 /* Stego Keyframe Animations */
+
+// Left Eye Blink
 @-webkit-keyframes left-eye-blink {
   0% {transform: translate($left-eye-pos) scale(1,1);}
   2% {transform: translate($left-eye-pos) scale(1,0);}
@@ -365,6 +368,7 @@ $right-arm-sway-seconds: 2s;
   animation-delay: $blink-delay;
 }
 
+// Right Eye Blink
 @-webkit-keyframes right-eye-blink {
   0% {transform: translate($right-eye-pos) scale(1,1);}
   2% {transform: translate($right-eye-pos) scale(1,0);}
@@ -377,6 +381,7 @@ $right-arm-sway-seconds: 2s;
   -webkit-animation: right-eye-blink $blink-seconds linear infinite;
 }
 
+// Left Hand Wave
 @-webkit-keyframes wave {
   0% {transform: translate($leftarm-pos) rotate(0deg)};
   20% {transform: translate($leftarm-pos) rotate(135deg)};
@@ -390,15 +395,28 @@ $right-arm-sway-seconds: 2s;
   -webkit-animation: wave $wave-seconds $wave-delay;
 }
 
+// Right Arm Sway
 @-webkit-keyframes right-arm-sway {
-  0% {transform: translate($rightarm-pos) rotate(-5deg)};
-  50% {transform: translate($rightarm-pos) rotate(5deg)};
-  100% {transform: translate($rightarm-pos) rotate(-5deg)};
+  0% {transform: translate($rightarm-pos) rotate(-2.5deg)};
+  50% {transform: translate($rightarm-pos) rotate(2.5deg)};
+  100% {transform: translate($rightarm-pos) rotate(-2.5deg)};
 }
 
 @mixin right-arm-sway {
   -webkit-animation: right-arm-sway $right-arm-sway-seconds ease-in-out infinite;
 }
+
+// Tail Sway
+@-webkit-keyframes tail-sway {
+  0% {transform: translate($tail-pos) rotate(0deg)};
+  50% {transform: translate($tail-pos) rotate(2deg)};
+  100% {transform: translate($tail-pos) rotate(0deg)};
+}
+
+@mixin tail-sway {
+  -webkit-animation: tail-sway $tail-sway-seconds ease-in-out infinite;
+}
+
 
 // .animated {
 //   -webkit-animation-duration: 1s;
@@ -504,6 +522,8 @@ $right-arm-sway-seconds: 2s;
   height: $tail-height;
   background-image: url('../images/stego-parts/stego-tail.png');
   position: absolute;
+  transform-origin: center left;
   transform: translate($tail-pos);
   z-index: $tail-z;
+  @include tail-sway;
 }
