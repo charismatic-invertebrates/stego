@@ -45,9 +45,72 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+// Landscape Keyframes
 
+@-webkit-keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: bottom right;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 40deg);
+    -webkit-transform-origin: bottom right;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(-35px, 158px, 200px);
+  }
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+// Animation mixins
+@mixin rotating {
+  -webkit-animation: rotating 120s linear infinite;
+  animation: rotating 120s linear infinite;
+}
+
+@mixin hinge {
+  -webkit-animation-name: hinge;
+  animation-name: hinge;
+}
+
+
+@mixin fadein {
+  -webkit-animation: fadein 1s;
+  animation: fadein 1s;
+}
 
 /* Main */
+
+html, img {
+  @include fadein;
+}
+
 
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -89,6 +152,7 @@ h2 {
 }
 
 .latenight, .dawn, .morning, .afternoon, .evening, .night {
+  @include fadein;
   position: fixed;
   top: 0;
   left: 0;
@@ -131,6 +195,7 @@ h2 {
   position: absolute;
   background-position: bottom center;
   z-index: -1;
+  @include fadein;
 }
 
 .landscape.latenight {
@@ -207,6 +272,7 @@ h2 {
   -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
   left: 20%;
   top: 7%;
+  @include rotating;
 }
 
 .meridian {
@@ -263,6 +329,8 @@ h2 {
   // background: midnightblue;
 }
 
+
+
 // Stego Asset Sizes
 $eye-size: 14px;
 $body-width: 227px;
@@ -283,7 +351,7 @@ $tail-height: 96px;
 // Stego Asset Positions (X,Y)
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
-$leftarm-pos: -4px, 105px;
+$leftarm-pos: 5px, 105px;
 $rightarm-pos: 120px, 203px;
 $leftleg-pos: 60px, 310px;
 $rightleg-pos: 115px, 310px;
@@ -300,6 +368,36 @@ $rightleg-z: 7;
 $mouth-z: 8;
 $tail-z: 6;
 
+// Stego Timing
+$blink-seconds: 4s;
+$blink-delay: 2s;
+
+// Stego Keyframes
+@-webkit-keyframes left-eye-blink {
+  0% {transform: translate($left-eye-pos) scale(1,1);}
+  5% {transform: translate($left-eye-pos) scale(1,0);}
+  8% {transform: translate($left-eye-pos) scale(1,0);}
+  10% {transform: translate($left-eye-pos) scale(1,1);}
+  100% {transform: translate($left-eye-pos) scale(1,1);}
+}
+
+@mixin left-eye-blink {
+  -webkit-animation: left-eye-blink $blink-seconds linear infinite;
+  animation-delay: $blink-delay;
+}
+
+@-webkit-keyframes right-eye-blink {
+  0% {transform: translate($right-eye-pos) scale(1,1);}
+  5% {transform: translate($right-eye-pos) scale(1,0);}
+  8% {transform: translate($right-eye-pos) scale(1,0);}
+  10% {transform: translate($right-eye-pos) scale(1,1);}
+  100% {transform: translate($right-eye-pos) scale(1,1);}
+}
+
+@mixin right-eye-blink {
+  -webkit-animation: right-eye-blink $blink-seconds linear infinite;
+  animation-delay: $blink-delay;
+}
 
 .stego-body {
   margin: 0 auto;
@@ -310,7 +408,7 @@ $tail-z: 6;
 }
 
 .eye {
-  background-color: black;
+  background-color: black; 
   border-radius: 50%;
   border-width: 1px;
   border-style: solid;
@@ -322,11 +420,13 @@ $tail-z: 6;
 }
 
 .eye.left-eye {
-  transform: translate($left-eye-pos);
+  @include left-eye-blink;
+  // transform: translate($left-eye-pos);
 }
 
 .eye.right-eye {
-  transform: translate($right-eye-pos);
+  @include right-eye-blink;
+  // transform: translate($right-eye-pos);
 }
 
 .mouth {
@@ -398,37 +498,10 @@ $tail-z: 6;
   animation-iteration-count: infinite;
 }
 
-.animated.hinge {
+.animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
-}
-
-@-webkit-keyframes hinge {
-  0% {
-    -webkit-transform-origin: top left;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  20%, 60% {
-    -webkit-transform: rotate3d(0, 0, 1, 80deg);
-    -webkit-transform-origin: bottom right;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  40%, 80% {
-    -webkit-transform: rotate3d(0, 0, 1, 40deg);
-    -webkit-transform-origin: bottom right;
-    -webkit-animation-timing-function: ease-in-out;
-  }
-
-  100% {
-    -webkit-transform: translate3d(0, 700px, 0);
-    transform: translate3d(-35px, 158px, 200px);
-  }
-}
-
-
-.hinge {
-  -webkit-animation-name: hinge;
-  animation-name: hinge;
+  -webkit-animation-delay: .5s;
+  animation-delay: .5s;
+  @include hinge;
 }
