@@ -12,7 +12,6 @@ module.exports = {
   // Save a new user in our database
   saveUser: function(req, res, userAccount) {
 
-    console.log('IS THIS WHAT I EXPECT IT TO BE?', userAccount);
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
     
@@ -35,7 +34,6 @@ module.exports = {
 
     createUser(newUser)
       .then(function(createdUser) {
-        console.log('MONGO USER', createdUser);
         res.json(createdUser);
         module.exports.findUser(createdUser.xid);
         createUserServer(newUserServer)
@@ -48,16 +46,23 @@ module.exports = {
       });
   },
 
-  getUser: function(req, res, next) {
-    module.exports.findUser(req.url.split('xid=')[1], res);
+  loadUser: function(req, res, next) {
+    // Promisify User.findOne, looks up a client-safe user account
+    var findOneUser = Q.nbind(User.findOne, User);
+    // Extract uniqueID from request parameters
+    var xid = req.url.split('xid=')[1];
+
+    // Use uniqueID to lookup user account
+    findOneUser({xid: xid})
+      .then(function(foundUser) {
+        if(foundUser) {
+          // return found user
+          res.json(foundUser);
+        } else {
+          // or inform client that the user does not exist
+          res.send(404, 'User not Found');
+        }
+      });
   },
 
-  findUser: function(xid, res) {
-    var findOneUser = Q.nbind(User.findOne, User);
-
-    return findOneUser({xid: xid})
-      .then(function(foundUser) {
-        res.json(foundUser);
-      });
-  }
 };

@@ -256,9 +256,10 @@ var App = React.createClass({
           }
         };
         break;
-        case 'server-getAccount':
+        // This case passes the userID from localStorage, and returns the user's info if there is a user corresponding to that xid.
+        case 'server-loadAccount':
         callParams = {
-          url: 'http://localhost:8000/api/user/',
+          url: 'http://localhost:8000/api/user/load',
           data: {
             xid: localStorage.xid,
           },
@@ -310,8 +311,9 @@ var App = React.createClass({
         }
       },
 
-      getServerAccount: function(){
-        app.auth.makeRequest('server', 'getAccount');
+      // Make a call to server to re-load the data being stored in the database.
+      loadServerAccount: function(){
+        app.auth.makeRequest('server', 'loadAccount');
       },
       
       // This function is modularized to make all GET requests for all APIs
