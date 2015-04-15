@@ -31,10 +31,7 @@ module.exports = {
     createUser(newUser)
       .then(function(createdUser) {
         console.log('MONGO USER', createdUser);
-      //   if (createdUser) {
-      //     res.json(createdUser);
-      //   }
-      // })
+        module.exports.findUser(createdUser.xid);
       })
       .fail(function(error) {
         console.log(error);
@@ -44,5 +41,14 @@ module.exports = {
   getUser: function(req, res, next) {
     console.log(req);
     res.send('This is totally working');
+  },
+
+  findUser: function(xid) {
+    var findOneUser = Q.nbind(User.findOne, User);
+
+    findOneUser({xid: xid})
+      .then(function(foundUser) {
+        console.log('I FOUND THIS FOR YOU: ', foundUser);
+      });
   }
 };
