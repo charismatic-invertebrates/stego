@@ -32,28 +32,14 @@ module.exports = function(provider, usage, param) {
 
     case 'github-repos': 
       callParams = {
-        url: app.state.userInfo.github.reposUrl,
-        data: {access_token: app.state.userInfo.github.token},
-        callback: function(repos){
-          var reposList = [];
-          
-          repos.forEach(function(repo) {
-            reposList.push(repo.name);
-          });
-          updateState({
-            userInfo: {github: {
-              repos: {$set: reposList}
-            }}
-          });
-          // console.log('Saved user repos: ', reposList);
-          // console.log('Confirm via log User');
-
-          app.state.userInfo.github.repos.forEach(function(repo) {
-            app.auth.makeRequest('github', 'commits', repo);
-          });
+        url: param.user.reposUrl,
+        headers: {
+          'User-Agent': 'GitFit',
+          Authorization: 'token ' + param.accessToken
         }
       };
       break;
+      
     case 'github-commits':
       callParams = {
         url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day,

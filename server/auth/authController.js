@@ -42,23 +42,32 @@ var auth = {
         var githubUser = JSON.parse(response[1]);
         userAccounts.github.user = {
           id: githubUser.id,
+          reposUrl: githubUser.repos_url,
           username: githubUser.login,
           name: githubUser.name
         };
         return userAccounts;
       })
+      // Get Github Repo information
       .then(function(userAccounts) {
-        console.log('expect both tokens: ', userAccounts);
+        var githubRepoParams = assignRequestParams('github', 'repos', userAccounts.github);
+        return deferredRequest(githubRepoParams);
+      })
+      // Extract individual repo names and store:
+      .then(function(response){
+        var repos = JSON.parse(response[1]);
+        var repoList = [];
+        repos.forEach(function(repo) {
+          repoList.push(repo.name);
+        });
+        userAccounts.github.repos = repoList;
+      })
+      .then(function() {
+        console.log('Do we have our repos?', userAccounts);
+      })
+      .catch(function(error) {
+        console.error(error);
       });
-
-
-
-
-
-        //       .then(function(userAccounts){
-        //         userCtrl.saveUser(req, res, userAccounts);
-        //       });
-
 
         //       get user info from jawbone
         //       .then(function(userAccounts){
