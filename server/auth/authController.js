@@ -5,57 +5,18 @@
 
 var Q = require('q');
 var request = require('request');
-var keys = require('../config/secureAuth.js');
+var assignRequestParams = require('./requestParameters.js');
 var userCtrl = require('../users/userController.js');
 
 var auth = {
-  // This function assigns paramaters for an API request.
-  assignReqParams: function(provider, usage, param){
-    var call = provider + '-' + usage;
-    var paramStore = {
-      
-      'github-getToken': {
-        uri: 'https://github.com/login/oauth/access_token',
-        redirect_uri: 'http://localhost:8000',
-        method: 'GET',
-        body: {
-          code: param,
-          'client_id': keys.github.clientID,
-          'client_secret': keys.github.clientSecret
-        },
-        json: true
-      },
-
-      'github-getUser': {
-        headers: {
-          'User-Agent': 'GitFit',
-          Authorization: 'token ' + param
-        },
-        url: 'https://api.github.com/user',
-      },
-
-      'jawbone-getToken': {
-        uri: 'https://jawbone.com/auth/oauth2/token?client_id=' + keys.jawbone.clientID + 
-          '&client_secret=' + keys.jawbone.clientSecret + 
-          '&grant_type=authorization_code' +
-          '&code=' + param,
-      },
-
-      'jawbone-getUser':{
-        url: 'https://jawbone.com/nudge/api/v.1.1/users/@me',
-        headers: {'Authorization': 'Bearer ' + param},  
-      }
-    };
-
-    return paramStore[call];
-  },
 
   // Save a new user in our database
   getTokenFromCode: function(req, res, next){
     var userAccounts = req.query.accountCodes;
-    var tokenParams = auth.assignReqParams('github', 'getToken', userAccounts.github.code);
-    var fitnessParams = auth.assignReqParams(userAccounts.fitness.provider, 'getToken', userAccounts.fitness.code);
+    var tokenParams = assignRequestParams('github', 'getToken', userAccounts.github.code);
+    var fitnessParams = assignRequestParams(userAccounts.fitness.provider, 'getToken', userAccounts.fitness.code);
     var deferredGet = Q.nfbind(request);
+
     deferredGet(tokenParams)
       .then(function(body){
         userAccounts.github.accessToken = body[0].body.access_token;
@@ -69,7 +30,7 @@ var auth = {
         })        
           // get user info from github 
           .then(function(userAccounts){
-            var githubUserParams = auth.assignReqParams('github', 'getUser', userAccounts.github.accessToken);
+            var githubUserParams = assignRequestParams('github', 'getUser', userAccounts.github.accessToken);
             deferredGet(githubUserParams)
               .then(function(body){
                 var parsedBody = JSON.parse(body[0].body);
@@ -86,7 +47,7 @@ var auth = {
               });
               // get user info from jawbone
               // .then(function(userAccounts){
-              //   var fitnessUserParams = auth.assignReqParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
+              //   var fitnessUserParams = assignRequestParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
               //   deferredGet(fitnessUserParams)
               //     .then(function(body, req){
               //       var parsedBody = JSON.parse(body[1]);
