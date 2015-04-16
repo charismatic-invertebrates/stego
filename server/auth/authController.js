@@ -6,8 +6,7 @@
 var Q = require('q');
 var request = require('request');
 var keys = require('../config/secureAuth.js');
-var user = require('../users/userController.js');
-var $ = require('jquery');
+var userCtrl = require('../users/userController.js');
 
 var auth = {
   // This function assigns paramaters for an API request.
@@ -83,7 +82,7 @@ var auth = {
                 return userAccounts;
               })
               .then(function(userAccounts){
-                console.log('can we return something from a save?', user.saveUser(req, res, userAccounts));
+                userCtrl.saveUser(req, res, userAccounts);
               });
               // get user info from jawbone
               // .then(function(userAccounts){

@@ -9,12 +9,13 @@ var UserServer = require('./userServerModel.js');
 
 module.exports = {
 
-  // Save a new user in our database
+  // Save a new user in our database (called from authController)
   saveUser: function(req, res, userAccount) {
-
+    var findOneUser = Q.nbind(User.findOne, User);
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
     
+    // Populate the User information that we want to save
     var newUser = {
       xid: userAccount.github.user.id,
       githubUsername: userAccount.github.user.username,
@@ -25,6 +26,7 @@ module.exports = {
       steps: 'steps are incoming',
     };
 
+    // Populate the UserServer information that we want to save
     var newUserServer = {
       xid: userAccount.github.user.id,
       provider: userAccount.fitness.provider,
@@ -32,17 +34,26 @@ module.exports = {
       fitnessToken: userAccount.fitness.accessToken,
     };
 
-    createUser(newUser)
-      .then(function(createdUser) {
-        res.json(createdUser);
-        module.exports.findUser(createdUser.xid);
-        createUserServer(newUserServer)
-          .fail(function(error) {
-            console.log(error);
-          });
-      })
-      .fail(function(error) {
-        console.log(error);
+    // Check the database for the user
+    findOneUser({xid: newUser.xid})
+      .then(function(foundUser) {
+        // If we found a user under that xid, then return that user
+        if(foundUser) {
+          console.log('I found one!');
+          res.json(foundUser);
+          // Otherwise we create a user and userServer document for that user's information
+        } else {
+          createUser(newUser)
+            .then(function(createdUser) {
+              res.json(createdUser);
+            })
+            .then(function() {
+              createUserServer(newUserServer);
+            })
+            .fail(function(error) {
+              console.error(error);
+            });
+        }
       });
   },
 

@@ -242,9 +242,9 @@ var App = React.createClass({
             }
           };
           break;
-        case 'paired-getTokens':
+        case 'paired-createAccount':
         callParams = {
-          url: 'http://localhost:8000/api/auth/getToken/',
+          url: 'http://localhost:8000/api/auth/createAccount/',
           data: {
             accountCodes: param,
           },
@@ -307,7 +307,7 @@ var App = React.createClass({
               code: user.fitness.code
             }
           }
-          app.auth.makeRequest('paired', 'getTokens', accounts);
+          app.auth.makeRequest('paired', 'createAccount', accounts);
         }
       },
 
