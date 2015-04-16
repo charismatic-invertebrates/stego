@@ -48,9 +48,9 @@ var Landscape = React.createClass({
     var meridian;
 
     if (hour < 12) {
-      meridian = 'a.m.';
+      meridian = 'AM';
     } else {
-      meridian = 'p.m.';
+      meridian = 'PM';
     }
 
     return meridian;    

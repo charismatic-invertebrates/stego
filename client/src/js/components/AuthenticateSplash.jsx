@@ -1,5 +1,4 @@
 var React = require('react');
-var Blur = require('react-blur');
 
 var AuthenticateSplash = React.createClass({
 
@@ -29,15 +28,14 @@ var AuthenticateSplash = React.createClass({
   render: function() {
     return (
       <div className='sign-in-container'>
+        <img className="logo" src="./images/stego-logo.png"/>
         <div className='button-container'>
-          <a className="button" onClick={this.loginUser.bind(null, 'jawbone')}>Login to Jawbone</a>
-          <a className="button" onClick={this.loginGithub}>Login to Github</a>
-          <a className="button" onClick={this.pairAccounts}>Pair Accounts</a>
-          <a className="button" onClick={this.getAccount}>Get Account from Server</a>
+          <a className="button" onClick={this.loginGithub}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
+          <div className="or">
+            <p>or</p>
+          </div>
+          <a className="button" onClick={this.getAccount}>Sign Up</a>
         </div>
-        <Blur img='../images/landscape/landscape-dawn.png' blurRadius={5}>
-            The content.
-        </Blur>
       </div>
     );
   }

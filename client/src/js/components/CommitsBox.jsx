@@ -16,7 +16,6 @@ var CommitsBox = React.createClass({
   syncAccount: function() {
     this.props.auth.syncAccount();
   },
-
   render: function() {
     return (
       <div className="commits-box">
