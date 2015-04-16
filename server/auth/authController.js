@@ -82,50 +82,20 @@ var auth = {
           // deferredRequest('github', 'commits', repo);
         // console.log('Do we have our repos?', userAccounts);
       })
+      // Get user's Fitness Tracker's step-count
       .then(function() {
+        var fitnessStepsParams = assignRequestParams(userAccounts.fitness.provider, 'steps', userAccounts.fitness.accessToken);
+        return deferredRequest(fitnessStepsParams);
+      })
+      // Store user's steps
+      .then(function(response) {
+        userAccounts.fitness.user = JSON.parse(response[1].data);
         res.json(userAccounts);
       })
       .catch(function(error) {
         console.error(error);
+        res.send('We dun goofed');
       });
-
-        //       get user info from jawbone
-        //       .then(function(userAccounts){
-        //         var fitnessUserParams = assignRequestParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
-        //         deferredRequest(fitnessUserParams)
-        //           .then(function(body, req){
-        //             var parsedBody = JSON.parse(body[1]);
-        //             console.log('parsedBody', parsedBody);
-        //             // userAccounts.fitness.user = {
-        //             // xid: parsedBody.data.xid,
-        //             // name: parsedBody.name
-        //             // };
-        //           });
-        //       })
-        //       .then(function(userAccounts){
-        //         console.log('userAccounts', userAccounts);
-        //       }); 
-        //   });
-      // });
-
-    // .then()
-    // get user info from fitnessProvider
-    // .then()
-    // save user in database by github unique id if info from both services is available
-    // .then()
-    // deferred.resolve(req.query.accountCodes);
-
-  },
-
-  getRequest: function(param, cb){
-    request(param, function(err, res, body){
-      if(err) {
-        console.log(err);
-      } else {
-        console.log('DOING A GET REQUEST WITH THESE PARAMATERS:', param);
-        cb(body);
-      }
-    });
   },
 };
 

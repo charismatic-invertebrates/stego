@@ -77,20 +77,13 @@ module.exports = function(provider, usage, param, loopedParam) {
       };
       break;
 
-    case 'jawbone-moves':
+    case 'jawbone-steps':
       callParams = {
         url: 'https://jawbone.com/nudge/api/v.1.1/users/@me/moves',
-        header: {'Authorization': 'Bearer ' + app.state.userInfo.fitness.token},  
-        callback: function(res){
-          console.log(res);
-          updateState({
-            userInfo: {fitness: {
-              moves: {$set: res.data},
-            }}
-          });
-        }
+        headers: {'Authorization': 'Bearer ' + param},  
       };
       break;
+      
     }
   return callParams;
 };
