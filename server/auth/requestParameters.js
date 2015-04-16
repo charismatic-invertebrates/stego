@@ -1,6 +1,6 @@
 var keys = require('../config/secureAuth.js');
 
-module.exports = function(provider, usage, param) {
+module.exports = function(provider, usage, param, loopedParam) {
   var callLoc = provider + '-' + usage;
 
   // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
@@ -39,21 +39,25 @@ module.exports = function(provider, usage, param) {
         }
       };
       break;
-      
+ 
     case 'github-commits':
       callParams = {
-        url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.day,
-        data: {access_token: app.state.userInfo.github.token},
-        callback: function(commits) {
-          commits.forEach(function(commitInfo) {
-            updateState({
-              userInfo: {github: {
-                commitsByRepo: {$push: [{repo: param, stats: commitInfo}]},
-                totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
-              }}
-            });
-          });
-        }
+        url: 'https://api.github.com/repos/' + param.github.user.username + '/' + loopedParam + '/commits?author=' + param.github.user.username, //+ '&since=' + app.state.day,
+        headers: {
+          'User-Agent': 'GitFit',
+          Authorization: 'token ' + param.github.accessToken
+        },
+        repoName: loopedParam
+        // callback: function(commits) {
+        //   commits.forEach(function(commitInfo) {
+        //     updateState({
+        //       userInfo: {github: {
+        //         commitsByRepo: {$push: [{repo: param, stats: commitInfo}]},
+        //         totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
+        //       }}
+        //     });
+        //   });
+        // }
       };
       break;
 

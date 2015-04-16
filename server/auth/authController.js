@@ -43,6 +43,7 @@ var auth = {
         userAccounts.github.user = {
           id: githubUser.id,
           reposUrl: githubUser.repos_url,
+          commits: [],
           username: githubUser.login,
           name: githubUser.name
         };
@@ -62,8 +63,27 @@ var auth = {
         });
         userAccounts.github.repos = repoList;
       })
+      // Extract commit information by repo and store on userAccounts:
       .then(function() {
-        console.log('Do we have our repos?', userAccounts);
+        var repoUrlsToCall = userAccounts.github.repos.map(function(repo) {
+          return assignRequestParams('github', 'commits', userAccounts, repo);
+        });
+
+        return Q.all(repoUrlsToCall.map(function(callParam) {
+          deferredRequest(callParam)
+            .then(function(response) {
+              userAccounts.github.user.commits.push({
+                repo: callParam.repoName,
+                commitsByRepo: JSON.parse(response[1])
+              });
+            });
+        }));
+        
+          // deferredRequest('github', 'commits', repo);
+        // console.log('Do we have our repos?', userAccounts);
+      })
+      .then(function() {
+        res.json(userAccounts);
       })
       .catch(function(error) {
         console.error(error);
