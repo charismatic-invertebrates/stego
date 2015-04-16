@@ -20,7 +20,7 @@ var App = React.createClass({
           token: null,
           code: null
           commitsByWeek: [],
-          weeklyCommits: {},
+          weeklyCommits: [],
           dailyCommits: 0,
           token: null
         },
@@ -201,7 +201,7 @@ var App = React.createClass({
               commits.forEach(function(commitInfo) {
                 // Isolate date
                 var currentDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-                var count;
+                /*var count;
 
                 // Check if date exists in week object
                 if (app.state.userInfo.github.weeklyCommits[currentDate] === undefined) {
@@ -211,7 +211,15 @@ var App = React.createClass({
                 }
 
                 // Update count at current date in object
-                app.state.userInfo.github.weeklyCommits[currentDate] = count;
+                app.state.userInfo.github.weeklyCommits[currentDate] = count;*/
+                
+                updateState({
+                  userInfo: {
+                    github: {
+                      weeklyCommits: {$push: [currentDate]}
+                    }
+                  }
+                });
               });
             }
           };

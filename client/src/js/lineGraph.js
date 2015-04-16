@@ -4,21 +4,25 @@ function lineGraphDefaultSettings() {
   };
 }
 
-function drawLineGraph(elementId) {
+function drawLineGraph(elementId, data) {
   var graph = d3.select('#' + elementId);
   var width = graph.attr('width');
   var height = graph.attr('height');
+  var parseDate = d3.time.format('%Y-%m-%d').parse;
+
+  data.forEach(function(d) {
+    console.log(d);
+    d.date = parseDate(d.date);
+  });
 
   // line generator
-//   var line = d3.svg.line()
-//     .interpolate('basis')
-//     .x(function(d) { return x(d.date); })
-//     .y(function(d) { return y(d.price); });
-// }
+  var line = d3.svg.line()
+    .interpolate('basis')
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.commits); });
 
-// function lines(width, height) {
-  var x = d3.time.scale().range([0, width - 60]);
-  var y = d3.scale.linear().range([height / 4 - 20, 0]);
+  var x = d3.time.scale().range([0, width]);
+  var y = d3.scale.linear().range([height, 0]);
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -26,8 +30,11 @@ function drawLineGraph(elementId) {
     .tickFormat(d3.time.format('%A'));
 
   graph.append('g')
-    .attr('fill', '#1ff')
     .call(xAxis);
+
+  graph.append('path')
+    .datum(data)
+    .attr('d', line);
 }
 
 function updateLineGraph(elementId) {

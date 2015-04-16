@@ -1,44 +1,38 @@
 var React = require('react');
 
 var CommitsOverTime = React.createClass({
-  // getData: function() {
-  //   return {
-
-  //   }
-  // },
 
   drawChart: function() {
-    var el = React.findDOMNode(this);
-    // var config = lineGraphDefaultSettings();
-    // config.maxValue = this.props.max;
-
-    var data = [];
+    var chartData = [];
     var weeklyCommits = this.props.user.github.weeklyCommits;
+    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-    weeklyCommits.forEach(function(savedDate) {
-      data.push({
-        'date': new Date(savedDate.getDay())
-      });
-    });
+    if (weeklyCommits.length > 0) {
+      weeklyCommits.forEach(function(savedDate) {
+        // convert date to day
+        var dayNumber = new Date(savedDate).getDay();
+        var day = days[dayNumber];
+        var found = false;
 
-/*    // for each repository
-    weeklyCommits.forEach(function(repository) {
-      // for each stats object in repo
-      repository.stats.forEach(function(stat) {
-        // if current week is not yet in object
-        // add it to object with number of corresponding commits
-        if (allWeeksStats[stat.w] === undefined) {
-          // console.log(stat.w, stat.c)
-          allWeeksStats[stat.w] = 0;
+        for (var i = 0; i < chartData.length; i++) {
+          if (chartData[i]['date'] === savedDate) {
+            found = true;
+            chartData[i]['commits'] += 1;
+          }
         }
-        // else add corresponding commits to current week in object
-        allWeeksStats[stat.w] += stat.c;
-      });
-    });
 
-    console.log(allWeeksStats);
-*/
-    // drawLineGraph(this.props.parentId, this.props.currentValue);
+        if (!found) {
+          chartData.push({
+            'date': savedDate,
+            'day': day,
+            'commits': 1
+          });
+        }
+      });
+
+      drawLineGraph(this.props.parentId, chartData);
+    }
+
   },
 
   updateChart: function() {
@@ -49,20 +43,20 @@ var CommitsOverTime = React.createClass({
     updateLineGraph(this.props.parentId, this.props.currentValue);
   },
 
-  componentDidMount: function() {
-  },
-
-  componentDidUpdate: function() {
-    this.drawChart();
-  },
-
-  // shouldComponentUpdate: function(nextProps) {
-  //   if (nextProps.user.github.weeklyCommits !== this.props.user.github.weeklyCommits) {
-  //     this.drawChart();
-  //   }
-
-  //   return true;
+  // componentDidMount: function() {
   // },
+
+  // componentDidUpdate: function() {
+  //   this.drawChart();
+  // },
+
+  shouldComponentUpdate: function(nextProps) {
+    if (nextProps.user.github.weeklyCommits.length !== this.props.user.github.weeklyCommits.length) {
+      this.drawChart();
+    }
+
+    return true;
+  },
 
   render: function() {
     return (
