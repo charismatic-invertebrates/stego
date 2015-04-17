@@ -8,7 +8,6 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      showLogin: true,
       // This property holds all user properties
       userInfo: {
         github: {
