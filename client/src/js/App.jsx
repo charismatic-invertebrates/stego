@@ -43,6 +43,7 @@ var App = React.createClass({
     };
   },
 
+  // This binds the current 'this' context to auth.js.  This allows auth.js access to the 'this.state' variables.  We then invoke it, which returns the login, pair, and load functions required to run the app.  getParams and makeRequest and locked in the closuer scope.
   componentWillMount: function() {
     this.state.auth = auth.bind(this)();
   },

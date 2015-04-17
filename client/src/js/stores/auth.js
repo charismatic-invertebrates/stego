@@ -1,9 +1,8 @@
 var React = require('react/addons');
-// var app = require('../App.jsx');
-var keys = require('../../../../server/config/secureAuth.js');
+var keys = require('../../../../server/config/clientKeys.js');
 var $ = require('jquery');
 
-
+// We provide App.jsx with a function.  App.jsx binds the 'this' context and invokes auth, returning to it the functions in needs to make calls, and giving auth read/write capabilities on App.jsx's 'this.state' variables.
 var auth = function(){
   var app = this;
 
@@ -98,6 +97,7 @@ var auth = function(){
     });
   };
 
+  // After App.jsx invokes auth.js, we only return these three functions that App.jsx needs access to.
   return {
     // This function is modularized to handle all Login requests for all APIs.  It routes our app information through chrome to a given provider, and returns a code we can exchange for a token to gain access to the API
     login: function(provider) {
