@@ -4,124 +4,99 @@
 // The Auth controller handles requests passed from the User router.
 
 var Q = require('q');
-var request = require('request');
-var keys = require('../config/secureAuth.js');
-var user = require('../users/userController.js');
-var $ = require('jquery');
+var deferredRequest = Q.nfbind(require('request'));
+var assignRequestParams = require('./requestParameters.js');
+var userCtrl = require('../users/userController.js');
 
 var auth = {
-  // This function assigns paramaters for an API request.
-  assignReqParams: function(provider, usage, param){
-    var call = provider + '-' + usage;
-    var paramStore = {
-      
-      'github-getToken': {
-        uri: 'https://github.com/login/oauth/access_token',
-        redirect_uri: 'http://localhost:8000',
-        method: 'GET',
-        body: {
-          code: param,
-          'client_id': keys.github.clientID,
-          'client_secret': keys.github.clientSecret
-        },
-        json: true
-      },
-
-      'github-getUser': {
-        headers: {
-          'User-Agent': 'GitFit',
-          Authorization: 'token ' + param
-        },
-        url: 'https://api.github.com/user',
-      },
-
-      'jawbone-getToken': {
-        uri: 'https://jawbone.com/auth/oauth2/token?client_id=' + keys.jawbone.clientID + 
-          '&client_secret=' + keys.jawbone.clientSecret + 
-          '&grant_type=authorization_code' +
-          '&code=' + param,
-      },
-
-      'jawbone-getUser':{
-        url: 'https://jawbone.com/nudge/api/v.1.1/users/@me',
-        headers: {'Authorization': 'Bearer ' + param},  
-      }
-    };
-
-    return paramStore[call];
-  },
 
   // Save a new user in our database
-  getTokenFromCode: function(req, res, next){
+  createNewUserAccount: function(req, res, next){
     var userAccounts = req.query.accountCodes;
-    var tokenParams = auth.assignReqParams('github', 'getToken', userAccounts.github.code);
-    var fitnessParams = auth.assignReqParams(userAccounts.fitness.provider, 'getToken', userAccounts.fitness.code);
-    var deferredGet = Q.nfbind(request);
-    deferredGet(tokenParams)
-      .then(function(body){
-        userAccounts.github.accessToken = body[0].body.access_token;
-        return userAccounts;
+    
+    // Get Github token from code
+    var githubTokenParams = assignRequestParams('github', 'getToken', userAccounts.github.code);
+    deferredRequest(githubTokenParams)
+      // Save token to userAccounts
+      .then(function(response){
+        userAccounts.github.accessToken = response[1].access_token;
       })
-      .then(function(userAccounts){
-        deferredGet(fitnessParams)
-          .then(function(body){
-            userAccounts.fitness.accessToken = JSON.parse(body[0].body).access_token;
-            return userAccounts;
-        })        
-          // get user info from github 
-          .then(function(userAccounts){
-            var githubUserParams = auth.assignReqParams('github', 'getUser', userAccounts.github.accessToken);
-            deferredGet(githubUserParams)
-              .then(function(body){
-                var parsedBody = JSON.parse(body[0].body);
-                console.log('JSON.Parse: body[0].body', JSON.parse(body[0].body));
-                userAccounts.github.user = {
-                  id: parsedBody.id,
-                  username: parsedBody.login,
-                  name: parsedBody.name
-                };
-                return userAccounts;
-              })
-              .then(function(userAccounts){
-                console.log('can we return something from a save?', user.saveUser(req, res, userAccounts));
+      // Get Fitness Provider token from code
+      .then(function(){
+        var fitnessParams = assignRequestParams(userAccounts.fitness.provider, 'getToken', userAccounts.fitness.code);
+        return deferredRequest(fitnessParams);
+      })
+      // Save Fitness token to userAccounts
+      .then(function(response) {
+        userAccounts.fitness.accessToken = JSON.parse(response[1]).access_token;
+      })
+      // Get Github User information
+      .then(function() {
+        var githubUserParams = assignRequestParams('github', 'getUser', userAccounts.github.accessToken);
+        return deferredRequest(githubUserParams);
+      })
+      // Store Github User information
+      .then(function(response) {
+        var githubUser = JSON.parse(response[1]);
+        userAccounts.github.user = {
+          id: githubUser.id,
+          reposUrl: githubUser.repos_url,
+          commits: [],
+          username: githubUser.login,
+          name: githubUser.name
+        };
+      })
+      // Get Github Repo information
+      .then(function() {
+        var githubRepoParams = assignRequestParams('github', 'repos', userAccounts.github);
+        return deferredRequest(githubRepoParams);
+      })
+      // Extract individual repo names and store:
+      .then(function(response){
+        var repos = JSON.parse(response[1]);
+        var repoList = [];
+        repos.forEach(function(repo) {
+          repoList.push(repo.name);
+        });
+        userAccounts.github.repos = repoList;
+      })
+      // Extract commit information by repo and store on userAccounts:
+      .then(function() {
+        var repoUrlsToCall = userAccounts.github.repos.map(function(repo) {
+          return assignRequestParams('github', 'commits', userAccounts, repo);
+        });
+
+        return Q.all(repoUrlsToCall.map(function(callParam) {
+          return deferredRequest(callParam);
+        }))
+          .then(function(results) {
+            results.forEach(function(response, index) {
+              userAccounts.github.user.commits.push({
+                repo: userAccounts.github.repos[index],
+                commitsByRepo: JSON.parse(response[1])
               });
-              // get user info from jawbone
-              // .then(function(userAccounts){
-              //   var fitnessUserParams = auth.assignReqParams(userAccounts.fitness.provider, 'getUser', userAccounts.fitness.accessToken);
-              //   deferredGet(fitnessUserParams)
-              //     .then(function(body, req){
-              //       var parsedBody = JSON.parse(body[1]);
-              //       console.log('parsedBody', parsedBody);
-              //       // userAccounts.fitness.user = {
-              //       // xid: parsedBody.data.xid,
-              //       // name: parsedBody.name
-              //       // };
-              //     });
-              // })
-              // .then(function(userAccounts){
-              //   console.log('userAccounts', userAccounts);
-              // }); 
+            });
           });
+      })
+      // Get user's Fitness Tracker's step-count
+      .then(function() {
+        var fitnessStepsParams = assignRequestParams(userAccounts.fitness.provider, 'steps', userAccounts.fitness.accessToken);
+        return deferredRequest(fitnessStepsParams);
+      })
+      // Store user's steps
+      .then(function(response) {
+        userAccounts.fitness.user = JSON.parse(response[1]).data;
+      })
+      // Save user account to database
+      .then(function(){
+        // currently sending to client for testing purposes
+        userCtrl.saveUser(res, userAccounts);
+      })
+      // Catch any errors
+      .catch(function(error) {
+        console.error(error);
+        res.send('We dun goofed');
       });
-
-    // .then()
-    // get user info from fitnessProvider
-    // .then()
-    // save user in database by github unique id if info from both services is available
-    // .then()
-    // deferred.resolve(req.query.accountCodes);
-
-  },
-
-  getRequest: function(param, cb){
-    request(param, function(err, res, body){
-      if(err) {
-        console.log(err);
-      } else {
-        console.log('DOING A GET REQUEST WITH THESE PARAMATERS:', param);
-        cb(body);
-      }
-    });
   },
 };
 

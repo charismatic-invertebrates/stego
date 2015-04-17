@@ -6,21 +6,8 @@
 var userController = require('./userController.js');
 
 module.exports = function(app) {
-  // Route from the /api/users path. A GET request returns the user's avatar type and name. A POST request saves the user in the database.
-  // app.route('/')
-  //   .get(function(req, res, next) {
-  //     console.log('userRoutes.js');
-  //     // Get avatar type
-  //     userController.getAvatarType;
-  //     // Go to next handler
-  //     next();
-  //   })
-  //   .get(function(req, res, next) {
-  //     // Get avatar name
-  //     userController.getAvatarName;
-  //   })
-  //   .post(userController.saveUser);
 
-  app.route('/')
-    .get(userController.getUser);
+  // Route from Client which requires user's xid.  Looks up user's xid in db and returns the client-safe user info if it's there
+  app.route('/load')
+    .get(userController.loadUser);
 };
