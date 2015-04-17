@@ -1,4 +1,5 @@
 var React = require('react');
+var auth = require('../stores/auth.js');
 
 var AuthenticateSplash = React.createClass({
 
@@ -12,27 +13,9 @@ var AuthenticateSplash = React.createClass({
     this.setState({showComponent: false});
   },
 
-  //TODO: Check if the person is logged in before rendering
-
-  loginUser: function(service) {
-    this.props.auth.login(service);
-  },
-
-  logUser: function() {
-    console.log(this.props.user);
-  },
-
-  loginGithub: function(e) {
-    this.props.auth.login('github');
-  },
-  
-  // This function logs the user object saved in App.jsx's state
-  pairAccounts: function() {
-    this.props.auth.pairAccounts();
-  },  
-
-  getAccount: function() {
-    this.props.auth.getServerAccount();
+  logUser: function(){
+    console.log(auth.);
+    this.removeComponent();
   },
 
   render: function() {
@@ -42,7 +25,7 @@ var AuthenticateSplash = React.createClass({
       <div className='sign-in-container' style={css}>
         <img className="logo" src="./images/stego-logo.png"/>
         <div className='button-container'>
-          <a className="button" onClick={this.removeComponent}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
+          <a className="button" onClick={this.logUser}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
           <div className="or">
             <p>or</p>
           </div>  

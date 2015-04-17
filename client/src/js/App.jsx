@@ -3,6 +3,7 @@
 var React = require('react');
 var Landscape = require('./components/Landscape.jsx');
 var auth = require('./stores/auth.js');
+var AuthenticateSplash = require('./components/AuthenticateSplash.jsx');
 
 var App = React.createClass({
 
