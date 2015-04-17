@@ -90,7 +90,7 @@ var auth = {
       // Save user account to database
       .then(function(){
         // currently sending to client for testing purposes
-        res.json(userAccounts);
+        userCtrl.saveUser(res, userAccounts);
       })
       // Catch any errors
       .catch(function(error) {

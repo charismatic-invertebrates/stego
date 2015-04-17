@@ -10,7 +10,7 @@ var UserServer = require('./userServerModel.js');
 module.exports = {
 
   // Save a new user in our database (called from authController)
-  saveUser: function(req, res, userAccount) {
+  saveUser: function(res, userAccount) {
     var findOneUser = Q.nbind(User.findOne, User);
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
@@ -20,10 +20,10 @@ module.exports = {
       xid: userAccount.github.user.id,
       githubUsername: userAccount.github.user.username,
       githubName: userAccount.github.user.name,
-      repos: 'repos are incoming',
-      commits: 'commits are incoming',
+      repos: userAccount.github.repos,
+      commits: userAccount.github.user.commits,
       provider: userAccount.fitness.provider,
-      steps: 'steps are incoming',
+      steps: userAccount.fitness.user.items,
     };
 
     // Populate the UserServer information that we want to save
