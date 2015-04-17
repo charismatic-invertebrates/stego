@@ -5,40 +5,26 @@
 
 var Q = require('q');
 var deferredRequest = Q.nfbind(require('request'));
-var assignRequestParams = require('./requestParameters.js');
+var apiHandler = require('../APIs/apiHandler.js');
 var userCtrl = require('../users/userController.js');
+var assignRequestParams = require('../APIs/requestParameters.js');
 
 var auth = {
 
   // Save a new user in our database
   createNewUserAccount: function(req, res, next){
-    var userAccounts = req.query.accountCodes;
+    var userAccount = req.query.accountCodes;
     
-    // Get Github token from code
-    var githubTokenParams = assignRequestParams('github', 'getToken', userAccounts.github.code);
-    deferredRequest(githubTokenParams)
-      // Save token to userAccounts
-      .then(function(response){
-        userAccounts.github.accessToken = response[1].access_token;
-      })
-      // Get Fitness Provider token from code
-      .then(function(){
-        var fitnessParams = assignRequestParams(userAccounts.fitness.provider, 'getToken', userAccounts.fitness.code);
-        return deferredRequest(fitnessParams);
-      })
-      // Save Fitness token to userAccounts
-      .then(function(response) {
-        userAccounts.fitness.accessToken = JSON.parse(response[1]).access_token;
-      })
+    apiHandler.getTokens(userAccount)
       // Get Github User information
       .then(function() {
-        var githubUserParams = assignRequestParams('github', 'getUser', userAccounts.github.accessToken);
+        var githubUserParams = assignRequestParams('github', 'getUser', userAccount.github.accessToken);
         return deferredRequest(githubUserParams);
       })
       // Store Github User information
       .then(function(response) {
         var githubUser = JSON.parse(response[1]);
-        userAccounts.github.user = {
+        userAccount.github.user = {
           id: githubUser.id,
           reposUrl: githubUser.repos_url,
           commits: [],
@@ -48,7 +34,7 @@ var auth = {
       })
       // Get Github Repo information
       .then(function() {
-        var githubRepoParams = assignRequestParams('github', 'repos', userAccounts.github);
+        var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
         return deferredRequest(githubRepoParams);
       })
       // Extract individual repo names and store:
@@ -58,12 +44,12 @@ var auth = {
         repos.forEach(function(repo) {
           repoList.push(repo.name);
         });
-        userAccounts.github.repos = repoList;
+        userAccount.github.repos = repoList;
       })
-      // Extract commit information by repo and store on userAccounts:
+      // Extract commit information by repo and store on userAccount:
       .then(function() {
-        var repoUrlsToCall = userAccounts.github.repos.map(function(repo) {
-          return assignRequestParams('github', 'commits', userAccounts, repo);
+        var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
+          return assignRequestParams('github', 'commits', userAccount, repo);
         });
 
         return Q.all(repoUrlsToCall.map(function(callParam) {
@@ -71,8 +57,8 @@ var auth = {
         }))
           .then(function(results) {
             results.forEach(function(response, index) {
-              userAccounts.github.user.commits.push({
-                repo: userAccounts.github.repos[index],
+              userAccount.github.user.commits.push({
+                repo: userAccount.github.repos[index],
                 commitsByRepo: JSON.parse(response[1])
               });
             });
@@ -80,17 +66,17 @@ var auth = {
       })
       // Get user's Fitness Tracker's step-count
       .then(function() {
-        var fitnessStepsParams = assignRequestParams(userAccounts.fitness.provider, 'steps', userAccounts.fitness.accessToken);
+        var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
         return deferredRequest(fitnessStepsParams);
       })
       // Store user's steps
       .then(function(response) {
-        userAccounts.fitness.user = JSON.parse(response[1]).data;
+        userAccount.fitness.user = JSON.parse(response[1]).data;
       })
       // Save user account to database
       .then(function(){
         // currently sending to client for testing purposes
-        userCtrl.saveUser(res, userAccounts);
+        userCtrl.saveUser(res, userAccount);
       })
       // Catch any errors
       .catch(function(error) {
