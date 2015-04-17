@@ -48,16 +48,6 @@ module.exports = function(provider, usage, param, loopedParam) {
           Authorization: 'token ' + param.github.accessToken
         },
         repoName: loopedParam
-        // callback: function(commits) {
-        //   commits.forEach(function(commitInfo) {
-        //     updateState({
-        //       userInfo: {github: {
-        //         commitsByRepo: {$push: [{repo: param, stats: commitInfo}]},
-        //         totalCommits: {$set: app.state.userInfo.github.totalCommits + 1}
-        //       }}
-        //     });
-        //   });
-        // }
       };
       break;
 

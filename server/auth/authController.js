@@ -11,7 +11,7 @@ var userCtrl = require('../users/userController.js');
 var auth = {
 
   // Save a new user in our database
-  getTokenFromCode: function(req, res, next){
+  createNewUserAccount: function(req, res, next){
     var userAccounts = req.query.accountCodes;
     
     // Get Github token from code
