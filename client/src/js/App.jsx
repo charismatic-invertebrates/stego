@@ -18,7 +18,7 @@ var App = React.createClass({
           commitsByRepo: [],
           totalCommits: 0,
           token: null,
-          code: null
+          code: null,
           weeklyCommits: [],
           dailyCommits: 0
         },
