@@ -122,9 +122,9 @@ var Landscape = React.createClass({
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
-        <StepsPanel auth={this.props.auth} user={this.props.userInfo} />
+        <StepsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10000} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
-        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} />
+        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.dailyCommits} stepsMax={10000} commitsMax={20} />
       </div>

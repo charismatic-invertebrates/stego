@@ -56,8 +56,6 @@ var App = React.createClass({
     this.getStartOfWeek();
   },
 
-/*
-
   // Convert date to current time zone
   convertTime: function(date) {
     // Time zone offset calculator from http://stackoverflow.com/a/28149561
@@ -87,7 +85,7 @@ var App = React.createClass({
     return date;
   },
 
-
+/*
   // Grab all commits that have occurred since the beginning of the week
         case 'github-commits-weekly':
           callParams = {
@@ -114,7 +112,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape userInfo={this.state.userInfo} auth={this.auth} startOfWeek={this.state.week} />
+        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />
       </div>
     );
   }

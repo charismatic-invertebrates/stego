@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var StepsOverTime = require('./StepsOverTime.jsx');
 
 var StepsPanel = React.createClass({
 
@@ -24,12 +25,12 @@ var StepsPanel = React.createClass({
           Steps Progress
         </a>
         <div className="panel steps-panel" ref="stepsPanel">
-          <h2>{this.props.user.fitness.moves}</h2>
+          <h3>Weekly Steps for {this.props.user.fitness.firstName}</h3>
+          <StepsOverTime auth={this.props.auth} user={this.props.user} startOfWeek={this.props.startOfWeek} max={this.props.max} parentId="steps-over-time" />
         </div>
       </div>
     );
   }
-
 });
 
 module.exports = StepsPanel;
