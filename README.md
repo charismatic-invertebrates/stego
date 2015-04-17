@@ -1,6 +1,6 @@
-# Project Name
+# Stego
 
-> GitFit encourages programmers to embrace a balanced and healthy lifestyle by allowing them to adopt a virtual pet that changes based on their physical activity and git commits.
+> Stego encourages programmers to embrace a balanced and healthy lifestyle by allowing them to adopt a virtual pet that changes based on their physical activity and git commits.
 
 ## Team
 

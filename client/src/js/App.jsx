@@ -18,7 +18,9 @@ var App = React.createClass({
           commitsByRepo: [],
           totalCommits: 0,
           token: null,
-          code: null
+          code: null,
+          weeklyCommits: [],
+          dailyCommits: 0
         },
         fitness: {
           provider: null,
@@ -39,7 +41,8 @@ var App = React.createClass({
           }
         }
       },
-      day: this.setDay()
+      day: this.setDay(),
+      week: this.getStartOfWeek()
     };
   },
 
@@ -50,23 +53,66 @@ var App = React.createClass({
 
   componentDidMount: function() {
     this.setDay();
+    this.getStartOfWeek();
   },
 
-  setDay: function() {
+  // Convert date to current time zone
+  convertTime: function(date) {
     // Time zone offset calculator from http://stackoverflow.com/a/28149561
-    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
-    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
+    var tzoffset = new Date().getTimezoneOffset() * 60000;
+    var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
 
-    var startOfDay = localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/g, '00:00:00');
-    // var startOfDayAbbr = startOfDay.replace(/T00:00:00\.[0-9]+/, '');
-
-    return startOfDay;
+    return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
   },
+
+  // Find start of day
+  setDay: function() {
+    return this.convertTime(Date.now());
+  },
+
+  // Find start of week
+  getStartOfWeek: function() {
+    var date = new Date();
+
+    // Start of week calculator from http://stackoverflow.com/a/4156562
+    var day = date.getDay() || 6;
+
+    // Only convert date if not Sunday
+    if (day !== 0) {
+      date.setHours(-24 * day);
+    }
+
+    return date;
+  },
+
+/*
+  // Grab all commits that have occurred since the beginning of the week
+        case 'github-commits-weekly':
+          callParams = {
+            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.convertTime(app.state.week),
+            data: {access_token: app.state.userInfo.github.token},
+            callback: function(commits) {
+              commits.forEach(function(commitInfo) {
+                // Isolate date (e.g., '2015-04-17')
+                var currentDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
+
+                updateState({
+                  userInfo: {
+                    github: {
+                      weeklyCommits: {$push: [currentDate]}
+                    }
+                  }
+                });
+              });
+            }
+          };
+          break;
+*/
 
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} />
+        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />
       </div>
     );
   }

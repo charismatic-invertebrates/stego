@@ -1,8 +1,11 @@
-var React = require('react');
+var React = require('react/addons');
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 var Clock = require('./Clock.jsx');
 var CommitsBox = require('./CommitsBox.jsx');
 var StepsBox = require('./StepsBox.jsx');
 var Dino = require('./Dino.jsx');
+var CommitsPanel = require('./CommitsPanel.jsx');
+var StepsPanel = require('./StepsPanel.jsx');
 
 var Landscape = React.createClass({
 
@@ -14,7 +17,7 @@ var Landscape = React.createClass({
     return {
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
-      meridian: this.checkMeridian()
+      meridian: this.checkMeridian(),
     }
   },
 
@@ -83,21 +86,47 @@ var Landscape = React.createClass({
   },
 
   componentDidMount: function() {
+    var el = React.findDOMNode(this.refs.lscape);
+    setTimeout(function() {
+      el.style.opacity = 1;
+    }, 500);
+    
     setInterval(function() {
       this.setState({displayTime: this.checkDisplayTime()});
       this.setState({meridian: this.checkMeridian()});
-    }.bind(this), 10000);
+    }.bind(this), 2000);
+  },
+
+  componentWillUpdate: function(nextProps, nextState) {
+    if (nextState.timeOfDay !== this.state.timeOfDay) {
+      var el = React.findDOMNode(this.refs.lscape);
+      el.style.opacity = 0.8;
+    } 
+  },
+
+  componentDidUpdate: function(nextProps, nextState) {
+    if (nextState.timeOfDay !== this.state.timeOfDay) {
+      var el = React.findDOMNode(this.refs.lscape);
+
+      setTimeout(function() {
+        el.style.opacity = 1;
+      }, 500);
+    }
+
+    return true;
   },
 
   render: function() {
     return (
-      <div className={this.state.timeOfDay}>
+      <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
+        <StepsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10000} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
+        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
+        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.dailyCommits} stepsMax={10000} commitsMax={20} />
       </div>
     );
   }
