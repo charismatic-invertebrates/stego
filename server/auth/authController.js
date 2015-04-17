@@ -20,7 +20,6 @@ var auth = {
       // Save token to userAccounts
       .then(function(response){
         userAccounts.github.accessToken = response[1].access_token;
-        return userAccounts;
       })
       // Get Fitness Provider token from code
       .then(function(){
@@ -30,7 +29,6 @@ var auth = {
       // Save Fitness token to userAccounts
       .then(function(response) {
         userAccounts.fitness.accessToken = JSON.parse(response[1]).access_token;
-        return userAccounts;
       })
       // Get Github User information
       .then(function() {
@@ -47,10 +45,9 @@ var auth = {
           username: githubUser.login,
           name: githubUser.name
         };
-        return userAccounts;
       })
       // Get Github Repo information
-      .then(function(userAccounts) {
+      .then(function() {
         var githubRepoParams = assignRequestParams('github', 'repos', userAccounts.github);
         return deferredRequest(githubRepoParams);
       })
@@ -70,17 +67,16 @@ var auth = {
         });
 
         return Q.all(repoUrlsToCall.map(function(callParam) {
-          deferredRequest(callParam)
-            .then(function(response) {
+          return deferredRequest(callParam);
+        }))
+          .then(function(results) {
+            results.forEach(function(response, index) {
               userAccounts.github.user.commits.push({
-                repo: callParam.repoName,
+                repo: userAccounts.github.repos[index],
                 commitsByRepo: JSON.parse(response[1])
               });
             });
-        }));
-        
-          // deferredRequest('github', 'commits', repo);
-        // console.log('Do we have our repos?', userAccounts);
+          });
       })
       // Get user's Fitness Tracker's step-count
       .then(function() {
@@ -89,9 +85,14 @@ var auth = {
       })
       // Store user's steps
       .then(function(response) {
-        userAccounts.fitness.user = JSON.parse(response[1].data);
+        userAccounts.fitness.user = JSON.parse(response[1]).data;
+      })
+      // Save user account to database
+      .then(function(){
+        // currently sending to client for testing purposes
         res.json(userAccounts);
       })
+      // Catch any errors
       .catch(function(error) {
         console.error(error);
         res.send('We dun goofed');
