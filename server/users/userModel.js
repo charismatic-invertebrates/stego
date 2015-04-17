@@ -11,12 +11,12 @@ var UserSchema = new mongoose.Schema({
   xid: String,
   githubUsername: String,
   githubName: String,
-  repos: String,
-  commits: String,
+  repos: Array,
+  commits: Array,
   provider: String,
   steps: String,
   githubToken: String,
-  fitnessToken: String,
+  fitnessToken: Array,
   createdAt: {
     type: Date,
     default: Date.now 
