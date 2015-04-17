@@ -83,6 +83,41 @@ var Landscape = React.createClass({
     return timeOfDay;
   },
 
+  checkWeather: function() {
+    var now = new Date();
+  },
+
+  componentDidMount: function() {
+    var el = React.findDOMNode(this.refs.lscape);
+    setTimeout(function() {
+      el.style.opacity = 1;
+    }, 500);
+    
+    setInterval(function() {
+      this.setState({displayTime: this.checkDisplayTime()});
+      this.setState({meridian: this.checkMeridian()});
+    }.bind(this), 2000);
+  },
+
+  componentWillUpdate: function(nextProps, nextState) {
+    if (nextState.timeOfDay !== this.state.timeOfDay) {
+      var el = React.findDOMNode(this.refs.lscape);
+      el.style.opacity = 0.8;
+    } 
+  },
+
+  componentDidUpdate: function(nextProps, nextState) {
+    if (nextState.timeOfDay !== this.state.timeOfDay) {
+      var el = React.findDOMNode(this.refs.lscape);
+
+      setTimeout(function() {
+        el.style.opacity = 1;
+      }, 500);
+    }
+
+    return true;
+  },
+
   render: function() {
     return (
       <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
