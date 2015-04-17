@@ -3,7 +3,8 @@
 var React = require('react');
 var Landscape = require('./components/Landscape.jsx');
 var auth = require('./stores/auth.js');
-var AuthenticateSplash = require('./components/AuthenticateSplash.jsx');
+var SignInSplash = require('./components/SignInSplash.jsx');
+var SignUpSplash = require('./components/SignUpSplash.jsx');
 
 var App = React.createClass({
 
@@ -106,7 +107,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id="landscape-container">
-        <AuthenticateSplash auth={this.state.auth}/>
+        <SignUpSplash auth={this.state.auth}/>
         <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />
       </div>
     );

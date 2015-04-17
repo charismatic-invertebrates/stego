@@ -1,7 +1,7 @@
 var React = require('react');
 var auth = require('../stores/auth.js');
 
-var AuthenticateSplash = React.createClass({
+var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
@@ -14,7 +14,6 @@ var AuthenticateSplash = React.createClass({
   },
 
   logUser: function(){
-    console.log(auth.);
     this.removeComponent();
   },
 
@@ -37,4 +36,4 @@ var AuthenticateSplash = React.createClass({
 
 });
 
-module.exports = AuthenticateSplash;
+module.exports = SignInSplash;

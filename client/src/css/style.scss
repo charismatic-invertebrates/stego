@@ -118,9 +118,9 @@ h3 {
   color: #fff;
   cursor: pointer;
   text-align: center;
-  text-shadow: -1px -1px 1px rgb(0, 143, 120);
+  // text-shadow: -1px -1px 1px rgb(0, 143, 120);
   border-radius: 5px;
-  box-shadow: 1px 1px 1px rgb(0, 143, 120);
+  // box-shadow: 1px 1px 1px rgb(0, 143, 120);
 }
 
 .button:hover {
@@ -134,7 +134,6 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.5;
   background-size: cover;
   -webkit-transition: opacity .5s ease-in;
   transition: opacity .5s ease-in;
