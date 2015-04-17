@@ -1,13 +1,14 @@
 var React = require('react/addons');
-var app = require('../App.jsx');
+// var app = require('../App.jsx');
 var keys = require('../../../../server/config/secureAuth.js');
 var $ = require('jquery');
 
-// This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
-auth = {
 
-  // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options.
-  setAJAXParams: function(provider, usage, param) {
+var auth = function(){
+  var app = this;
+
+  // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options
+  var setAJAXParams = function(provider, usage, param) {
     var callLoc = provider + '-' + usage;
     var updateState = function(update) {
       app.setState(React.addons.update(app.state, update));
@@ -65,7 +66,6 @@ auth = {
       };
       break;
 
-      // This case passes the userID from localStorage, and returns the user's info if there is a user corresponding to that xid.
       case 'server-loadAccount':
       callParams = {
         url: 'http://localhost:8000/api/user/load',
@@ -79,52 +79,10 @@ auth = {
       break;
     }
     return callParams;
-  },
+  };
 
-  // This function is modularized to handle all Login requests for all APIs
-  login: function(provider) {
-    var callParams = setAJAXParams(provider, 'login');
-
-    chrome.identity.launchWebAuthFlow({
-      'url': callParams.url,
-      'interactive': true
-      },
-      function(redirectUrl) {
-        var user = app.state.userInfo;
-        var code = redirectUrl.split('?code=')[1];
-        callParams.callback(code);
-        if( user.fitness.code === null || user.github.code === null ) {
-          console.log('authenticate with both providers please');
-        }
-      }
-    );
-  },
-
-  pairAccounts: function(){
-    var user = app.state.userInfo;
-    if( user.fitness.code === null || user.github.code === null ) {
-      console.log('authenticate with both providers please');
-    } else {
-      var accounts = {
-        github: {
-          code: user.github.code
-        },
-        fitness: {
-          provider: user.fitness.provider,
-          code: user.fitness.code
-        }
-      };
-      app.auth.makeRequest('paired', 'createAccount', accounts);
-    }
-  },
-
-  // Make a call to server to re-load the data being stored in the database.
-  loadServerAccount: function(){
-    app.auth.makeRequest('server', 'loadAccount');
-  },
-  
   // This function is modularized to make all GET requests for all APIs
-  makeRequest: function(provider, usage, param) {
+  var makeRequest = function(provider, usage, param) {
     var callParams = setAJAXParams(provider, usage, param);
     $.ajax({
       type: 'GET',
@@ -138,25 +96,52 @@ auth = {
         console.error('GET request failed: ', err);
       }
     });
-  },
+  };
 
-  // This function is modularized to make all POST requests for all APIs
-  postRequest: function(provider, usage, param) {
-    var callParams = setAJAXParams(provider, usage, param);
-    $.ajax({
-      type: 'POST',
-      url: callParams.url,
-      data: callParams.data,
-      redirect_uri: callParams.redirect_uri,
-      success: function(res) {
-        console.log('POST response: ', res);
-        callParams.callback(res);
-      },
-      fail: function(err) {
-        console.error('POST request failed: ', err);
+  return {
+    // This function is modularized to handle all Login requests for all APIs.  It routes our app information through chrome to a given provider, and returns a code we can exchange for a token to gain access to the API
+    login: function(provider) {
+      var callParams = setAJAXParams(provider, 'login');
+
+      chrome.identity.launchWebAuthFlow({
+        'url': callParams.url,
+        'interactive': true
+        },
+        function(redirectUrl) {
+          var user = app.state.userInfo;
+          var code = redirectUrl.split('?code=')[1];
+          callParams.callback(code);
+          if( user.fitness.code === null || user.github.code === null ) {
+            console.log('authenticate with both providers please');
+          }
+        }
+      );
+    },
+
+    // When the user has authenticated with both providers we make a call to our server to save them as a new user
+    pairAccounts: function(){
+      var user = app.state.userInfo;
+      if( user.fitness.code === null || user.github.code === null ) {
+        console.log('authenticate with both providers please');
+      } else {
+        var accounts = {
+          github: {
+            code: user.github.code
+          },
+          fitness: {
+            provider: user.fitness.provider,
+            code: user.fitness.code
+          }
+        };
+        makeRequest('paired', 'createAccount', accounts);
       }
-    });
-  }
+    },
+
+    // Make a call to server to pull the most recent server-data associated with the current user's xid
+    loadServerAccount: function(){
+      makeRequest('server', 'loadAccount');
+    }
+  };
 };
 
 module.exports = auth;

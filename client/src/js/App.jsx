@@ -42,10 +42,9 @@ var App = React.createClass({
       day: this.setDay()
     };
   },
-  
-  // This is a faux-IIFE for auth so that auth can save the 'this' context.  A regular IIFE statement does not render the correct context.
-  componentWillMount: function(){
-    this.auth = this.auth();
+
+  componentWillMount: function() {
+    this.state.auth = auth.bind(this)();
   },
 
   componentDidMount: function() {
@@ -66,7 +65,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape userInfo={this.state.userInfo} auth={auth} />
+        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} />
       </div>
     );
   }
