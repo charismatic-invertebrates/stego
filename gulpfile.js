@@ -28,13 +28,14 @@ var path = {
   BOWER_PUBLIC: './client/dist/bower_components',
   SPEC: './spec/client/**.js',
   JSX_SRC: './client/src/js/components/**',
+  JXS_OTHER_SRC: './client/src/js/stores/**',
   SPEC_JSX_SRC: './spec/client/**',
   COMPILED: './spec/compiled'
 };
 
 // Convert JSX templates to individual JS files
 gulp.task('react', function() {
-  return gulp.src([path.JSX_SRC, path.SPEC_JSX_SRC])
+  return gulp.src([path.JSX_SRC, path.JXS_OTHER_SRC, path.SPEC_JSX_SRC])
     .pipe(react())
     .pipe(gulp.dest(path.COMPILED));
 });
