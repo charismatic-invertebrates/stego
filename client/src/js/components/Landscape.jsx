@@ -6,6 +6,7 @@ var StepsBox = require('./StepsBox.jsx');
 var Dino = require('./Dino.jsx');
 var CommitsPanel = require('./CommitsPanel.jsx');
 var StepsPanel = require('./StepsPanel.jsx');
+var Weather = require('./Weather.jsx');
 
 var Landscape = React.createClass({
 
@@ -14,7 +15,8 @@ var Landscape = React.createClass({
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
       meridian: this.checkMeridian(),
-    }
+      displayWeather: this.checkWeather()
+    };
   },
 
   checkDisplayTime: function() {
@@ -96,7 +98,8 @@ var Landscape = React.createClass({
         <CommitsBox auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} />
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.dailyCommits} stepsMax={10000} commitsMax={20} />
+        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
+        <Weather currentWeather={this.state.displayWeather}/>
       </div>
     );
   }

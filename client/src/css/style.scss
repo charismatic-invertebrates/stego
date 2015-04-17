@@ -286,6 +286,26 @@ h3 {
   height: 420px;
 }
 
+.weather-container {
+  width: 100%;
+  height: 20%;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.weather-forecast {
+  margin: 20px 70px 20px 20px;
+  width: 250px;
+  height: 250px;
+  padding: 10px;
+  text-align: center;
+  float: right;
+  color: white;
+  background-color: black;
+}
+
 .chart-container {
   margin: 1em;
 }
