@@ -280,10 +280,28 @@ h2 {
   width: 350px;
   height: 350px;
   padding: 10px;
+  background: #fff;
 }
 
 .chart-container {
   margin: 1em;
+}
+
+.line {
+  stroke-width: 1px;
+  stroke-opacity: 0.5;
+  stroke: #17caad;
+}
+
+.axis {
+  fill: none;
+  stroke: #222;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-family: Helvetica;
+  font-size: 12px;
 }
 
 .clock {

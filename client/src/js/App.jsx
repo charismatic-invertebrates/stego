@@ -19,10 +19,8 @@ var App = React.createClass({
           totalCommits: 0,
           token: null,
           code: null
-          commitsByWeek: [],
           weeklyCommits: [],
-          dailyCommits: 0,
-          token: null
+          dailyCommits: 0
         },
         fitness: {
           provider: null,
@@ -63,7 +61,7 @@ var App = React.createClass({
     var tzoffset = new Date().getTimezoneOffset() * 60000;
     var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
 
-    return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9]s)?/g, '00:00:00Z');
+    return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
   },
 
   setDay: function() {
@@ -81,7 +79,7 @@ var App = React.createClass({
       date.setHours(-24 * day);
     }
 
-    return this.convertTime(date);
+    return date;
   },
 
   // This property holds all Authentication logic, it holds app and setAJAXParams in closure scope.
@@ -195,24 +193,13 @@ var App = React.createClass({
 
         case 'github-commits-weekly':
           callParams = {
-            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.state.week,
+            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.convertTime(app.state.week),
             data: {access_token: app.state.userInfo.github.token},
             callback: function(commits) {
               commits.forEach(function(commitInfo) {
                 // Isolate date
                 var currentDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-                /*var count;
 
-                // Check if date exists in week object
-                if (app.state.userInfo.github.weeklyCommits[currentDate] === undefined) {
-                  count = 0;
-                } else {
-                  count = app.state.userInfo.github.weeklyCommits[currentDate] + 1;
-                }
-
-                // Update count at current date in object
-                app.state.userInfo.github.weeklyCommits[currentDate] = count;*/
-                
                 updateState({
                   userInfo: {
                     github: {
@@ -410,7 +397,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id="landscape-container">
-        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} />
+        <Landscape userInfo={this.state.userInfo} auth={this.auth} startOfWeek={this.state.week} />
       </div>
     );
   }
