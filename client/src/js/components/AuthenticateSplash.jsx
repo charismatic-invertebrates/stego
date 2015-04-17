@@ -19,7 +19,7 @@ var AuthenticateSplash = React.createClass({
   // This function logs the user object saved in App.jsx's state
   pairAccounts: function() {
     this.props.auth.pairAccounts();
-  },
+  },  
 
   getAccount: function() {
     this.props.auth.getServerAccount();

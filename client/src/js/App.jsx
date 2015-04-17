@@ -8,6 +8,7 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
+      showLogin: true,
       // This property holds all user properties
       userInfo: {
         github: {
@@ -105,6 +106,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id="landscape-container">
+        <AuthenticateSplash auth={this.state.auth}/>
         <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />
       </div>
     );
