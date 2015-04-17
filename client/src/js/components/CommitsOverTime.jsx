@@ -72,23 +72,23 @@ var CommitsOverTime = React.createClass({
     return chartData;
   },
 
-  drawChart: function() {
+  drawChart: function(redraw) {
     this.setState({ chartData: this.getData() });
-    //drawLineGraph(this.props.parentId, this.state.chartData, false);
+    drawLineGraph(this.props.parentId, this.state.chartData, redraw);
   },
 
-  updateChart: function() {
-    this.setState({ chartData: this.getData() });
-    updateLineGraph(this.props.parentId, this.state.chartData, true);
-  },
+  // updateChart: function() {
+  //   this.setState({ chartData: this.getData() });
+  //   updateLineGraph(this.props.parentId, this.state.chartData, true);
+  // },
 
   componentDidMount: function() {
-    this.drawChart();
+    this.drawChart(false);
   },
 
   shouldComponentUpdate: function(nextProps) {
     if (nextProps.user.github.weeklyCommits.length !== this.props.user.github.weeklyCommits.length) {
-      this.drawChart();
+      this.drawChart(true);
     }
 
     return true;
