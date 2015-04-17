@@ -1,4 +1,4 @@
-function drawLineGraph(elementId, chartData, redraw) {
+function drawLineGraph(elementId, chartData, max, measurement, redraw) {
   var graph = d3.select('#' + elementId);
   var width = 450;
   var height = 450;
@@ -10,7 +10,7 @@ function drawLineGraph(elementId, chartData, redraw) {
     .rangeRound([0, width - margin.left - margin.right]);
 
   var yScale = d3.scale.linear()
-    .domain([0, 20])
+    .domain([0, max])
     .range([height - margin.top - margin.bottom, 0]);
 
   // line generator
@@ -34,7 +34,7 @@ function drawLineGraph(elementId, chartData, redraw) {
     line = d3.svg.line()
       .interpolate('basis')
       .x(function(d) { return xScale(new Date(d.date)); })
-      .y(function(d) { return yScale(d.commits); });
+      .y(function(d) { return yScale(d[measurement]); });
 
     graph.append('path')
       .attr('class', 'line')
@@ -43,19 +43,19 @@ function drawLineGraph(elementId, chartData, redraw) {
 
     graph.append('g')
       .attr('class', 'axis')
-      .attr('transform', 'translate(' + margin.left + ',' + (height - margin.top) + ')')
+      .attr('transform', 'translate(' + (margin.left + 10) + ',' + (height - margin.top) + ')')
       .call(xAxis);
 
     graph.append('g')
       .attr('class', 'axis')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .attr('transform', 'translate(' + (margin.left + 10) + ',' + margin.top + ')')
       .call(yAxis);
 
   } else {
     line = d3.svg.line()
       .interpolate('basis')
       .x(function(d) { return xScale(new Date(d.date)); })
-      .y(function(d) { return yScale(d.commits); });
+      .y(function(d) { return yScale(d[measurement]); });
       
     graph.select('path')
       .attr('class', 'line')
