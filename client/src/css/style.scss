@@ -89,7 +89,7 @@ body {
   /*text-shadow: -1px -1px 6px #57C3FF;*/
 }
 
-h1, h2 {
+h1, h2, h3 {
   color: #fff;
   text-align: center;
 }
@@ -104,6 +104,10 @@ h2 {
   font-size: 2.2em;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+h3 {
+  font-size: 1.4em;
 }
 
 .button {
@@ -136,7 +140,6 @@ h2 {
   transition: opacity .5s ease-in;
 }
 
-<<<<<<< HEAD
 .time-of-day.active {
   opacity: 1;
 }
@@ -283,8 +286,33 @@ h2 {
   padding: 10px;
 }
 
+.line-chart {
+  width: 450px;
+  height: 450px;
+  padding: 10px;
+}
+
 .chart-container {
   margin: 1em;
+}
+
+.line {
+  stroke-width: 1;
+  stroke-opacity: 0.5;
+  stroke: #17caad;
+  fill: transparent;
+}
+
+.axis {
+  fill: none;
+  stroke: #17caad;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-size: 12px;
+  fill: #17caad;
+  stroke: none;
 }
 
 .clock {
@@ -293,10 +321,20 @@ h2 {
   right: 0;
 }
 
+.panel-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
 .panel {
   width: 500px;
   z-index: 1000;
   padding: 1em;
+  color: #fff;
   background: rgba(5, 5, 5, 0.9);
   -webkit-box-shadow: 1px 1px 10px #222;
   box-shadow: 1px 1px 10px #222;

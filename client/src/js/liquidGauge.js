@@ -9,9 +9,6 @@ function liquidFillGaugeDefaultSettings(){
     maxValue: 100, // The gauge maximum value.
     circleThickness: 0.02, // The outer circle thickness as a percentage of its radius.
     circleFillGap: 0, // The size of the gap between the outer circle and wave circle as a percentage of the outer circles radius.
-    // circleBorderColor: '#178BCA', // The color of the outer circle.
-    // circleColor: 'rgba(23, 139, 202, 0.5)',
-    circleBorderColor: 'rgb(23, 202, 173)',
     circleColor: 'rgba(23, 202, 173, 0.3)',
     waveHeight: 0.05, // The wave height as a percentage of the radius of the wave circle.
     waveCount: 3, // The number of full waves per width of the wave circle.
@@ -130,8 +127,6 @@ function loadLiquidFillGauge(elementId, value, config, redraw) {
     gaugeGroup.append('path')
       .attr('d', gaugeCircleArc)
       .style('fill', config.circleColor)
-      .style('stroke', config.circleBorderColor)
-      .style('stroke-width', '4px')
       .attr('transform','translate('+radius+','+radius+')');
 
   }

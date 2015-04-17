@@ -124,9 +124,9 @@ var Landscape = React.createClass({
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
         <StepsPanel auth={this.props.auth} user={this.props.userInfo} />
         <CommitsBox auth={this.props.auth} user={this.props.userInfo} max={20} />
-        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} />
+        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
+        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.dailyCommits} stepsMax={10000} commitsMax={20} />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var CommitsOverTime = require('./CommitsOverTime.jsx');
 
 var CommitsPanel = React.createClass({
 
@@ -19,12 +20,13 @@ var CommitsPanel = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="panel-container">
         <a className="panel-button commits-panel-button" onClick={this.togglePanel} ref="commitsPanelButton">
           Commits Progress
         </a>
         <div className="panel commits-panel" ref="commitsPanel">
-          <h2>{this.props.user.github.username}</h2>
+          <h3>Weekly Commits for {this.props.user.github.username}</h3>
+          <CommitsOverTime auth={this.props.auth} user={this.props.user} startOfWeek={this.props.startOfWeek} parentId="commits-over-time" currentValue={this.props.user.github.totalCommits} max={this.props.max} />
         </div>
       </div>
     );
