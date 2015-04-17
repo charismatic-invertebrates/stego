@@ -89,7 +89,7 @@ body {
   /*text-shadow: -1px -1px 6px #57C3FF;*/
 }
 
-h1, h2 {
+h1, h2, h3 {
   color: #fff;
   text-align: center;
 }
@@ -104,6 +104,10 @@ h2 {
   font-size: 2.2em;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+h3 {
+  font-size: 1.4em;
 }
 
 .button {
@@ -282,14 +286,21 @@ h2 {
   padding: 10px;
 }
 
+.line-chart {
+  width: 450px;
+  height: 450px;
+  padding: 10px;
+}
+
 .chart-container {
   margin: 1em;
 }
 
 .line {
-  stroke-width: 1px;
+  stroke-width: 1;
   stroke-opacity: 0.5;
   stroke: #17caad;
+  fill: transparent;
 }
 
 .axis {
@@ -299,13 +310,9 @@ h2 {
 }
 
 .axis text {
-  font-family: Helvetica;
   font-size: 12px;
-  color: #17caad;
-}
-
-.bar {
   fill: #17caad;
+  stroke: none;
 }
 
 .clock {

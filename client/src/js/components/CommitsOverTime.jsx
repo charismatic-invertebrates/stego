@@ -77,11 +77,6 @@ var CommitsOverTime = React.createClass({
     drawLineGraph(this.props.parentId, this.state.chartData, redraw);
   },
 
-  // updateChart: function() {
-  //   this.setState({ chartData: this.getData() });
-  //   updateLineGraph(this.props.parentId, this.state.chartData, true);
-  // },
-
   componentDidMount: function() {
     this.drawChart(false);
   },
@@ -97,7 +92,7 @@ var CommitsOverTime = React.createClass({
   render: function() {
     return (
       <div className="chart-container">
-        <svg className="chart" id={this.props.parentId}></svg>
+        <svg className="line-chart" id={this.props.parentId}></svg>
       </div>
     );
   }
