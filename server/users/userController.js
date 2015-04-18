@@ -21,7 +21,8 @@ module.exports = {
       githubUsername: userAccount.github.user.username,
       githubName: userAccount.github.user.name,
       repos: userAccount.github.repos,
-      commits: userAccount.github.user.commits,
+      commitDates: userAccount.github.user.commitDates,
+      commitCounts: userAccount.github.user.commitCounts,
       provider: userAccount.fitness.provider,
       steps: userAccount.fitness.user.items,
     };

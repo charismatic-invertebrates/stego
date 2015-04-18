@@ -45,7 +45,9 @@ module.exports = {
           id: githubUser.id,
           reposUrl: githubUser.repos_url,
           username: githubUser.login,
-          name: githubUser.name
+          name: githubUser.name,
+          commitDates: [],
+          commitCounts: []
         };
       })
       // Get Github Repo information
@@ -64,7 +66,7 @@ module.exports = {
       })
       // Extract commit information by repo and store on userAccount:
       .then(function() {
-        var commitCount = {};
+        var commitCountDates = {};
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
           return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
@@ -77,12 +79,16 @@ module.exports = {
               var commits = JSON.parse(response[1]);
               commits.forEach(function(commitInfo){
                 var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-                commitCount[commitDate] = commitCount[commitDate] + 1 || 0;
+                commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
               });
             });
           })
           .then(function() {
-            userAccount.github.user.commits = commitCount;
+            console.log(commitCountDates);
+            Object.keys(commitCountDates).forEach(function(key) {
+              userAccount.github.user.commitDates.push(key);
+              userAccount.github.user.commitCounts.push(commitCountDates[key]);
+            });
           });
       })
 

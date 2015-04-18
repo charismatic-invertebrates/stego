@@ -28,8 +28,8 @@ var auth = {
 
       // Save user account to database
       .then(function(){
-        res.json(userAccount);
-        // userCtrl.saveUser(res, userAccount);
+        // res.json(userAccount);
+        userCtrl.saveUser(res, userAccount);
       })
       // Catch any errors
       .fail(function(error) {
