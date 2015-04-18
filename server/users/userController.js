@@ -11,17 +11,17 @@ module.exports = {
 
   checkForUser: function(res, userAccount){
     var findOneUser = Q.nbind(User.findOne, User);
-    console.log(userAccount);
+
     // Check the database for the user
     return findOneUser({'xid': userAccount.github.user.id})
       .then(function(foundUser) {
-        console.log('this is "foundUser"', foundUser);
+
         // If we found a user under that xid, then return that user
         if(foundUser) {
-          console.log('I found one!');
           res.json(foundUser);
           return true;
-          // Otherwise we create a user and userServer document for that user's information
+
+        // Otherwise we inform the function that called this function that there is not a user under that ID, and allow it to decide what to do from there.
         } else {
           console.log('User does not exist');
           return false;

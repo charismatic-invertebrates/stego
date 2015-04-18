@@ -10,7 +10,6 @@ var auth = {
 
   // Save a new user in our database
   createNewUserAccount: function(req, res){
-    console.log('creating a new user, allegedly');
     var userAccount = req.query.accountCodes;
     userAccount.time = req.query.timeframe;
 
@@ -24,32 +23,27 @@ var auth = {
 
       // Check if this user is in our database, if so, reply with user.  Otherwise, continue to create a new user
       .then(function(userAccount) {
-        console.log(userAccount);
         return userCtrl.checkForUser(res, userAccount)
           .then(function(foundUser) {
             if( !foundUser ) {
-              console.log('are we at least acknowledging that we didn\'t find a user?');
               return continueCreation(userAccount);
             }
           });
       });
 
-
+    // The second half of user creation has been extracted into a second function to allow us to short circuit user creation in the event that a user already exists.
     var continueCreation = function() {
-      console.log('are we making the hop to the other set of promises?');
 
       // Get github api information
       return apiHandler.getGithubData(userAccount)
 
       // Get user's Fitness Tracker's step-count
       .then(function() {
-        console.log('are we getting more data?');
         return apiHandler.getFitnessData(userAccount);
       })
 
       // Save user account to database
       .then(function(){
-        // res.json(userAccount);
         userCtrl.saveUser(res, userAccount);
       })
       // Catch any errors
