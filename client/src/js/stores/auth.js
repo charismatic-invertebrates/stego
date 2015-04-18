@@ -6,12 +6,28 @@ var $ = require('jquery');
 var auth = function(){
   var app = this;
 
+  // This function gets the date one week ago today. This is being done client side to account for user timezones
+  var getOneWeekAgo = function() {
+      // Set date to be seven days ago (this accounts for changing months)
+      var date = new Date();
+      date.setDate(date.getDate()-7);
+      
+      // Time zone offset calculator from http://stackoverflow.com/a/28149561
+      var tzoffset = new Date().getTimezoneOffset() * 60000;
+      var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
+
+      return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
+  };
+
   // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options
   var setAJAXParams = function(provider, usage, param) {
     var callLoc = provider + '-' + usage;
     var updateState = function(update) {
       app.setState(React.addons.update(app.state, update));
     };
+
+
+
 
     // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
     switch(callLoc) {
@@ -55,6 +71,7 @@ var auth = function(){
         url: 'http://localhost:8000/api/auth/createAccount/',
         data: {
           accountCodes: param,
+          timeframe: getOneWeekAgo
         },
         callback: function(res) {
           console.log(res);
