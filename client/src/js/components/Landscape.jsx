@@ -84,9 +84,28 @@ var Landscape = React.createClass({
   },
 
   checkWeather: function() {
-    var now = new Date();
     // get users location
-    // var location;
+
+    // console.log(q);
+    // console.log(navigator.geolocation.getCurrentPosition(function(x){console.log(x)}));
+
+    // console.log(navigator.geolocation.getCurrentPosition(function(args){console.log(args['coords']['latitude'], args['coords']['longitude']);}));
+
+    // var lat;
+    // var lon;
+
+    // console.log(args['coords']['latitude'], 
+    // args['coords']['longitude']);
+    // chrome.geolocation.getCurrentPosition(cb);
+
+    // http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066
+    // $.ajax({
+    //   url: "test.html",
+    //   context: document.body
+    // }).done(function() {
+    //   $( this ).addClass( "done" );
+    // });
+    
     // make call to api or server
   },
 
@@ -137,7 +156,7 @@ var Landscape = React.createClass({
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
-        <Weather currentWeather={this.state.displayWeather}/>
+        <Weather something={this.state.displayWeather} currentWeather={80}/>
       </div>
     );
   }

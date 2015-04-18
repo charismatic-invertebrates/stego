@@ -4,10 +4,10 @@ var Weather = React.createClass({
 
   render: function() {
     return (
-      <div className="weather-container">
-        <div className="weather-forecast">
-        //{this.props.parentTime}
-        "Hello, world"
+      <div className='weather-container'>
+        <div className='weather-forecast'>
+          {this.props.currentWeather}*C
+          {this.props.something}
         </div>
       </div>
     );
