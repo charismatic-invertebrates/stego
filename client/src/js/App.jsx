@@ -59,12 +59,16 @@ var App = React.createClass({
 
   processCommits: function() {
     var commitsData = {};
-    var commits = localStorage.getItem('commitCounts').split(',');
-    var dates = localStorage.getItem('commitDates').split(',');
+    var commits = localStorage.getItem('commitCounts') 
+    commits = commits !== null ? commits.split(',') : null;
+    var dates = localStorage.getItem('commitDates') 
+    dates = dates !== null ? dates.split(',') : null;
 
-    commits.forEach(function(count, index) {
-      commitsData[dates[index]] = parseInt(count,10);
-    })
+    if(commits !== null) {
+      commits.forEach(function(count, index) {
+        commitsData[dates[index]] = parseInt(count,10);
+      })
+    }
     console.log(commitsData);
     return commitsData;
   },
