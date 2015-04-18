@@ -7,6 +7,8 @@ var Dino = require('./Dino.jsx');
 var CommitsPanel = require('./CommitsPanel.jsx');
 var StepsPanel = require('./StepsPanel.jsx');
 var Weather = require('./Weather.jsx');
+var $ = require('jQuery');
+var Q = require('q');
 
 var Landscape = React.createClass({
 
@@ -98,15 +100,26 @@ var Landscape = React.createClass({
     // args['coords']['longitude']);
     // chrome.geolocation.getCurrentPosition(cb);
 
-    // http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066
-    // $.ajax({
-    //   url: "test.html",
-    //   context: document.body
-    // }).done(function() {
-    //   $( this ).addClass( "done" );
-    // });
-    
     // make call to api or server
+    var data;
+    var func = function(){
+      $.ajax({
+        url: "http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial",
+        context: document.body
+      })
+      // .done(function(x) {
+      //   data = x;
+      //   var rawTemp = x.main.temp;
+      //   console.log(Math.round(rawTemp));
+      //   return Math.round(rawTemp);
+      // });
+    };
+    
+    Q.fcall(func)
+      .then(function(weatherData){
+        console.log(weatherData);
+        return weatherData.main.temp;
+      });
   },
 
   componentDidMount: function() {
@@ -156,7 +169,7 @@ var Landscape = React.createClass({
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
-        <Weather something={this.state.displayWeather} currentWeather={80}/>
+        <Weather something={this.state.displayWeather} currentWeather={this.state.displayWeather}/>
       </div>
     );
   }

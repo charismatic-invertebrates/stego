@@ -111,7 +111,7 @@ var App = React.createClass({
 
     console.log('bring on the func');
 
-    console.log(Q);
+    // console.log(Q);
     // console.log(navigator.geolocation.getCurrentPosition(function(x){console.log(x)}));
 
 
