@@ -11,7 +11,7 @@ var auth = {
   // Save a new user in our database
   createNewUserAccount: function(req, res, next){
     var userAccount = req.query.accountCodes;
-    var time = req.query.timeframe;
+    userAccount.time = req.query.timeframe;
 
     // Exchange provider codes for provider tokens
     apiHandler.getTokens(userAccount)
@@ -28,7 +28,8 @@ var auth = {
 
       // Save user account to database
       .then(function(){
-        userCtrl.saveUser(res, userAccount);
+        res.json(userAccount);
+        // userCtrl.saveUser(res, userAccount);
       })
       // Catch any errors
       .fail(function(error) {

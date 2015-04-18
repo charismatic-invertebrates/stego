@@ -40,14 +40,13 @@ module.exports = function(provider, usage, param, loopedParam) {
       };
       break;
  
-    case 'github-commits':
+    case 'github-commits-weekly':
       callParams = {
-        url: 'https://api.github.com/repos/' + param.github.user.username + '/' + loopedParam + '/commits?author=' + param.github.user.username, //+ '&since=' + app.state.day,
+        url: 'https://api.github.com/repos/' + param.github.user.username + '/' + loopedParam + '/commits?author=' +param.github.user.username + '&since=' + param.time,
         headers: {
           'User-Agent': 'GitFit',
           Authorization: 'token ' + param.github.accessToken
-        },
-        repoName: loopedParam
+        }
       };
       break;
 

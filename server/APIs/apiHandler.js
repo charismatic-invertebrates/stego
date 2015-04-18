@@ -44,7 +44,6 @@ module.exports = {
         userAccount.github.user = {
           id: githubUser.id,
           reposUrl: githubUser.repos_url,
-          commits: [],
           username: githubUser.login,
           name: githubUser.name
         };
@@ -65,22 +64,28 @@ module.exports = {
       })
       // Extract commit information by repo and store on userAccount:
       .then(function() {
+        var commitCount = {};
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
-          return assignRequestParams('github', 'commits', userAccount, repo);
+          return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
 
         return Q.all(repoUrlsToCall.map(function(callParam) {
           return deferredRequest(callParam);
         }))
           .then(function(results) {
-            results.forEach(function(response, index) {
-              userAccount.github.user.commits.push({
-                repo: userAccount.github.repos[index],
-                commitsByRepo: JSON.parse(response[1])
+            results.forEach(function(response) {
+              var commits = JSON.parse(response[1]);
+              commits.forEach(function(commitInfo){
+                var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
+                commitCount[commitDate] = commitCount[commitDate] + 1 || 0;
               });
             });
+          })
+          .then(function() {
+            userAccount.github.user.commits = commitCount;
           });
       })
+
       .fail(function(error) {
         console.error('Error in apiHandler.getGithubData, failed to get Github data: ', error);
       });
