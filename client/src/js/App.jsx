@@ -20,7 +20,8 @@ var App = React.createClass({
           token: null,
           code: null,
           weeklyCommits: [],
-          dailyCommits: 0
+          dailyCommits: 0,
+          commitsData: this.processCommits()
         },
         fitness: {
           provider: null,
@@ -54,6 +55,18 @@ var App = React.createClass({
   componentDidMount: function() {
     this.setDay();
     this.getStartOfWeek();
+  },
+
+  processCommits: function() {
+    var commitsData = {};
+    var commits = localStorage.getItem('commitCounts').split(',');
+    var dates = localStorage.getItem('commitDates').split(',');
+
+    commits.forEach(function(count, index) {
+      commitsData[dates[index]] = parseInt(count,10);
+    })
+    console.log(commitsData);
+    return commitsData;
   },
 
   // Convert date to current time zone

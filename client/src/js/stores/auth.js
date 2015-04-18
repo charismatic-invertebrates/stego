@@ -90,7 +90,10 @@ var auth = function(){
           xid: localStorage.xid,
         },
         callback: function(res) {
-          console.log('this is the response from our server, should be our account: ', res);
+          console.log(res);
+          localStorage.setItem('commitCounts', res.commitCounts);
+          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('steps', res.steps);
         }
       };
       break;
