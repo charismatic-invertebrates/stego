@@ -34,7 +34,7 @@ var auth = {
       // Catch any errors
       .fail(function(error) {
         console.error(error);
-        res.send('We dun goofed', error);
+        res.send('Error creating new user', error);
       });
   },
 };

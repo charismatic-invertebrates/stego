@@ -52,7 +52,7 @@ module.exports = {
               createUserServer(newUserServer);
             })
             .fail(function(error) {
-              console.error(error);
+              console.error('Error saving user to database: ', error);
             });
         }
       });
