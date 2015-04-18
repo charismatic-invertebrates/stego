@@ -132,6 +132,10 @@ var Landscape = React.createClass({
       this.setState({displayTime: this.checkDisplayTime()});
       this.setState({meridian: this.checkMeridian()});
     }.bind(this), 2000);
+
+    setInterval(function(){
+      this.setState({displayWeather: this.checkWeather()}.bind(this), 3600000);
+    });
   },
 
   componentWillUpdate: function(nextProps, nextState) {
