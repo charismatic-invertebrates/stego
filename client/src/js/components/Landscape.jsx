@@ -119,6 +119,12 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
+        <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
+        <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
+        <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
+        <img src="./images/landscape/clouds-4.png" alt="" className="clouds cloud-4"/>
+        <img src="./images/landscape/clouds-5.png" alt="" className="clouds cloud-5"/>
+
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />

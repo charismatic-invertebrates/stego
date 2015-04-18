@@ -1,5 +1,7 @@
 var React = require('react');
 var auth = require('../stores/auth.js');
+var SignUpSplash = require('./SignUpSplash.jsx');
+
 
 var SignInSplash = React.createClass({
 
@@ -7,10 +9,6 @@ var SignInSplash = React.createClass({
     return {
       showComponent: true
     };
-  },
-
-  removeComponent: function(){
-    this.setState({showComponent: false});
   },
 
   logUser: function(){
@@ -28,7 +26,7 @@ var SignInSplash = React.createClass({
           <div className="or">
             <p>or</p>
           </div>  
-          <a className="button" onClick={this.getAccount}>Sign Up</a>
+          <a className="button" onClick={this.props.hideComponent}>Sign Up</a>
         </div>
       </div>
     )

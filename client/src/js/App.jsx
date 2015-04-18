@@ -103,11 +103,10 @@ var App = React.createClass({
 
     return date;
   },
-
+  
   render: function() {
     return (
       <div id="landscape-container">
-        <SignUpSplash auth={this.state.auth}/>
         <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />
       </div>
     );

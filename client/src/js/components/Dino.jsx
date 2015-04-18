@@ -43,9 +43,9 @@ var Dino = React.createClass({
     return (
       <div className="dino-container">
         <div className={'stego-body ' + this.state.mood}>
-          <div className="eye left-eye"></div>
-          <div className="eye right-eye"></div>
-          <div className="mouth"></div>
+          <div className={"eye left-eye "+ this.state.mood}></div>
+          <div className={"eye right-eye "+ this.state.mood}></div>
+          <div className={"mouth "+ this.state.mood}></div>
           <div className="left-arm"></div>
           <div className="right-arm"></div>
           <div className="left-leg"></div>

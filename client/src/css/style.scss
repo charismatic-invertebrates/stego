@@ -442,11 +442,11 @@ $mouth-pos: 45px,137px;
 $tail-pos: 155px,225px;
 
 // Stego Z-Indexes
-$body-z: 7;
+$body-z: 8;
 $eye-z: 8;
 $leftarm-z: -1;
 $rightarm-z: 8;
-$leftleg-z: 7;
+$leftleg-z: -1;
 $rightleg-z: 7;
 $mouth-z: 8;
 $tail-z: 6;
@@ -525,6 +525,102 @@ $tail-sway-seconds: 3s;
   -webkit-animation: tail-sway $tail-sway-seconds ease-in-out infinite;
 }
 
+// Cloud
+$cloud-1-x1: -200px;
+$cloud-1-x2: 2700px;
+$cloud-1-y: 50px;
+$cloud-1-seconds: 400s;
+
+$cloud-2-x1: 150px;
+$cloud-2-x2: 2700px;
+$cloud-2-y: 60px;
+$cloud-2-seconds: 280s;
+
+$cloud-3-x1: -50px;
+$cloud-3-x2: 2700px;
+$cloud-3-y: 20px;
+$cloud-3-seconds: 380s;
+
+$cloud-4-x1: 700px;
+$cloud-4-x2: 2700px;
+$cloud-4-y: 40px;
+$cloud-4-seconds: 600s;
+
+$cloud-5-x1: 1100px;
+$cloud-5-x2: 2700px;
+$cloud-5-y: 50px;
+$cloud-5-seconds: 300s;
+
+@-webkit-keyframes cloud-1 {
+  0% {transform: translate($cloud-1-x1, $cloud-1-y)};
+  100% {transform: translate($cloud-1-x2, $cloud-1-y)};
+}
+
+@mixin cloud-1 {
+  -webkit-animation: cloud-1 $cloud-1-seconds linear;
+}
+
+@-webkit-keyframes cloud-2 {
+  0% {transform: translate($cloud-2-x1, $cloud-2-y)};
+  100% {transform: translate($cloud-2-x2, $cloud-2-y)};
+}
+
+@mixin cloud-2 {
+  -webkit-animation: cloud-2 $cloud-2-seconds linear;
+}
+
+@-webkit-keyframes cloud-3 {
+  0% {transform: translate($cloud-3-x1, $cloud-3-y)};
+  100% {transform: translate($cloud-3-x2, $cloud-3-y)};
+}
+
+@mixin cloud-3 {
+  -webkit-animation: cloud-3 $cloud-3-seconds linear;
+}
+
+@-webkit-keyframes cloud-4 {
+  0% {transform: translate($cloud-4-x1, $cloud-4-y)};
+  100% {transform: translate($cloud-4-x2, $cloud-4-y)};
+}
+
+@mixin cloud-4 {
+  -webkit-animation: cloud-4 $cloud-4-seconds linear;
+}
+
+@-webkit-keyframes cloud-5 {
+  0% {transform: translate($cloud-5-x1, $cloud-5-y)};
+  100% {transform: translate($cloud-5-x2, $cloud-5-y)};
+}
+
+@mixin cloud-5 {
+  -webkit-animation: cloud-5 $cloud-5-seconds linear;
+}
+
+.cloud-1 {
+  @include cloud-1;
+  position: absolute;
+}
+
+.cloud-2 {
+  @include cloud-2;
+  position: absolute;
+}
+
+.cloud-3 {
+  @include cloud-3;
+  position: absolute;
+}
+
+.cloud-4 {
+  @include cloud-4;
+  position: absolute;
+}
+
+.cloud-5 {
+  @include cloud-5;
+  position: absolute;
+}
+
 .stego-body {
   margin: 0 auto;
   width: $body-width;
@@ -545,14 +641,35 @@ $tail-sway-seconds: 3s;
   z-index: $eye-z;
 }
 
-.eye.left-eye {
+.eye.left-eye.neutral {
   @include left-eye-blink;
   // transform: translate($left-eye-pos);
 }
 
-.eye.right-eye {
+.eye.right-eye.neutral {
   @include right-eye-blink;
   // transform: translate($right-eye-pos);
+}
+
+.eye.left-eye.sad {
+  @include left-eye-blink;
+  width: 19px;
+  height: 19px;
+  background-color: transparent;
+  border-width: 0;
+  background-image: url('../images/stego-parts/stego-sad-eye-left.png');
+  border-color: none;
+  // transform: translate($left-eye-pos);
+}
+
+.eye.right-eye.sad {
+  @include right-eye-blink;
+  width: 19px;
+  height: 19px;
+  background-color: transparent;
+  border-width: 0;
+  background-image: url('../images/stego-parts/stego-sad-eye-right.png');
+  border-color: none;
 }
 
 .mouth {
@@ -562,6 +679,10 @@ $tail-sway-seconds: 3s;
   position: absolute;
   transform: translate($mouth-pos);
   z-index: $mouth-z;
+}
+
+.mouth.sad {
+  background-image: url('../images/stego-parts/stego-sad-mouth.png');
 }
 
 .left-arm {
