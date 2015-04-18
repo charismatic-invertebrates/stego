@@ -10,7 +10,7 @@ var StepsPanel = require('./StepsPanel.jsx');
 var Landscape = React.createClass({
 
   getInitialState: function() {
-    this.props.auth.login('github');
+    // this.props.auth.login('github');
     // this.props.auth.login('fitbit');
     // this.props.auth.login('jawbone');
 

@@ -20,7 +20,8 @@ var App = React.createClass({
           token: null,
           code: null,
           weeklyCommits: [],
-          dailyCommits: 0
+          dailyCommits: 0,
+          commitsData: this.processCommits()
         },
         fitness: {
           provider: null,
@@ -56,6 +57,22 @@ var App = React.createClass({
     this.getStartOfWeek();
   },
 
+  processCommits: function() {
+    var commitsData = {};
+    var commits = localStorage.getItem('commitCounts') 
+    commits = commits !== null ? commits.split(',') : null;
+    var dates = localStorage.getItem('commitDates') 
+    dates = dates !== null ? dates.split(',') : null;
+
+    if(commits !== null) {
+      commits.forEach(function(count, index) {
+        commitsData[dates[index]] = parseInt(count,10);
+      })
+    }
+    console.log(commitsData);
+    return commitsData;
+  },
+
   // Convert date to current time zone
   convertTime: function(date) {
     // Time zone offset calculator from http://stackoverflow.com/a/28149561
@@ -84,30 +101,6 @@ var App = React.createClass({
 
     return date;
   },
-
-/*
-  // Grab all commits that have occurred since the beginning of the week
-        case 'github-commits-weekly':
-          callParams = {
-            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.convertTime(app.state.week),
-            data: {access_token: app.state.userInfo.github.token},
-            callback: function(commits) {
-              commits.forEach(function(commitInfo) {
-                // Isolate date (e.g., '2015-04-17')
-                var currentDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-
-                updateState({
-                  userInfo: {
-                    github: {
-                      weeklyCommits: {$push: [currentDate]}
-                    }
-                  }
-                });
-              });
-            }
-          };
-          break;
-*/
 
   render: function() {
     return (
