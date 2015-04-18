@@ -9,9 +9,28 @@ var UserServer = require('./userServerModel.js');
 
 module.exports = {
 
+  checkForUser: function(res, userAccount){
+    var findOneUser = Q.nbind(User.findOne, User);
+    console.log(userAccount);
+    // Check the database for the user
+    return findOneUser({'xid': userAccount.github.user.id})
+      .then(function(foundUser) {
+        console.log('this is "foundUser"', foundUser);
+        // If we found a user under that xid, then return that user
+        if(foundUser) {
+          console.log('I found one!');
+          res.json(foundUser);
+          return true;
+          // Otherwise we create a user and userServer document for that user's information
+        } else {
+          console.log('User does not exist');
+          return false;
+        }
+      });
+  },
+
   // Save a new user in our database (called from authController)
   saveUser: function(res, userAccount) {
-    var findOneUser = Q.nbind(User.findOne, User);
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
     
@@ -35,27 +54,17 @@ module.exports = {
       fitnessToken: userAccount.fitness.accessToken,
     };
 
-    // Check the database for the user
-    findOneUser({xid: newUser.xid})
-      .then(function(foundUser) {
-        // If we found a user under that xid, then return that user
-        if(foundUser) {
-          console.log('I found one!');
-          res.json(foundUser);
-          // Otherwise we create a user and userServer document for that user's information
-        } else {
-          createUser(newUser)
-            .then(function(createdUser) {
-              res.json(createdUser);
-            })
-            .then(function() {
-              createUserServer(newUserServer);
-            })
-            .fail(function(error) {
-              console.error('Error saving user to database: ', error);
-            });
-        }
+    createUser(newUser)
+      .then(function(createdUser) {
+        res.json(createdUser);
+      })
+      .then(function() {
+        createUserServer(newUserServer);
+      })
+      .fail(function(error) {
+        console.error('Error saving user to database: ', error);
       });
+
   },
 
   loadUser: function(req, res, next) {
