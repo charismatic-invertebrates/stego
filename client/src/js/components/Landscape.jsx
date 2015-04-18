@@ -134,7 +134,8 @@ var Landscape = React.createClass({
     }.bind(this), 2000);
 
     setInterval(function(){
-      this.setState({displayWeather: this.checkWeather()}.bind(this), 3600000);
+      this.setState({displayWeather: this.checkWeather()
+      }.bind(this), 3600000);
     });
   },
 
