@@ -26,11 +26,10 @@ var auth = function(){
       app.setState(React.addons.update(app.state, update));
     };
 
-
-
-
     // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
     switch(callLoc) {
+
+      // These cases handle getting a provider's code through chrome's WebAuthFlow
       case 'github-login':
         callParams = {
           url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
@@ -65,7 +64,8 @@ var auth = function(){
           }
         };
         break;
-   
+
+      // These cases handle requests to and through our server   
       case 'paired-createAccount':
       callParams = {
         url: 'http://localhost:8000/api/auth/createAccount/',
