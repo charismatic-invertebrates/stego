@@ -20,7 +20,6 @@ var StepsBox = React.createClass({
         <a className="button" onClick={this.getProviderCode.bind(null, 'jawbone')}>Login to Jawbone</a>
         <a className="button" onClick={this.logUser}>Console log user info</a>
         <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}>Login to Pre-existing Account</a>
-        <a className="button" onClick={this.logUser}>Sync database with APIs</a>
       </div>
     );
   }

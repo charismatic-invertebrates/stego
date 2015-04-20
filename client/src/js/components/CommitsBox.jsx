@@ -13,8 +13,8 @@ var CommitsBox = React.createClass({
     this.props.auth.sendToServer('pairing');
   },
 
-  loadAccount: function() {
-    this.props.auth.loadServerAccount();
+  syncAccount: function() {
+    this.props.auth.syncAccount();
   },
 
   render: function() {
@@ -24,7 +24,7 @@ var CommitsBox = React.createClass({
         <Chart parentId="commits-chart" currentValue={this.props.user.github.dailyCommits} max={this.props.max} />
         <a className="button" onClick={this.getProviderCode}>Login to Github</a>
         <a className="button" onClick={this.pairAccounts}>Pair Accounts</a>
-        <a className="button" onClick={this.loadAccount}>Load Account from Server</a>
+        <a className="button" onClick={this.syncAccount}>Sync Account</a>
       </div>
     );
   }

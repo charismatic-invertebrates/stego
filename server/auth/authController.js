@@ -60,9 +60,12 @@ var auth = {
     // Exchange Github code for token
     apiHandler.getTokens(userAccount)
 
+    // Get user information from Github
     .then(function() {
       return apiHandler.getGithubUser(userAccount);
     })
+
+    // Use user information to query our database for a pre-existing user
     .then(function() {
       userCtrl.checkForUser(res, userAccount)
         .then(function(foundUser) {
