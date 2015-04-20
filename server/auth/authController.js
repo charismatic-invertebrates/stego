@@ -55,7 +55,7 @@ var auth = {
   },
 
   loginUser: function(req, res) {
-    var userAccount = req.query.accountCodes;
+    var userAccount = {github: {code: req.query.code} };
 
     // Exchange Github code for token
     apiHandler.getTokens(userAccount)
@@ -64,10 +64,12 @@ var auth = {
       return apiHandler.getGithubUser(userAccount);
     })
     .then(function() {
-      userCtrl.checkForUser(userAccount, res)
+      userCtrl.checkForUser(res, userAccount)
         .then(function(foundUser) {
           if( !foundUser ) {
-            res.send(404, 'No account found for this login');
+            res.status(404).send('No account found for this login');
+          } else {
+            console.log('We found a user');
           }
         });
     });

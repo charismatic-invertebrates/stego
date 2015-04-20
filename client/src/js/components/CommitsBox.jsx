@@ -10,7 +10,7 @@ var CommitsBox = React.createClass({
   
   // This function logs the user object saved in App.jsx's state
   pairAccounts: function() {
-    this.props.auth.pairAccounts();
+    this.props.auth.sendToServer('pairing');
   },
 
   loadAccount: function() {

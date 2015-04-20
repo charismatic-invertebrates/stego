@@ -30,13 +30,6 @@ var auth = function(){
       case 'github-login':
         callParams = {
           url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
-          callback: function(code) {
-
-            if( param === 'checkServer' ) {
-            console.log('are we doing the right callback?');
-            app.state.auth.pairAccounts(true);
-            }
-          }
         };
         break;
       
@@ -49,10 +42,6 @@ var auth = function(){
       case 'jawbone-login':
         callParams = {
           url: 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID + '&scope=move_read&redirect_uri=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/jawbone',
-          callback: function(code) {
-            console.log('in login');
-
-          }
         };
         break;
 
@@ -78,10 +67,10 @@ var auth = function(){
       callParams = {
         url: 'http://localhost:8000/api/auth/loginAccount',
         data: {
-          code: param.github.code,
+          code: param,
         },
         callback: function(res) {
-            console.log(res);
+          console.log(res);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
           localStorage.setItem('steps', res.steps);
@@ -113,7 +102,7 @@ var auth = function(){
   // After App.jsx invokes auth.js, we only return these three functions that App.jsx needs access to.
   return {
     // This function is modularized to handle all Login requests for all APIs.  It routes our app information through chrome to a given provider, and returns a code we can exchange for a token to gain access to the API
-    getCode: function(provider, loginOnServer) {
+    getCode: function(provider, loginServer) {
       var callParams = setAJAXParams(provider, 'login');
       var updateState = function(update) {
         app.setState(React.addons.update(app.state, update));
@@ -124,6 +113,7 @@ var auth = function(){
         'interactive': true
         },
         function(redirectUrl) {
+          console.log(redirectUrl);
           var code = redirectUrl.split('?code=')[1];
 
           // Saves the code to our user state variable, different if cases determine between github and fitness providers
@@ -141,19 +131,17 @@ var auth = function(){
                 }}
             });
           }
-          if ( loginOnServer ) {
-            //SendCode(s) to server!
+          if ( loginServer ) {
+            app.state.auth.sendToServer('loginAccount');
           }
         }
       );
     },
 
     // When the user has authenticated with both providers we make a call to our server to save them as a new user
-    pairAccounts: function(){
+    sendToServer: function(task){
       var user = app.state.userInfo;
-      if( (user.fitness.code === null || user.github.code === null) ) {
-        console.log('authenticate with both providers please');
-      } else {
+      if( task === 'pairing' && (user.fitness.code !== null && user.github.code !== null) ) {
         var accounts = {
           github: {
             code: user.github.code
@@ -164,12 +152,16 @@ var auth = function(){
           }
         };
         makeRequest('paired', 'createAccount', accounts);
+
+      } else if ( task === 'loginAccount' ) {
+        makeRequest('server', 'loginAccount', user.github.code);
       }
     },
 
     // Make a call to server to pull the most recent server-data associated with the current user's xid
     loadServerAccount: function(){
-      makeRequest('server', 'loadAccount');
+      console.log('deprecated');
+      // makeRequest('server', 'loadAccount');
     }
   };
 };

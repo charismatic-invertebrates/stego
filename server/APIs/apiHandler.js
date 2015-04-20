@@ -21,7 +21,7 @@ module.exports = {
       })
       // If there is a Fitness Provider, get its token from code
       .then(function(){
-        if( userAccount.fitness.provider !== null ) {
+        if( userAccount.fitness ) {
         var fitnessParams = assignRequestParams(userAccount.fitness.provider, 'getToken', userAccount.fitness.code);
         return deferredRequest(fitnessParams)
           // Save Fitness token to userAccount
