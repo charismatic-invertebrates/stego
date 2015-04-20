@@ -6,9 +6,7 @@
   "description": "Stego the Tabagotchi",
 
   "background": {
-    "scripts": ["client/dist/public/js/bundle.js", 
-      "client/dist/public/js/eventPage.js"
-    ],
+    "scripts": ["client/dist/public/js/bundle.js"],
     "persistent": false
   },
 
