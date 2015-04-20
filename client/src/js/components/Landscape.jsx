@@ -17,7 +17,7 @@ var Landscape = React.createClass({
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
       meridian: this.checkMeridian(),
-      displayWeather: ''
+      displayWeather: '',
     };
   },
 
@@ -85,43 +85,6 @@ var Landscape = React.createClass({
     return timeOfDay;
   },
 
-  checkWeather: function() {
-    // get users location
-
-    // console.log(navigator.geolocation.getCurrentPosition(function(x){console.log(x)}));
-
-    // console.log(navigator.geolocation.getCurrentPosition(function(args){console.log(args['coords']['latitude'], args['coords']['longitude']);}));
-
-    // var lat;
-    // var lon;
-
-    // console.log(args['coords']['latitude'], 
-    // args['coords']['longitude']);
-    // chrome.geolocation.getCurrentPosition(cb);
-
-    // make call to api or server
-    var weahterData;
-    var func = function(){
-      $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial",
-        context: document.body
-      })
-      .done(function(x) {
-        console.log('in done');
-        var weahterData = Math.round(x.main.temp);
-        console.log('weatherData in func .done', weahterData);
-        return weahterData;
-      });
-    };
-
-    Q.fcall(func)
-      .then(function(){
-        console.log('in then of Q.fcall');
-        console.log(weatherData);
-        this.setState({displayWeather: this.checkWeather()});
-      });
-  },
-
   componentDidMount: function() {
     var el = React.findDOMNode(this.refs.lscape);
     setTimeout(function() {
@@ -132,51 +95,24 @@ var Landscape = React.createClass({
       this.setState({displayTime: this.checkDisplayTime()});
       this.setState({meridian: this.checkMeridian()});
     }.bind(this), 2000);
-
-    // setInterval(function(){
-    //   this.setState({displayWeather: this.checkWeather()
-    //   });
-    // }.bind(this), 3600000);
-
-    $.get("http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial", 
-      function(result) {
-        // console.log(Math.round(result);
-        var temperature = Math.round(result.main.temp);
-        if (this.isMounted()) {
-          this.setState({
-            displayWeather: temperature,
-          });
-        }
-      }.bind(this)
-    );
-
-    // $.ajax("http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial", function(result){console.log('hi');
-    //   console.log(result);
-    // }.bind(this)
-
-
-    // var weatherData = results;
-
-    // if (this.isMounted()) {
-    //   this.setState({
-    //     username: displayWeather
-    //     .owner.login,
-    //     lastGistUrl: lastGist.html_url
-    //   });
-    // }
-    // .done(function(x) {
-    //   console.log('in done');
-    //   var weahterData = Math.round(x.main.temp);
-    //   console.log('weatherData in func .done', weahterData);
-    //   return weahterData;
-    // });
-
-    // Q.fcall(func)
-    //   .then(function(){
-    //     console.log('in then of Q.fcall');
-    //     console.log(weatherData);
-    //     this.setState({displayWeather: this.checkWeather()});
-    //   })
+  
+    navigator.geolocation.getCurrentPosition(function(geolocation){
+      var lon = geolocation.coords.longitude;
+      var lat = geolocation.coords.latitude;
+      
+      $.get("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=imperial", 
+        function(result) {
+          var temperature = Math.round(result.main.temp) + '\xB0';
+          if (this.isMounted()) {
+            this.setState({
+              displayWeather: temperature,
+              test: ''
+            });
+          }
+        }.bind(this)
+      );
+    
+    }.bind(this));
 
   },
 
@@ -214,7 +150,7 @@ var Landscape = React.createClass({
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
-        <Weather currentWeather={this.state.displayWeather}/>
+        <Weather currentWeather={this.state.displayWeather} />
       </div>
     );
   }
