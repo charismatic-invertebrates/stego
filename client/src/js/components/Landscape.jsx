@@ -17,7 +17,7 @@ var Landscape = React.createClass({
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
       meridian: this.checkMeridian(),
-      displayWeather: this.checkWeather()
+      displayWeather: ''
     };
   },
 
@@ -88,7 +88,6 @@ var Landscape = React.createClass({
   checkWeather: function() {
     // get users location
 
-    // console.log(q);
     // console.log(navigator.geolocation.getCurrentPosition(function(x){console.log(x)}));
 
     // console.log(navigator.geolocation.getCurrentPosition(function(args){console.log(args['coords']['latitude'], args['coords']['longitude']);}));
@@ -101,24 +100,25 @@ var Landscape = React.createClass({
     // chrome.geolocation.getCurrentPosition(cb);
 
     // make call to api or server
-    var data;
+    var weahterData;
     var func = function(){
       $.ajax({
         url: "http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial",
         context: document.body
       })
-      // .done(function(x) {
-      //   data = x;
-      //   var rawTemp = x.main.temp;
-      //   console.log(Math.round(rawTemp));
-      //   return Math.round(rawTemp);
-      // });
+      .done(function(x) {
+        console.log('in done');
+        var weahterData = Math.round(x.main.temp);
+        console.log('weatherData in func .done', weahterData);
+        return weahterData;
+      });
     };
-    
+
     Q.fcall(func)
-      .then(function(weatherData){
+      .then(function(){
+        console.log('in then of Q.fcall');
         console.log(weatherData);
-        return weatherData.main.temp;
+        this.setState({displayWeather: this.checkWeather()});
       });
   },
 
@@ -133,10 +133,51 @@ var Landscape = React.createClass({
       this.setState({meridian: this.checkMeridian()});
     }.bind(this), 2000);
 
-    setInterval(function(){
-      this.setState({displayWeather: this.checkWeather()
-      }.bind(this), 3600000);
-    });
+    // setInterval(function(){
+    //   this.setState({displayWeather: this.checkWeather()
+    //   });
+    // }.bind(this), 3600000);
+
+    $.get("http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial", 
+      function(result) {
+        // console.log(Math.round(result);
+        var temperature = Math.round(result.main.temp);
+        if (this.isMounted()) {
+          this.setState({
+            displayWeather: temperature,
+          });
+        }
+      }.bind(this)
+    );
+
+    // $.ajax("http://api.openweathermap.org/data/2.5/weather?lat=37.777684&lon=-122.429066&units=imperial", function(result){console.log('hi');
+    //   console.log(result);
+    // }.bind(this)
+
+
+    // var weatherData = results;
+
+    // if (this.isMounted()) {
+    //   this.setState({
+    //     username: displayWeather
+    //     .owner.login,
+    //     lastGistUrl: lastGist.html_url
+    //   });
+    // }
+    // .done(function(x) {
+    //   console.log('in done');
+    //   var weahterData = Math.round(x.main.temp);
+    //   console.log('weatherData in func .done', weahterData);
+    //   return weahterData;
+    // });
+
+    // Q.fcall(func)
+    //   .then(function(){
+    //     console.log('in then of Q.fcall');
+    //     console.log(weatherData);
+    //     this.setState({displayWeather: this.checkWeather()});
+    //   })
+
   },
 
   componentWillUpdate: function(nextProps, nextState) {
@@ -155,7 +196,6 @@ var Landscape = React.createClass({
       }, 500);
     }
 
-    return true;
   },
 
   render: function() {
@@ -174,7 +214,7 @@ var Landscape = React.createClass({
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
-        <Weather something={this.state.displayWeather} currentWeather={this.state.displayWeather}/>
+        <Weather currentWeather={this.state.displayWeather}/>
       </div>
     );
   }
