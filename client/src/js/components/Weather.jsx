@@ -7,7 +7,6 @@ var Weather = React.createClass({
       <div className='weather-container'>
         <div className='weather-forecast'>
           {this.props.currentWeather}*C
-          {this.props.something}
         </div>
       </div>
     );
