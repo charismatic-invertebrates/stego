@@ -96,6 +96,7 @@ var Landscape = React.createClass({
       this.setState({meridian: this.checkMeridian()});
     }.bind(this), 2000);
   
+    // get the user's location and fetch weather data from openWeatherMap. Then update the displayWeather property to allow the child component to display the information.
     navigator.geolocation.getCurrentPosition(function(geolocation){
       var lon = geolocation.coords.longitude;
       var lat = geolocation.coords.latitude;
@@ -106,12 +107,10 @@ var Landscape = React.createClass({
           if (this.isMounted()) {
             this.setState({
               displayWeather: temperature,
-              test: ''
             });
           }
         }.bind(this)
       );
-    
     }.bind(this));
 
   },
