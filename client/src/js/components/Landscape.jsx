@@ -10,10 +10,6 @@ var StepsPanel = require('./StepsPanel.jsx');
 var Landscape = React.createClass({
 
   getInitialState: function() {
-    // this.props.auth.login('github');
-    // this.props.auth.login('fitbit');
-    // this.props.auth.login('jawbone');
-
     return {
       timeOfDay: this.checkTimeOfDay(new Date().getHours()),
       displayTime: this.checkDisplayTime(),
@@ -104,7 +100,7 @@ var Landscape = React.createClass({
     } 
   },
 
-  componentDidUpdate: function(nextProps, nextState) {
+  shouldComponentUpdate: function(nextProps, nextState) {
     if (nextState.timeOfDay !== this.state.timeOfDay) {
       var el = React.findDOMNode(this.refs.lscape);
 

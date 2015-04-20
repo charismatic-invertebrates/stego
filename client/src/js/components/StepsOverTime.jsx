@@ -44,7 +44,7 @@ var StepsOverTime = React.createClass({
 
   drawChart: function(redraw) {
     this.setState({ chartData: this.getData() });
-    drawLineGraph(this.props.parentId, this.state.chartData, this.props.max, 'steps', redraw);
+    // drawLineGraph(this.props.parentId, this.state.chartData, this.props.max, 'steps', redraw);
   },
 
   componentDidMount: function() {

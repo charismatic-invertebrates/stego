@@ -1,4 +1,16 @@
-function drawLineGraph(elementId, chartData, max, measurement, redraw) {
+Chart.defaults.global.responsive = true;
+Chart.defaults.global.tooltipFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+Chart.defaults.global.tooltipFontSize = 12;
+Chart.defaults.global.tooltipTitleFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+Chart.defaults.global.tooltipTitleFontSize = 12;
+Chart.defaults.global.animation = false;
+
+function drawLineGraph(elementId, data) {
+  var ctx = document.getElementById(elementId).getContext('2d');
+  var graph = new Chart(ctx).Line(data);
+}
+
+/*function drawLineGraph(elementId, chartData, max, measurement, redraw) {
   var graph = d3.select('#' + elementId);
   var width = 450;
   var height = 450;
@@ -62,3 +74,4 @@ function drawLineGraph(elementId, chartData, max, measurement, redraw) {
       .attr('d', line(chartData));
   }
 }
+*/

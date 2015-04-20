@@ -71,6 +71,7 @@ var App = React.createClass({
         commitsData[dates[index]] = parseInt(count,10);
       })
     }
+    console.log(commits);
     console.log(commitsData);
     return commitsData;
   },
@@ -105,6 +106,7 @@ var App = React.createClass({
   },
   
   render: function() {
+    console.log(this.state.userInfo);
     return (
       <div id="landscape-container">
         <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />

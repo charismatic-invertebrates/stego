@@ -26,7 +26,7 @@ var CommitsPanel = React.createClass({
         </a>
         <div className="panel commits-panel" ref="commitsPanel">
           <h3>Weekly Commits for {this.props.user.github.username}</h3>
-          <CommitsOverTime auth={this.props.auth} user={this.props.user} startOfWeek={this.props.startOfWeek} max={this.props.max} parentId="commits-over-time" />
+          <CommitsOverTime commitsData={this.props.user.github.commitsData} startOfWeek={this.props.startOfWeek} max={this.props.max} parentId="commits-over-time" />
         </div>
       </div>
     );
