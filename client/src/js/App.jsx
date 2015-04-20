@@ -47,7 +47,6 @@ var App = React.createClass({
       },
       day: this.setDay(),
       week: this.getStartOfWeek(),
-      test: this.func()
     };
   },
 
@@ -104,20 +103,6 @@ var App = React.createClass({
     }
 
     return date;
-  },
-
-  func: function(){
-    chrome.runtime.sendMessage({command: "location"});
-
-    console.log('bring on the func');
-
-    // console.log(Q);
-    // console.log(navigator.geolocation.getCurrentPosition(function(x){console.log(x)}));
-
-
-    // chrome.runtime.sendMessage (
-      // {command: "gimmeGimme"},function (response) {console.log (response.geoLocation);}
-    // )
   },
 
 /*
