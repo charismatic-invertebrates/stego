@@ -52,10 +52,10 @@ var StepsOverTime = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps) {
-    if (nextProps.user.github.weeklyCommits.length !== this.props.user.github.weeklyCommits.length) {
+/*    if (nextProps.user.github.weeklyCommits.length !== this.props.user.github.weeklyCommits.length) {
       this.drawChart(true);
     }
-
+*/
     return true;
   },
 

@@ -367,15 +367,8 @@ h3 {
 .panel-button {
   position: fixed;
   z-index: 2000;
-  display: inline-block;
-  font-size: 0.8em;
   text-transform: uppercase;
-  padding: 0.5em;
-  margin: 0.2em;
   background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  text-align: center;
-  border-radius: 5px;
 }
 
 .panel-button:hover {
@@ -385,6 +378,36 @@ h3 {
 .panel, .panel-button {
   -webkit-transition: transform 400ms ease-in;
   transition: transform 400ms ease-in;
+}
+
+.panel-button, .nav-button-left, .nav-button-right {
+  display: inline-block;
+  font-size: 0.8em;
+  padding: 0.5em;
+  margin: 0.2em;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.nav-button-container {
+  overflow: hidden;
+}
+
+.nav-button-left, .nav-button-right {
+  border: 1px solid #CBD4FF;
+}
+
+.nav-button-left {
+  float: left;
+}
+
+.nav-button-right {
+  float: right;
+}
+
+.icon {
+  padding: 0 0.5em;
 }
 
 /* Stego Dinosaur */

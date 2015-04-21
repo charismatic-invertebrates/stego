@@ -12,6 +12,7 @@ var StepsBox = React.createClass({
   },
   
   render: function() {
+    console.log(this.props.user.fitness.moves)
     return (
       <div className="steps-box">
         <h2>Steps</h2>
