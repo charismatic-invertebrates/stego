@@ -77,7 +77,19 @@ var auth = function(){
         }
       };
       break;
-    }
+
+      case 'server-syncAccount':
+      callParams = {
+        url: 'http://localhost:8000/api/auth/sync',
+        data: {
+          xid: param,
+        },
+        callback: function(res) {
+          console.log(res);
+        }
+      };
+      break;
+    };
     return callParams;
   };
 
@@ -163,8 +175,7 @@ var auth = function(){
 
     // Make a call to server to pull the most recent server-data associated with the current user's xid
     syncAccount: function(){
-      console.log('Being built out at the moment');
-      // makeRequest('server', 'loadAccount');
+      makeRequest('server', 'syncAccount');
     }
   };
 };
