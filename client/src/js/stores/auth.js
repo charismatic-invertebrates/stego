@@ -96,7 +96,6 @@ var auth = function(){
   // This function is modularized to make all GET requests for all APIs
   var makeRequest = function(provider, usage, param) {
     var callParams = setAJAXParams(provider, usage, param);
-    console.log(callParams);
     $.ajax({
       type: 'GET',
       url: callParams.url,
@@ -175,7 +174,11 @@ var auth = function(){
 
     // Make a call to server to pull the most recent server-data associated with the current user's xid
     syncAccount: function(){
-      makeRequest('server', 'syncAccount');
+      if( localStorage.xid ) {
+        makeRequest('server', 'syncAccount', localStorage.getItem('xid'));
+      } else {
+        console.log('There is not a logged-in user');
+      }
     }
   };
 };

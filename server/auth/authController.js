@@ -80,6 +80,7 @@ var auth = {
 
   syncAccount: function(req, res) {
     console.log( 'successful request' );
+    console.log( 'should be xid', req.query.xid );
   }
 };
 
