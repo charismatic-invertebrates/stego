@@ -19,22 +19,24 @@ module.exports = {
       .then(function(response){
         userAccount.github.accessToken = response[1].access_token;
       })
-      // Get Fitness Provider token from code
+      // If there is a Fitness Provider, get its token from code
       .then(function(){
+        if( userAccount.fitness ) {
         var fitnessParams = assignRequestParams(userAccount.fitness.provider, 'getToken', userAccount.fitness.code);
-        return deferredRequest(fitnessParams);
-      })
-      // Save Fitness token to userAccount
-      .then(function(response) {
-        userAccount.fitness.accessToken = JSON.parse(response[1]).access_token;
-        return userAccount;
+        return deferredRequest(fitnessParams)
+          // Save Fitness token to userAccount
+          .then(function(response) {
+            userAccount.fitness.accessToken = JSON.parse(response[1]).access_token;
+            return userAccount;
+          });
+        }
       })
       .fail(function(error) {
         console.error('Error in apiHandler.getTokens, token exchange failed: ', error);
       });
   },
 
-  getGithubData: function(userAccount) {
+  getGithubUser: function(userAccount) {
     var githubUserParams = assignRequestParams('github', 'getUser', userAccount.github.accessToken);
 
     return deferredRequest(githubUserParams)
@@ -49,12 +51,16 @@ module.exports = {
           commitDates: [],
           commitCounts: []
         };
-      })
-      // Get Github Repo information
-      .then(function() {
-        var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
-        return deferredRequest(githubRepoParams);
-      })
+        return userAccount;
+      });
+  },
+
+  getGithubData: function(userAccount) {
+    var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
+
+    // Get Github Repo information
+    return deferredRequest(githubRepoParams)
+    
       // Extract individual repo names and store:
       .then(function(response){
         var repos = JSON.parse(response[1]);

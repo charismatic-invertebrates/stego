@@ -22,26 +22,14 @@ var auth = function(){
   // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options
   var setAJAXParams = function(provider, usage, param) {
     var callLoc = provider + '-' + usage;
-    var updateState = function(update) {
-      app.setState(React.addons.update(app.state, update));
-    };
-
-
-
 
     // This switch statement sets all properties necessary to make an AJAX call.  This allows us to create one AJAX call, and make different calls depending on provider.
     switch(callLoc) {
+
+      // These cases handle getting a provider's code through chrome's WebAuthFlow
       case 'github-login':
         callParams = {
           url: 'https://github.com/login/oauth/authorize?client_id=' + keys.github.clientID,
-          callback: function(code) {
-            console.log('in login');
-            updateState({
-              userInfo: {github: {
-                code: {$set: code}
-              }}
-            });
-          }
         };
         break;
       
@@ -54,18 +42,10 @@ var auth = function(){
       case 'jawbone-login':
         callParams = {
           url: 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id=' + keys.jawbone.clientID + '&scope=move_read&redirect_uri=https://eihfnhkmggidbojcjcgdjpjkhlbhealk.chromiumapp.org/jawbone',
-          callback: function(code) {
-            console.log('in login');
-            updateState({
-              userInfo: {fitness: {
-                provider: {$set: provider},
-                code: {$set: code}
-              }}
-            });
-          }
         };
         break;
-   
+
+      // These cases handle requests to and through our server   
       case 'paired-createAccount':
       callParams = {
         url: 'http://localhost:8000/api/auth/createAccount/',
@@ -83,11 +63,11 @@ var auth = function(){
       };
       break;
 
-      case 'server-loadAccount':
+      case 'server-loginAccount':
       callParams = {
-        url: 'http://localhost:8000/api/user/load',
+        url: 'http://localhost:8000/api/auth/loginAccount',
         data: {
-          xid: localStorage.xid,
+          code: param,
         },
         callback: function(res) {
           console.log(res);
@@ -104,6 +84,7 @@ var auth = function(){
   // This function is modularized to make all GET requests for all APIs
   var makeRequest = function(provider, usage, param) {
     var callParams = setAJAXParams(provider, usage, param);
+    console.log(callParams);
     $.ajax({
       type: 'GET',
       url: callParams.url,
@@ -120,31 +101,50 @@ var auth = function(){
 
   // After App.jsx invokes auth.js, we only return these three functions that App.jsx needs access to.
   return {
-    // This function is modularized to handle all Login requests for all APIs.  It routes our app information through chrome to a given provider, and returns a code we can exchange for a token to gain access to the API
-    login: function(provider) {
+    // This function is modularized to handle all Login requests for all APIs.  It routes our app information through chrome to a given provider, and returns a code we can exchange for a token to gain access to the API, if loginServer is set as true, it is used to immediately send the github user information to query our server and reply with a user account.
+    getCode: function(provider, loginServer) {
       var callParams = setAJAXParams(provider, 'login');
+      var updateState = function(update) {
+        app.setState(React.addons.update(app.state, update));
+      };
 
       chrome.identity.launchWebAuthFlow({
         'url': callParams.url,
         'interactive': true
         },
         function(redirectUrl) {
-          var user = app.state.userInfo;
           var code = redirectUrl.split('?code=')[1];
-          callParams.callback(code);
-          if( user.fitness.code === null || user.github.code === null ) {
-            console.log('authenticate with both providers please');
+
+          // Saves the code to our user state variable, different if cases determine between github and fitness providers
+          if( provider === 'github' ) {
+            console.log('saving github code');
+            updateState({
+              userInfo: {github: {
+                code: {$set: code}
+              }}
+            });
+          } else {
+            console.log('saving ', provider, ' code');
+            updateState({
+              userInfo: {fitness: {
+                provider: {$set: provider},
+                code: {$set: code}
+                }}
+            });
+          }
+
+          // Setting loginServer to true sends the Github code to the server to be processed through the API and used to lookup a user in our server.  If that user is found we reply to our client with the saved information.
+          if ( loginServer === true ) {
+            app.state.auth.sendToServer('loginAccount');
           }
         }
       );
     },
 
-    // When the user has authenticated with both providers we make a call to our server to save them as a new user
-    pairAccounts: function(){
+    // This function sends our code information to the server, it handles the 'pairing' and 'loginAccount' cases.  The first sends codes for both github and jawbone providers which our server uses to get API information, and associate into a user account.  The latter is used to query our database and return an existing account, if one exists.
+    sendToServer: function(task){
       var user = app.state.userInfo;
-      if( user.fitness.code === null || user.github.code === null ) {
-        console.log('authenticate with both providers please');
-      } else {
+      if( task === 'pairing' && (user.fitness.code !== null && user.github.code !== null) ) {
         var accounts = {
           github: {
             code: user.github.code
@@ -155,12 +155,16 @@ var auth = function(){
           }
         };
         makeRequest('paired', 'createAccount', accounts);
+
+      } else if ( task === 'loginAccount' ) {
+        makeRequest('server', 'loginAccount', user.github.code);
       }
     },
 
     // Make a call to server to pull the most recent server-data associated with the current user's xid
-    loadServerAccount: function(){
-      makeRequest('server', 'loadAccount');
+    syncAccount: function(){
+      console.log('Being built out at the moment');
+      // makeRequest('server', 'loadAccount');
     }
   };
 };
