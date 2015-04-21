@@ -434,8 +434,9 @@ $tail-height: 96px;
 // Stego Asset Positions (X,Y)
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
-$leftarm-pos: 40px, 208px;
 $rightarm-pos: 120px, 203px;
+$leftarm-pos: 40px, 208px;
+$leftarm-pos-end: 60px, 208px;
 $leftleg-pos: 60px, 310px;
 $rightleg-pos: 115px, 310px;
 $mouth-pos: 45px,137px;
@@ -455,9 +456,12 @@ $tail-z: 6;
 $blink-seconds: 4s;
 $blink-delay: 2s;
 $wave-seconds: 1.5s;
+$wave-seconds-sad: 2.5s;
+$wave-seconds-happy: 1.5s;
 $wave-delay: 1s;
 $right-arm-sway-seconds: 4s;
 $tail-sway-seconds: 3s;
+$tail-sway-happy-seconds: 1.5s;
 
 
 /* Stego Keyframe Animations */
@@ -496,11 +500,39 @@ $tail-sway-seconds: 3s;
   30% {transform: translate($leftarm-pos) rotate(105deg)};
   40% {transform: translate($leftarm-pos) rotate(135deg)};
   45% {transform: translate($leftarm-pos) rotate(135deg)};
-  80% {transform: translate($leftarm-pos) rotate(0deg)};
+  80% {transform: translate($leftarm-pos-end) rotate(0deg)};
 }
 
 @mixin wave {
   -webkit-animation: wave $wave-seconds $wave-delay;
+}
+
+// Left Hand Sad Wave
+@-webkit-keyframes sad-wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  30% {transform: translate($leftarm-pos) rotate(130deg)};
+  40% {transform: translate($leftarm-pos) rotate(120deg)};
+  50% {transform: translate($leftarm-pos) rotate(130deg)};
+  70% {transform: translate($leftarm-pos) rotate(130deg)};
+  100% {transform: translate($leftarm-pos-end) rotate(0deg)};
+}
+
+@mixin sad-wave {
+  -webkit-animation: sad-wave $wave-seconds-sad $wave-delay ease-in-out;
+}
+
+// Left Hand Happy Wave
+@-webkit-keyframes happy-wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  30% {transform: translate($leftarm-pos) rotate(130deg)};
+  40% {transform: translate($leftarm-pos) rotate(120deg)};
+  50% {transform: translate($leftarm-pos) rotate(130deg)};
+  70% {transform: translate($leftarm-pos) rotate(130deg)};
+  100% {transform: translate($leftarm-pos-end) rotate(0deg)};
+}
+
+@mixin happy-wave {
+  -webkit-animation: happy-wave $wave-seconds-happy $wave-delay ease-in-out;
 }
 
 // Right Arm Sway
@@ -525,7 +557,22 @@ $tail-sway-seconds: 3s;
   -webkit-animation: tail-sway $tail-sway-seconds ease-in-out infinite;
 }
 
-// Cloud
+// Tail Sway Happy
+@-webkit-keyframes tail-sway-happy {
+  0% {transform: translate($tail-pos) rotate(0deg)};
+  50% {transform: translate($tail-pos) rotate(2deg)};
+  100% {transform: translate($tail-pos) rotate(0deg)};
+}
+
+@mixin tail-sway-happy {
+  -webkit-animation: tail-sway-happy $tail-sway-happy-seconds ease-in-out infinite;
+}
+
+@mixin tail-sway-happy {
+  -webkit-animation: tail-sway-happy $tail-sway-happy-seconds ease-in-out infinite;
+}
+
+// Clouds
 $cloud-1-x1: -200px;
 $cloud-1-x2: 2700px;
 $cloud-1-y: 50px;
@@ -641,12 +688,12 @@ $cloud-5-seconds: 300s;
   z-index: $eye-z;
 }
 
-.eye.left-eye.neutral {
+.eye.left-eye.neutral, .eye.left-eye.happy {
   @include left-eye-blink;
   // transform: translate($left-eye-pos);
 }
 
-.eye.right-eye.neutral {
+.eye.right-eye.neutral, .eye.right-eye.happy {
   @include right-eye-blink;
   // transform: translate($right-eye-pos);
 }
@@ -685,6 +732,44 @@ $cloud-5-seconds: 300s;
   background-image: url('../images/stego-parts/stego-sad-mouth.png');
 }
 
+$mouth-happy-seconds: 2s;
+$mouth-pos-happy: 45px,130px;
+$mouth-scale: .3;
+
+// Smile Happy
+@-webkit-keyframes mouth-happy {
+  0% {transform: translate($mouth-pos-happy) scale(1,$mouth-scale)};
+  20% {transform: translate($mouth-pos-happy) scale(1,$mouth-scale)};
+  30% {transform: translate($mouth-pos-happy) scale(1,1)};
+  90% {transform: translate($mouth-pos-happy) scale(1,1)};
+  100% {transform: translate($mouth-pos-happy) scale(1,$mouth-scale)};
+}
+
+@mixin mouth-happy {
+  -webkit-animation: mouth-happy $mouth-happy-seconds linear;
+}
+
+.mouth.happy {
+  height:28px;
+  width:86px;
+  position: absolute;
+  z-index: $mouth-z;
+  transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+  background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  @include mouth-happy;
+}
+
+$teeth-pos-happy: 110px,143px;
+
+.teeth.happy {
+  height: 11px;
+  width: 11px;
+  position: absolute;
+  z-index: $mouth-z;
+  background-image: url('../images/stego-parts/stego-teeth.png');
+  transform: translate($teeth-pos-happy);
+}
+
 .left-arm {
   width: $leftarm-width;
   height: $leftarm-height;
@@ -694,6 +779,10 @@ $cloud-5-seconds: 300s;
   transform-origin: center top;
   z-index: $leftarm-z;
   @include wave;
+}
+
+.left-arm.sad-wave {
+  @include sad-wave;
 }
 
 .right-arm {
@@ -734,6 +823,39 @@ $cloud-5-seconds: 300s;
   transform: translate($tail-pos);
   z-index: $tail-z;
   @include tail-sway;
+}
+
+.tail.happy {
+  @include tail-sway-happy;
+}
+
+// Tears
+$tear-width: 6px;
+$tear-height: 9px;
+$tear-start: 130px, 120px;
+$tear-end: 130px, 140px;
+$tear-z: 9;
+
+@-webkit-keyframes tear-sad {
+  0% {transform: translate($tear-start); opacity: 0;};
+  10% {opacity: 100};
+  70% {opacity: 100};
+  90% {transform: translate($tear-end); opacity: 0;};
+  100% {transform: translate($tear-end); opacity: 0;};
+}
+
+@mixin tear-sad {
+  -webkit-animation: tear-sad 9s infinite ease-in-out;
+}
+
+.tear.sad {
+  width: $tear-width;
+  height: $tear-height;
+  background-image: url('../images/stego-parts/stego-sad-tears.png');
+  position: absolute;
+  transform: translate($tear-start);
+  z-index: $tear-z;
+  @include tear-sad;
 }
 
 /* Connect Splash */
