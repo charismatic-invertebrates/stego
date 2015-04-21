@@ -66,12 +66,6 @@ table {
   animation: rotating 120s linear infinite;
 }
 
-@mixin wave {
-  -webkit-animation-name: wave;
-  animation-name: wave;
-}
-
-
 @mixin fadein {
   -webkit-animation: fadein 1s;
   animation: fadein 1s;
@@ -435,6 +429,7 @@ $tail-height: 96px;
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
 $rightarm-pos: 120px, 203px;
+$rightarm-pos-end: 120px, 203px;
 $leftarm-pos: 40px, 208px;
 $leftarm-pos-end: 60px, 208px;
 $leftleg-pos: 60px, 310px;
@@ -521,26 +516,17 @@ $tail-sway-happy-seconds: 1.5s;
   -webkit-animation: sad-wave $wave-seconds-sad $wave-delay ease-in-out;
 }
 
-// Left Hand Happy Wave
-@-webkit-keyframes happy-wave {
-  0% {transform: translate($leftarm-pos) rotate(0deg)};
-  30% {transform: translate($leftarm-pos) rotate(130deg)};
-  40% {transform: translate($leftarm-pos) rotate(120deg)};
-  50% {transform: translate($leftarm-pos) rotate(130deg)};
-  70% {transform: translate($leftarm-pos) rotate(130deg)};
-  100% {transform: translate($leftarm-pos-end) rotate(0deg)};
-}
-
-@mixin happy-wave {
-  -webkit-animation: happy-wave $wave-seconds-happy $wave-delay ease-in-out;
-}
-
 // Right Arm Sway
 @-webkit-keyframes right-arm-sway {
   0% {transform: translate($rightarm-pos) rotate(-2.5deg)};
   50% {transform: translate($rightarm-pos) rotate(2.5deg)};
   100% {transform: translate($rightarm-pos) rotate(-2.5deg)};
 }
+
+@mixin right-arm-sway {
+  -webkit-animation: right-arm-sway $right-arm-sway-seconds ease-in-out infinite;
+}
+
 
 @mixin right-arm-sway {
   -webkit-animation: right-arm-sway $right-arm-sway-seconds ease-in-out infinite;
@@ -738,11 +724,26 @@ $mouth-scale: .3;
 
 // Smile Happy
 @-webkit-keyframes mouth-happy {
-  0% {transform: translate($mouth-pos-happy) scale(1,$mouth-scale)};
-  20% {transform: translate($mouth-pos-happy) scale(1,$mouth-scale)};
-  30% {transform: translate($mouth-pos-happy) scale(1,1)};
-  90% {transform: translate($mouth-pos-happy) scale(1,1)};
-  100% {transform: translate($mouth-pos-happy) scale(1,$mouth-scale)};
+  0% {
+    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  20% {
+    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  30% {
+    transform: translate($mouth-pos-happy) scale(1,1);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  90% {
+    transform: translate($mouth-pos-happy) scale(1,1);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  100% {
+    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
 }
 
 @mixin mouth-happy {
@@ -759,7 +760,17 @@ $mouth-scale: .3;
   @include mouth-happy;
 }
 
-$teeth-pos-happy: 110px,143px;
+@-webkit-keyframes teeth-happy {
+  0% {transform: translate(110px,143px)};
+  20% {transform: translate(110px,143px)};
+  30% {transform: translate(110px,140px)};
+  90% {transform: translate(110px,140px)};
+  100% {transform: translate(110px,143px)};
+}
+
+@mixin teeth-happy {
+  -webkit-animation: teeth-happy $mouth-happy-seconds linear;
+}
 
 .teeth.happy {
   height: 11px;
@@ -767,7 +778,8 @@ $teeth-pos-happy: 110px,143px;
   position: absolute;
   z-index: $mouth-z;
   background-image: url('../images/stego-parts/stego-teeth.png');
-  transform: translate($teeth-pos-happy);
+  transform: translate(110px,143px);
+  @include teeth-happy;
 }
 
 .left-arm {
@@ -781,9 +793,24 @@ $teeth-pos-happy: 110px,143px;
   @include wave;
 }
 
-.left-arm.sad-wave {
+.left-arm.sad {
   @include sad-wave;
 }
+
+// Right Hand Happy Wave
+@-webkit-keyframes right-arm-happy-wave {
+  0% {transform: translate($rightarm-pos) rotate(0deg)};
+  20% {transform: translate($rightarm-pos) rotate(-135deg)};
+  30% {transform: translate($rightarm-pos) rotate(-105deg)};
+  40% {transform: translate($rightarm-pos) rotate(-135deg)};
+  45% {transform: translate($rightarm-pos) rotate(-135deg)};
+  80% {transform: translate($rightarm-pos-end) rotate(0deg)};
+}
+
+@mixin right-arm-happy-wave {
+  -webkit-animation: right-arm-happy-wave $wave-seconds $wave-delay;
+}
+
 
 .right-arm {
   width: $rightarm-width;
@@ -794,6 +821,10 @@ $teeth-pos-happy: 110px,143px;
   transform-origin: center top;
   z-index: $rightarm-z;
   @include right-arm-sway;
+}
+
+.right-arm.happy {
+  @include right-arm-happy-wave;
 }
 
 .left-leg {
