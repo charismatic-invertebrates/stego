@@ -3,6 +3,8 @@
 var React = require('react');
 var Landscape = require('./components/Landscape.jsx');
 var auth = require('./stores/auth.js');
+var SignInSplash = require('./components/SignInSplash.jsx');
+var SignUpSplash = require('./components/SignUpSplash.jsx');
 
 var App = React.createClass({
 
@@ -101,7 +103,7 @@ var App = React.createClass({
 
     return date;
   },
-
+  
   render: function() {
     return (
       <div id="landscape-container">
