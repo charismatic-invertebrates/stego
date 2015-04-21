@@ -20,21 +20,15 @@ var CommitsOverTime = React.createClass({
     return months[mm] + ' ' + dd;
   },
 
-  // getWeek: function() {
-  //   return this.props.startOfWeek;
-  // },
-
-  getData: function() {
+  getData: function(redraw) {
     var commitsData = this.props.commitsData;
     var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     var week;
 
     // Display current week by default
     if (this.state === null) {
-      console.log('state is null')
       week = new Date(this.props.startOfWeek);
     } else {
-      console.log('state is not null')
       week = this.state.currentWeek;
     }
 
@@ -47,8 +41,6 @@ var CommitsOverTime = React.createClass({
       this.fillInDates(week, 5),
       this.fillInDates(week, 6)
     ];
-
-    console.log(dates);
 
     var chartData = {
       labels: dates,
@@ -81,7 +73,11 @@ var CommitsOverTime = React.createClass({
       }
     }
 
-    return chartData;
+    // if (redraw) {
+    //   return chartData.datasets[0].data;
+    // } else {
+      return chartData;
+    // }
   },
 
   displayPreviousWeek: function() {
@@ -89,13 +85,11 @@ var CommitsOverTime = React.createClass({
 
     // Set new week to start of previous week
     newWeek.setHours(-24 * 7);
-    
-    console.log('before state update: ', this.state.currentWeek);
 
     // Reset current week to new week and redraw chart
-    this.setState({ currentWeek: newWeek });
-    console.log('after state update: ', this.state.currentWeek);
-    this.drawChart();
+    this.setState({ currentWeek: newWeek }, function() {
+      this.drawChart(true);
+    });
   },
 
   displayNextWeek: function() {
@@ -105,18 +99,20 @@ var CommitsOverTime = React.createClass({
     newWeek.setHours(24 * 7);
 
     // Reset current week to new week and redraw chart
-    this.setState({ currentWeek: newWeek });
-    this.drawChart();
+    this.setState({ currentWeek: newWeek }, function() {
+      this.drawChart(false);
+    });
   },
 
-  drawChart: function() {
-    this.setState({ chartData: this.getData() });
-    drawLineGraph(this.props.parentId, this.state.chartData);
+  drawChart: function(redraw) {
+    this.setState({ chartData: this.getData(redraw) }, function() {
+      drawLineGraph(this.props.parentId, this.state.chartData, redraw);
+    });
+
   },
 
   componentDidMount: function() {
-    console.log('state: ', this.state);
-    this.drawChart();
+    this.drawChart(false);
   },
 
   shouldComponentUpdate: function(nextProps) {

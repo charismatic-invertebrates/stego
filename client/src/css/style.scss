@@ -392,10 +392,14 @@ h3 {
 
 .nav-button-container {
   overflow: hidden;
+  margin: 1em 0;
 }
 
 .nav-button-left, .nav-button-right {
-  border: 1px solid #CBD4FF;
+  border: 2px solid #CBD4FF;
+  &:hover {
+    border: 2px solid #4359C9;
+  }
 }
 
 .nav-button-left {
