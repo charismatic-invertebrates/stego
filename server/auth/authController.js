@@ -23,10 +23,13 @@ var auth = {
 
       // Check if this user is in our database, if so, reply with user.  Otherwise, continue to create a new user
       .then(function(userAccount) {
-        return userCtrl.checkForUser(res, userAccount)
+        return userCtrl.checkForUser(res, userAccount.github.user.id)
           .then(function(foundUser) {
-            if( !foundUser ) {
-              return continueCreation(userAccount);
+            if( foundUser ) {
+              res.json(foundUser);
+              return null;
+            } else {
+              return continueCreation();
             }
           });
       });
@@ -67,20 +70,36 @@ var auth = {
 
     // Use user information to query our database for a pre-existing user
     .then(function() {
-      userCtrl.checkForUser(res, userAccount)
+      userCtrl.checkForUser(res, userAccount.github.user.id)
         .then(function(foundUser) {
           if( !foundUser ) {
             res.status(404).send('No account found for this login');
           } else {
             console.log('We found a user');
+            res.json(foundUser);
           }
         });
     });
   },
 
   syncAccount: function(req, res) {
-    console.log( 'successful request' );
-    console.log( 'should be xid', req.query.xid );
+    console.log('syncing account');
+    userCtrl.checkForUser(res, req.query.xid, 'server')
+      .then(function(foundUserServer) {
+        if( !foundUserServer ) {
+          res.send('User does not exist');
+          return null;
+        } else {
+          console.log('should try to continue to sync');
+          return continueSync(foundUserServer);
+        }
+      });
+
+    var continueSync = function(foundUserServer) {
+      console.log('in continueSync');
+      console.log('in sync continuation, here is our found user: ', foundUserServer);
+      return 'cats';
+    };
   }
 };
 

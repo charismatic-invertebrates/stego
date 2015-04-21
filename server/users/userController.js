@@ -9,17 +9,17 @@ var UserServer = require('./userServerModel.js');
 
 module.exports = {
 
-  checkForUser: function(res, userAccount){
-    var findOneUser = Q.nbind(User.findOne, User);
+  checkForUser: function(res, xid, server){
+    var findOneUser = server === 'server' ?  Q.nbind(UserServer.findOne, UserServer) : Q.nbind(User.findOne, User);
 
     // Check the database for the user
-    return findOneUser({'xid': userAccount.github.user.id})
+    return findOneUser({'xid': xid})
       .then(function(foundUser) {
 
         // If we found a user under that xid, then return that user
         if(foundUser) {
-          res.json(foundUser);
-          return true;
+          console.log('found user', foundUser);
+          return foundUser;
 
         // Otherwise we inform the function that called this function that there is not a user under that ID, and allow it to decide what to do from there.
         } else {
