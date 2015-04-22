@@ -111,14 +111,14 @@ var Landscape = React.createClass({
           var hour = new Date().getHours();
           var dayOrNight;
 
-          // wee hours of the morning and night
+          // calculate what time of day it is
           if (hour >= 6 && hour <= 19) {
             dayOrNight = 'day';
           } else {
             dayOrNight = 'night';
           }
 
-          // assign icon based on the current weather
+          // assign weather icon based on the current weather
           if (iconNum === '800' && dayOrNight === 'day') {
             skycons.add("skycon", Skycons.CLEAR_DAY);
           } else if (iconNum === '800' && dayOrNight === 'night'){
@@ -139,8 +139,9 @@ var Landscape = React.createClass({
             skycons.add("skycon", Skycons.SNOW);
           } else if (iconNum[0] === '9') {
             skycons.add("skycon", Skycons.SLEET);
+            // intentionally blank. There is no matching icon, so attach no icon in that case.
           } else {
-            console.log('nothing to see here :)');
+
           }
 
           skycons.play();
