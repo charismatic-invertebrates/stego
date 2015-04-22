@@ -149,27 +149,6 @@ var Landscape = React.createClass({
         }.bind(this)
       );
     }.bind(this));
-
-  },
-
-  componentWillUpdate: function(nextProps, nextState) {
-    if (nextState.timeOfDay !== this.state.timeOfDay) {
-      var el = React.findDOMNode(this.refs.lscape);
-      el.style.opacity = 0.8;
-    } 
-  },
-
-  componentDidUpdate: function(nextProps, nextState) {
-    if (nextState.timeOfDay !== this.state.timeOfDay) {
-      var el = React.findDOMNode(this.refs.lscape);
-
-      setTimeout(function() {
-        el.style.opacity = 1;
-      }, 500);
-    }
-
-=======
->>>>>>> c1e161a... (fix) Move app into sandboxed iframe
   },
 
   render: function() {
