@@ -39,7 +39,6 @@ module.exports = {
     // Populate the User information that we want to save
     var newUser = {
       xid: userAccount.github.user.id,
-      githubName: userAccount.github.user.name,
       repos: userAccount.github.repos,
       commitDates: userAccount.github.user.commitDates,
       commitCounts: userAccount.github.user.commitCounts,

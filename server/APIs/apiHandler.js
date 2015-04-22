@@ -46,7 +46,6 @@ module.exports = {
           id: githubUser.id,
           reposUrl: githubUser.repos_url,
           username: githubUser.login,
-          name: githubUser.name,
           commitDates: [],
           commitCounts: []
         };
