@@ -286,6 +286,32 @@ h3 {
   height: 420px;
 }
 
+.weather-container {
+  width: 100%;
+  height: 30%;
+  position: fixed;
+  margin-top: 1%;
+  left: 0px;
+  top: 0px;
+  z-index: -1;
+}
+
+.weather-forecast {
+  width: 30%;
+  height: 100%;
+  z-index: -1;
+  text-align: right;
+  position: absolute;
+  margin: 0 auto;
+  color: white;
+  right: 0px;
+}
+
+#skycon {
+  width: 80px;
+  z-index: -1;
+}
+
 .chart-container {
   margin: 1em;
 }
