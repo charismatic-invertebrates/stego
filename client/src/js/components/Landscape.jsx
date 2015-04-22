@@ -18,6 +18,7 @@ var Landscape = React.createClass({
       displayTime: this.checkDisplayTime(),
       meridian: this.checkMeridian(),
       displayWeather: '',
+      weatherIcon: ''
     };
   },
 
@@ -86,6 +87,7 @@ var Landscape = React.createClass({
   },
 
   componentDidMount: function() {
+
     var el = React.findDOMNode(this.refs.lscape);
     setTimeout(function() {
       el.style.opacity = 1;
@@ -104,9 +106,35 @@ var Landscape = React.createClass({
       $.get("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=imperial", 
         function(result) {
           var temperature = Math.round(result.main.temp) + '\xB0';
+          var iconNum = result['weather'][0]['id'].toString();
+          var skycons = new Skycons({"color": "white"});
+
+          if (iconNum === '800'){
+            skycons.add("skycon", Skycons.CLEAR_DAY);
+          } else if (iconNum === '801') {
+            skycons.add("skycon", Skycons.PARTLY_CLOUDY_DAY);
+          } else if (iconNum[0] ==='8') {
+            skycons.add("skycon", Skycons.PARTLY_CLOUDY_DAY);
+          } else if (iconNum[0] === '2') {
+            skycons.add("skycon", Skycons.RAIN);
+          } else if (iconNum[0] === '3') {
+            skycons.add("skycon", Skycons.RAIN);
+          } else if (iconNum[0] === '5') {
+            skycons.add("skycon", Skycons.RAIN);
+          } else if (iconNum[0] === '6') {
+            skycons.add("skycon", Skycons.SNOW);
+          } else if (iconNum[0] === '9') {
+            skycons.add("skycon", Skycons.SLEET);
+          } else {
+            console.log('nothing to see here :)');
+          }
+
+          skycons.play();
+
           if (this.isMounted()) {
             this.setState({
               displayWeather: temperature,
+              weatherIcon: iconNum
             });
           }
         }.bind(this)
