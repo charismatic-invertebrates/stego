@@ -9,6 +9,8 @@ var StepsPanel = require('./StepsPanel.jsx');
 var Weather = require('./Weather.jsx');
 var $ = require('jquery');
 var Q = require('q');
+var SignInSplash = require('./SignInSplash.jsx');
+var SignUpSplash = require('./SignUpSplash.jsx');
 
 var Landscape = React.createClass({
 
@@ -152,6 +154,8 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={'time-of-day ' + this.state.timeOfDay}>
+      <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
+        <SignUpSplash auth={this.props.auth} />
         <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
         <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
         <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
@@ -159,7 +163,7 @@ var Landscape = React.createClass({
         <img src="./images/landscape/clouds-5.png" alt="" className="clouds cloud-5"/>
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
-        <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000} />
+        <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000}/>
         <StepsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10000} />
         <CommitsBox auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} />
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />

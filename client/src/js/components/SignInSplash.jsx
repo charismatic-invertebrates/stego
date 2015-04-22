@@ -22,7 +22,7 @@ var SignInSplash = React.createClass({
       <div className='sign-in-container' style={css}>
         <img className="logo" src="./images/stego-logo.png"/>
         <div className='button-container'>
-          <a className="button" onClick={this.logUser}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
+          <a className="button"><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
           <div className="or">
             <p>or</p>
           </div>  

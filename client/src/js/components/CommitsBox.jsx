@@ -9,9 +9,6 @@ var CommitsBox = React.createClass({
   },
 
   // This function logs in to Github, and triggers a series of AJAX calls that extract the user's info, repos, and commits
-  getProviderCode: function(service, loginServer) {
-    this.props.auth.getCode(service, loginServer);
-  },
   
   // This function logs the user object saved in App.jsx's state
   pairAccounts: function() {
