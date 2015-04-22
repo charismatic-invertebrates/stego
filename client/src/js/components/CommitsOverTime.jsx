@@ -72,12 +72,8 @@ var CommitsOverTime = React.createClass({
         }
       }
     }
-
-    // if (redraw) {
-    //   return chartData.datasets[0].data;
-    // } else {
-      return chartData;
-    // }
+    
+    return chartData;
   },
 
   displayPreviousWeek: function() {

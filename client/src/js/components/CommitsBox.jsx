@@ -43,7 +43,6 @@ var CommitsBox = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps) {
-    console.log(this.state.currentValue);
     if (this.props.commits !== undefined) {
       if (JSON.stringify(nextProps.commits) !== JSON.stringify(this.props.commits)) {
         this.setState({currentValue: this.getCurrentCommits()});

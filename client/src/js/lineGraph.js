@@ -1,11 +1,3 @@
-Chart.defaults.global.responsive = true;
-Chart.defaults.global.tooltipFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
-Chart.defaults.global.tooltipFontSize = 12;
-Chart.defaults.global.tooltipTitleFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
-Chart.defaults.global.tooltipTitleFontSize = 12;
-Chart.defaults.global.animation = false;
-Chart.defaults.global.scaleFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
-
 function drawLineGraph(elementId, data, redraw) {
   if (redraw) {
     console.log('redraw: ', data.labels);

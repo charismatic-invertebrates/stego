@@ -46,7 +46,7 @@ var App = React.createClass({
         }
       },
       day: this.setDay(),
-      week: this.getStartOfWeek(),
+      week: this.getStartOfWeek()
     };
   },
 
@@ -61,19 +61,24 @@ var App = React.createClass({
   },
 
   processCommits: function() {
-    var commitsData = {};
-    // var commits = localStorage.getItem('commitCounts') 
-    // commits = commits !== null ? commits.split(',') : null;
-    // var dates = localStorage.getItem('commitDates') 
-    // dates = dates !== null ? dates.split(',') : null;
+    if (this.storage !== undefined) {
+      var commitsData = {};
 
-    // if(commits !== null) {
-    //   commits.forEach(function(count, index) {
-    //     commitsData[dates[index]] = parseInt(count,10);
-    //   })
-    // }
-    
-    return commitsData;
+      console.log(this.storage);
+
+      var commits = this.storage['commitCounts'];
+      commits = commits !== null ? commits.split(',') : null;
+      var dates = this.storage['commitDates'];
+      dates = dates !== null ? dates.split(',') : null;
+
+      if(commits !== null) {
+        commits.forEach(function(count, index) {
+          commitsData[dates[index]] = parseInt(count,10);
+        })
+      }
+      
+      return commitsData;
+    }
   },
 
   // Convert date to current time zone
