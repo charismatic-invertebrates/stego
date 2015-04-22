@@ -27,6 +27,8 @@ var CommitsBox = React.createClass({
     var today = this.props.startOfDay;
     var commitCount = 0;
 
+    console.log(this.props.commits);
+
     for (var savedDate in commits) {
       if (savedDate === today) {
         commitCount = commits[savedDate];
@@ -58,7 +60,6 @@ var CommitsBox = React.createClass({
         <h2>Commits</h2>
         <Chart parentId="commits-chart" currentValue={this.state.currentValue} max={this.props.max} />
         <a className="button" onClick={this.getProviderCode.bind(null, 'github')}>Login to Github</a>
-
         <a className="button" onClick={this.pairAccounts}>Pair Accounts</a>
         <a className="button" onClick={this.syncAccount}>Sync Account</a>
       </div>
