@@ -85,6 +85,12 @@ var Landscape = React.createClass({
 
   checkWeather: function() {
     var now = new Date();
+<<<<<<< HEAD
+=======
+    // get users location
+    // var location;
+    // make call to api or server
+>>>>>>> (fix) Prevent whitespace error
   },
 
   componentDidMount: function() {
@@ -141,3 +147,4 @@ var Landscape = React.createClass({
 });
 
 module.exports = Landscape;
+
