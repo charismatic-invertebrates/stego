@@ -98,6 +98,7 @@ var auth = {
     var continueSync = function(foundUserServer) {
       // Creating an object who's formatting fits with apiHandler's functionality
       var syncAccount = {
+        xid: foundUserServer.xid,
         github: {
           accessToken: foundUserServer.githubToken,
         },
@@ -106,8 +107,16 @@ var auth = {
           accessToken: foundUserServer.providerToken,
         },
       };
+console.log('about to enter API Handler');
       // Do API requests, create userAccount object and modify it accordingly
-
+      apiHandler.getGithubData(syncAccount)
+        .then(function(syncAccount) {
+          console.log('in the then');
+          return apiHandler.getFitnessData(syncAccount);
+        })
+        .then(function(syncAccount) {
+          console.log( "THIS ACCOUNT SHOULD HAVE UPDATED DATA: ", syncAccount);
+        });
 
 
       // Pass this syncAccount object through to userCtrl to update the database.

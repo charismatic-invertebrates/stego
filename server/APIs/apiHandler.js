@@ -56,7 +56,9 @@ module.exports = {
   },
 
   getGithubData: function(userAccount) {
+console.log('is this working?')
     var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
+
 
     // Get Github Repo information
     return deferredRequest(githubRepoParams)
