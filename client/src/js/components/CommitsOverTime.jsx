@@ -97,7 +97,7 @@ var CommitsOverTime = React.createClass({
 
     // Reset current week to new week and redraw chart
     this.setState({ currentWeek: newWeek }, function() {
-      this.drawChart(false);
+      this.drawChart(true);
     });
   },
 

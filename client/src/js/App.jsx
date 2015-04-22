@@ -63,8 +63,6 @@ var App = React.createClass({
   processCommits: function() {
     var commitsData = {};
 
-    console.log(localStorage);
-
     var commits = localStorage.getItem('commitCounts');
     commits = commits !== null ? commits.split(',') : null;
     var dates = localStorage.getItem('commitDates');
