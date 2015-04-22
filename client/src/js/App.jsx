@@ -107,7 +107,7 @@ var App = React.createClass({
     return (
       <div id="landscape-container">
         <div className="logo-container">
-          <img src='./client/dist/public/images/stego-logo.png' alt="" className="stego-logo"/>
+          <img src='./images/stego-logo.png' alt="" className="stego-logo"/>
         </div>
         <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} startOfDay={this.state.day} />
       </div>

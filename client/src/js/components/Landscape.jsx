@@ -86,7 +86,7 @@ var Landscape = React.createClass({
   render: function() {
     return (
       <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
-        <img src={'./client/dist/public/images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
+        <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.dailyCommits} stepsMax={10000} commitsMax={20} />
       </div>
