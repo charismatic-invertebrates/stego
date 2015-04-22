@@ -108,13 +108,27 @@ var Landscape = React.createClass({
           var temperature = Math.round(result.main.temp) + '\xB0';
           var iconNum = result['weather'][0]['id'].toString();
           var skycons = new Skycons({"color": "white"});
+          var hour = new Date().getHours();
+          var dayOrNight;
 
-          if (iconNum === '800'){
+          // wee hours of the morning and night
+          if (hour >= 6 && hour <= 19) {
+            dayOrNight = 'day';
+          } else {
+            dayOrNight = 'night';
+          }
+
+          // assign icon based on the current weather
+          if (iconNum === '800' && dayOrNight === 'day') {
             skycons.add("skycon", Skycons.CLEAR_DAY);
-          } else if (iconNum === '801') {
+          } else if (iconNum === '800' && dayOrNight === 'night'){
+            skycons.add("skycon", Skycons.CLEAR_NIGHT);
+          } else if (iconNum === '801' && dayOrNight === 'day') {
             skycons.add("skycon", Skycons.PARTLY_CLOUDY_DAY);
+          } else if (iconNum === '801' && dayOrNight === 'night') {
+            skycons.add("skycon", Skycons.PARTLY_CLOUDY_NIGHT);
           } else if (iconNum[0] ==='8') {
-            skycons.add("skycon", Skycons.PARTLY_CLOUDY_DAY);
+            skycons.add("skycon", Skycons.CLOUDY);
           } else if (iconNum[0] === '2') {
             skycons.add("skycon", Skycons.RAIN);
           } else if (iconNum[0] === '3') {
