@@ -13,6 +13,10 @@ var SignUpSplash = React.createClass({
     this.props.auth.getCode(service, loginServer);
   },
 
+  pairAccounts: function() {
+    this.props.auth.sendToServer('pairing');
+  },
+
   render: function() {
 
     var css = {display: this.state.showComponent ? 'block' : 'none'};
@@ -26,6 +30,7 @@ var SignUpSplash = React.createClass({
             <p>or</p>
           </div>
           <a className="button" onClick={this.getProviderCode.bind(null, 'jawbone')}><img className="icons" src="./images/icons/jawboneicon.png"/>Authorize with Jawbone</a>
+          <a className="button" onClick={this.pairAccounts}>Login</a>
         </div>
       </div>
     )

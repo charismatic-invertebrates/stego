@@ -9,11 +9,8 @@ var CommitsBox = React.createClass({
   },
 
   // This function logs in to Github, and triggers a series of AJAX calls that extract the user's info, repos, and commits
-  
+
   // This function logs the user object saved in App.jsx's state
-  pairAccounts: function() {
-    this.props.auth.sendToServer('pairing');
-  },
 
   syncAccount: function() {
     this.props.auth.syncAccount();
