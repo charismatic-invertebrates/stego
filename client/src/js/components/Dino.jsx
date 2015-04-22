@@ -23,7 +23,7 @@ var Dino = React.createClass({
       currentMood = 'neutral';
     }
 
-    return currentMood;
+    return 'neutral';
   },
 
   componentDidMount: function() {
@@ -43,14 +43,16 @@ var Dino = React.createClass({
     return (
       <div className="dino-container">
         <div className={'stego-body ' + this.state.mood}>
-          <div className="eye left-eye"></div>
-          <div className="eye right-eye"></div>
-          <div className="mouth"></div>
-          <div className="left-arm"></div>
-          <div className="right-arm"></div>
+          <div className={"eye left-eye "+ this.state.mood}></div>
+          <div className={"eye right-eye "+ this.state.mood}></div>
+          <div className={"mouth "+ this.state.mood}></div>
+          <div className={"teeth "+ this.state.mood}></div>
+          <div className={"left-arm " + this.state.mood}></div>
+          <div className={"right-arm " + this.state.mood}></div>
           <div className="left-leg"></div>
+          <div className={"tear " + this.state.mood}></div>
           <div className="right-leg"></div>
-          <div className="tail"></div>
+          <div className={"tail " + this.state.mood}></div>
         </div>
       </div>
     );

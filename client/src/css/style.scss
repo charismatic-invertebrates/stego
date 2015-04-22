@@ -66,12 +66,6 @@ table {
   animation: rotating 120s linear infinite;
 }
 
-@mixin wave {
-  -webkit-animation-name: wave;
-  animation-name: wave;
-}
-
-
 @mixin fadein {
   -webkit-animation: fadein 1s;
   animation: fadein 1s;
@@ -86,11 +80,14 @@ html, img {
 
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  /*text-shadow: -1px -1px 6px #57C3FF;*/
 }
 
-h1, h2, h3 {
+h1, h2 {
   color: #fff;
+  text-align: center;
+}
+
+h3 {
   text-align: center;
 }
 
@@ -118,9 +115,9 @@ h3 {
   color: #fff;
   cursor: pointer;
   text-align: center;
-  text-shadow: -1px -1px 1px rgb(0, 143, 120);
+  // text-shadow: -1px -1px 1px rgb(0, 143, 120);
   border-radius: 5px;
-  box-shadow: 1px 1px 1px rgb(0, 143, 120);
+  // box-shadow: 1px 1px 1px rgb(0, 143, 120);
 }
 
 .button:hover {
@@ -134,7 +131,6 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.5;
   background-size: cover;
   -webkit-transition: opacity .5s ease-in;
   transition: opacity .5s ease-in;
@@ -255,7 +251,6 @@ h3 {
   -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
   left: 20%;
   top: 7%;
-  @include rotating;
 }
 
 .meridian {
@@ -287,9 +282,8 @@ h3 {
 }
 
 .line-chart {
-  width: 450px;
-  height: 450px;
-  padding: 10px;
+  width: 420px;
+  height: 420px;
 }
 
 .chart-container {
@@ -299,19 +293,19 @@ h3 {
 .line {
   stroke-width: 1;
   stroke-opacity: 0.5;
-  stroke: #17caad;
+  stroke: #4359C9;
   fill: transparent;
 }
 
 .axis {
   fill: none;
-  stroke: #17caad;
+  stroke: #4359C9;
   shape-rendering: crispEdges;
 }
 
 .axis text {
   font-size: 12px;
-  fill: #17caad;
+  fill: #4359C9;
   stroke: none;
 }
 
@@ -334,10 +328,10 @@ h3 {
   width: 500px;
   z-index: 1000;
   padding: 1em;
-  color: #fff;
-  background: rgba(5, 5, 5, 0.9);
-  -webkit-box-shadow: 1px 1px 10px #222;
-  box-shadow: 1px 1px 10px #222;
+  color: #4359C9;
+  background: rgb(240, 240, 240);
+  -webkit-box-shadow: 1px 1px 10px #555;
+  box-shadow: 1px 1px 10px #555;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -373,15 +367,8 @@ h3 {
 .panel-button {
   position: fixed;
   z-index: 2000;
-  display: inline-block;
-  font-size: 0.8em;
   text-transform: uppercase;
-  padding: 0.5em;
-  margin: 0.2em;
   background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  text-align: center;
-  border-radius: 5px;
 }
 
 .panel-button:hover {
@@ -391,6 +378,40 @@ h3 {
 .panel, .panel-button {
   -webkit-transition: transform 400ms ease-in;
   transition: transform 400ms ease-in;
+}
+
+.panel-button, .nav-button-left, .nav-button-right {
+  display: inline-block;
+  font-size: 0.8em;
+  padding: 0.5em;
+  margin: 0.2em;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.nav-button-container {
+  overflow: hidden;
+  margin: 1em 0;
+}
+
+.nav-button-left, .nav-button-right {
+  border: 2px solid #CBD4FF;
+  &:hover {
+    border: 2px solid #4359C9;
+  }
+}
+
+.nav-button-left {
+  float: left;
+}
+
+.nav-button-right {
+  float: right;
+}
+
+.icon {
+  padding: 0 0.5em;
 }
 
 /* Stego Dinosaur */
@@ -416,7 +437,6 @@ h3 {
 }
 
 
-
 // Stego Asset Sizes
 $eye-size: 14px;
 $body-width: 227px;
@@ -433,23 +453,27 @@ $mouth-width: 84px;
 $mouth-height: 21px;
 $tail-width: 122px;
 $tail-height: 96px;
+$mouth-scale: .3;
 
 // Stego Asset Positions (X,Y)
 $left-eye-pos: 40px,100px;
 $right-eye-pos: 120px,105px;
-$leftarm-pos: 40px, 208px;
 $rightarm-pos: 120px, 203px;
+$rightarm-pos-end: 120px, 203px;
+$leftarm-pos: 40px, 208px;
+$leftarm-pos-end: 60px, 208px;
 $leftleg-pos: 60px, 310px;
 $rightleg-pos: 115px, 310px;
 $mouth-pos: 45px,137px;
 $tail-pos: 155px,225px;
+$mouth-pos-happy: 45px,130px;
 
 // Stego Z-Indexes
-$body-z: 7;
+$body-z: 8;
 $eye-z: 8;
 $leftarm-z: -1;
 $rightarm-z: 8;
-$leftleg-z: 7;
+$leftleg-z: -1;
 $rightleg-z: 7;
 $mouth-z: 8;
 $tail-z: 6;
@@ -458,9 +482,14 @@ $tail-z: 6;
 $blink-seconds: 4s;
 $blink-delay: 2s;
 $wave-seconds: 1.5s;
+$wave-seconds-sad: 2.5s;
 $wave-delay: 1s;
 $right-arm-sway-seconds: 4s;
 $tail-sway-seconds: 3s;
+$tail-sway-happy-seconds: 1.5s;
+$wave-seconds-happy: 6s;
+$mouth-happy-seconds: 6s;
+
 
 
 /* Stego Keyframe Animations */
@@ -492,18 +521,63 @@ $tail-sway-seconds: 3s;
   -webkit-animation: right-eye-blink $blink-seconds linear infinite;
 }
 
-// Left Hand Wave
+// Left Arm Wave
 @-webkit-keyframes wave {
   0% {transform: translate($leftarm-pos) rotate(0deg)};
   20% {transform: translate($leftarm-pos) rotate(135deg)};
   30% {transform: translate($leftarm-pos) rotate(105deg)};
   40% {transform: translate($leftarm-pos) rotate(135deg)};
   45% {transform: translate($leftarm-pos) rotate(135deg)};
-  80% {transform: translate($leftarm-pos) rotate(0deg)};
+  80% {transform: translate($leftarm-pos-end) rotate(0deg)};
 }
 
 @mixin wave {
   -webkit-animation: wave $wave-seconds $wave-delay;
+}
+
+// Right Arm Happy Wave
+@-webkit-keyframes right-arm-happy-wave {
+  0% {transform: translate($rightarm-pos) rotate(0deg)};
+  5% {transform: translate($rightarm-pos) rotate(-135deg)};
+  8% {transform: translate($rightarm-pos) rotate(-105deg)};
+  10% {transform: translate($rightarm-pos) rotate(-135deg)};
+  11% {transform: translate($rightarm-pos) rotate(-135deg)};
+  20% {transform: translate($rightarm-pos-end) rotate(0deg)};
+  47% {transform: translate($rightarm-pos) rotate(2.5deg)};
+  74% {transform: translate($rightarm-pos) rotate(-2.5deg)};
+  100% {transform: translate($rightarm-pos) rotate(2.5deg)};
+}
+
+@mixin right-arm-happy-wave {
+  -webkit-animation: right-arm-happy-wave $wave-seconds-happy $wave-delay infinite;
+}
+
+// Left Arm Happy Wave
+@-webkit-keyframes happy-wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  5% {transform: translate($leftarm-pos) rotate(135deg)};
+  8% {transform: translate($leftarm-pos) rotate(105deg)};
+  10% {transform: translate($leftarm-pos) rotate(135deg)};
+  11% {transform: translate($leftarm-pos) rotate(135deg)};
+  20% {transform: translate($leftarm-pos-end) rotate(0deg)};
+}
+
+@mixin happy-wave {
+  -webkit-animation: happy-wave $wave-seconds-happy $wave-delay infinite;
+}
+
+// Left Arm Sad Wave
+@-webkit-keyframes sad-wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  30% {transform: translate($leftarm-pos) rotate(130deg)};
+  40% {transform: translate($leftarm-pos) rotate(120deg)};
+  50% {transform: translate($leftarm-pos) rotate(130deg)};
+  70% {transform: translate($leftarm-pos) rotate(130deg)};
+  100% {transform: translate($leftarm-pos-end) rotate(0deg)};
+}
+
+@mixin sad-wave {
+  -webkit-animation: sad-wave $wave-seconds-sad $wave-delay ease-in-out;
 }
 
 // Right Arm Sway
@@ -528,26 +602,112 @@ $tail-sway-seconds: 3s;
   -webkit-animation: tail-sway $tail-sway-seconds ease-in-out infinite;
 }
 
+// Tail Sway Happy
+@-webkit-keyframes tail-sway-happy {
+  0% {transform: translate($tail-pos) rotate(0deg)};
+  50% {transform: translate($tail-pos) rotate(2deg)};
+  100% {transform: translate($tail-pos) rotate(0deg)};
+}
 
-// .animated {
-//   -webkit-animation-duration: 1s;
-//   animation-duration: 1s;
-// }
+@mixin tail-sway-happy {
+  -webkit-animation: tail-sway-happy $tail-sway-happy-seconds ease-in-out infinite;
+}
 
-// .animated.infinite {
-//   -webkit-animation-iteration-count: infinite;
-//   animation-iteration-count: infinite;
-// }
+// Clouds
+$cloud-1-x1: -200px;
+$cloud-1-x2: 2700px;
+$cloud-1-y: 50px;
+$cloud-1-seconds: 400s;
 
-// .animated {
-//   -webkit-animation-duration: 1s;
-//   animation-duration: 1s;
-//   -webkit-animation-delay: .5s;
-//   animation-delay: .5s;
-//   @include wave;
-// }
+$cloud-2-x1: 150px;
+$cloud-2-x2: 2700px;
+$cloud-2-y: 60px;
+$cloud-2-seconds: 280s;
 
+$cloud-3-x1: -50px;
+$cloud-3-x2: 2700px;
+$cloud-3-y: 20px;
+$cloud-3-seconds: 380s;
 
+$cloud-4-x1: 700px;
+$cloud-4-x2: 2700px;
+$cloud-4-y: 40px;
+$cloud-4-seconds: 600s;
+
+$cloud-5-x1: 1100px;
+$cloud-5-x2: 2700px;
+$cloud-5-y: 50px;
+$cloud-5-seconds: 300s;
+
+@-webkit-keyframes cloud-1 {
+  0% {transform: translate($cloud-1-x1, $cloud-1-y)};
+  100% {transform: translate($cloud-1-x2, $cloud-1-y)};
+}
+
+@mixin cloud-1 {
+  -webkit-animation: cloud-1 $cloud-1-seconds linear;
+}
+
+@-webkit-keyframes cloud-2 {
+  0% {transform: translate($cloud-2-x1, $cloud-2-y)};
+  100% {transform: translate($cloud-2-x2, $cloud-2-y)};
+}
+
+@mixin cloud-2 {
+  -webkit-animation: cloud-2 $cloud-2-seconds linear;
+}
+
+@-webkit-keyframes cloud-3 {
+  0% {transform: translate($cloud-3-x1, $cloud-3-y)};
+  100% {transform: translate($cloud-3-x2, $cloud-3-y)};
+}
+
+@mixin cloud-3 {
+  -webkit-animation: cloud-3 $cloud-3-seconds linear;
+}
+
+@-webkit-keyframes cloud-4 {
+  0% {transform: translate($cloud-4-x1, $cloud-4-y)};
+  100% {transform: translate($cloud-4-x2, $cloud-4-y)};
+}
+
+@mixin cloud-4 {
+  -webkit-animation: cloud-4 $cloud-4-seconds linear;
+}
+
+@-webkit-keyframes cloud-5 {
+  0% {transform: translate($cloud-5-x1, $cloud-5-y)};
+  100% {transform: translate($cloud-5-x2, $cloud-5-y)};
+}
+
+@mixin cloud-5 {
+  -webkit-animation: cloud-5 $cloud-5-seconds linear;
+}
+
+.cloud-1 {
+  @include cloud-1;
+  position: absolute;
+}
+
+.cloud-2 {
+  @include cloud-2;
+  position: absolute;
+}
+
+.cloud-3 {
+  @include cloud-3;
+  position: absolute;
+}
+
+.cloud-4 {
+  @include cloud-4;
+  position: absolute;
+}
+
+.cloud-5 {
+  @include cloud-5;
+  position: absolute;
+}
 
 .stego-body {
   margin: 0 auto;
@@ -569,14 +729,35 @@ $tail-sway-seconds: 3s;
   z-index: $eye-z;
 }
 
-.eye.left-eye {
+.eye.left-eye.neutral, .eye.left-eye.happy {
   @include left-eye-blink;
   // transform: translate($left-eye-pos);
 }
 
-.eye.right-eye {
+.eye.right-eye.neutral, .eye.right-eye.happy {
   @include right-eye-blink;
   // transform: translate($right-eye-pos);
+}
+
+.eye.left-eye.sad {
+  @include left-eye-blink;
+  width: 19px;
+  height: 19px;
+  background-color: transparent;
+  border-width: 0;
+  background-image: url('../images/stego-parts/stego-sad-eye-left.png');
+  border-color: none;
+  // transform: translate($left-eye-pos);
+}
+
+.eye.right-eye.sad {
+  @include right-eye-blink;
+  width: 19px;
+  height: 19px;
+  background-color: transparent;
+  border-width: 0;
+  background-image: url('../images/stego-parts/stego-sad-eye-right.png');
+  border-color: none;
 }
 
 .mouth {
@@ -586,6 +767,70 @@ $tail-sway-seconds: 3s;
   position: absolute;
   transform: translate($mouth-pos);
   z-index: $mouth-z;
+}
+
+.mouth.sad {
+  background-image: url('../images/stego-parts/stego-sad-mouth.png');
+}
+
+// Smile Happy
+@-webkit-keyframes mouth-happy {
+  0% {
+    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  15% {
+    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  20% {
+    transform: translate($mouth-pos-happy) scale(1,1);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  33% {
+    transform: translate($mouth-pos-happy) scale(1,1);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  36% {
+    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+}
+
+@mixin mouth-happy {
+  -webkit-animation: mouth-happy $mouth-happy-seconds linear infinite;
+}
+
+.mouth.happy {
+  height:28px;
+  width:86px;
+  position: absolute;
+  z-index: $mouth-z;
+  transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+  background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  @include mouth-happy;
+}
+
+@-webkit-keyframes teeth-happy {
+  0% {transform: translate(110px,143px)};
+  15% {transform: translate(110px,143px)};
+  20% {transform: translate(110px,140px)};
+  33% {transform: translate(110px,140px)};
+  36% {transform: translate(110px,143px)};
+}
+
+@mixin teeth-happy {
+  -webkit-animation: teeth-happy $mouth-happy-seconds linear infinite;
+}
+
+.teeth.happy {
+  height: 11px;
+  width: 11px;
+  position: absolute;
+  z-index: $mouth-z;
+  background-image: url('../images/stego-parts/stego-teeth.png');
+  transform: translate(110px,143px);
+  @include teeth-happy;
 }
 
 .left-arm {
@@ -599,6 +844,14 @@ $tail-sway-seconds: 3s;
   @include wave;
 }
 
+.left-arm.sad {
+  @include sad-wave;
+}
+
+.left-arm.happy {
+  @include happy-wave;
+}
+
 .right-arm {
   width: $rightarm-width;
   height: $rightarm-height;
@@ -608,6 +861,10 @@ $tail-sway-seconds: 3s;
   transform-origin: center top;
   z-index: $rightarm-z;
   @include right-arm-sway;
+}
+
+.right-arm.happy {
+  @include right-arm-happy-wave;
 }
 
 .left-leg {
@@ -637,4 +894,106 @@ $tail-sway-seconds: 3s;
   transform: translate($tail-pos);
   z-index: $tail-z;
   @include tail-sway;
+}
+
+.tail.happy {
+  @include tail-sway-happy;
+}
+
+// Tears
+$tear-width: 6px;
+$tear-height: 9px;
+$tear-start: 130px, 120px;
+$tear-end: 130px, 140px;
+$tear-z: 9;
+
+@-webkit-keyframes tear-sad {
+  0% {transform: translate($tear-start); opacity: 0;};
+  10% {opacity: 100};
+  70% {opacity: 100};
+  90% {transform: translate($tear-end); opacity: 0;};
+  100% {transform: translate($tear-end); opacity: 0;};
+}
+
+@mixin tear-sad {
+  -webkit-animation: tear-sad 9s infinite ease-in-out;
+}
+
+.tear.sad {
+  width: $tear-width;
+  height: $tear-height;
+  background-image: url('../images/stego-parts/stego-sad-tears.png');
+  position: absolute;
+  transform: translate($tear-start);
+  z-index: $tear-z;
+  @include tear-sad;
+}
+
+/* Connect Splash */
+.sign-in-container {
+  position: absolute;
+  padding: 20px;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: 500px;
+  height: 300px;
+  background-color: rgba(255,255,255,.7);
+  border-radius: 10px;
+}
+
+
+// Login/Sign-Up Page
+.button-container {
+  position: relative;
+  padding-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 1em;
+  margin: 0.2em;
+  background: rgb(51, 51, 51);
+  color: #fff;
+  min-width: 200px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  // text-shadow: -1px -1px 1px rgb(0, 143, 120);
+  // box-shadow: 1px 1px 1px rgb(0, 143, 120);
+}
+
+.button:hover {
+  background: rgb(0, 181, 255);
+}
+
+.icons {
+  vertical-align: middle;
+  padding-right: 5px;
+  margin-top: -3px;
+}
+
+.linebreak {
+  width: 40%;
+  border-bottom: 1px solid rgb(51, 51, 51);
+}
+
+.or {
+  padding: 15px;
+}
+
+.logo-container {
+  width: 387px;
+  height: 262px;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0 auto;
 }

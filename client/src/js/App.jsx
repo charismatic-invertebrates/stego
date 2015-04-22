@@ -69,7 +69,7 @@ var App = React.createClass({
         commitsData[dates[index]] = parseInt(count,10);
       })
     }
-    console.log(commitsData);
+    
     return commitsData;
   },
 
@@ -79,7 +79,7 @@ var App = React.createClass({
     var tzoffset = new Date().getTimezoneOffset() * 60000;
     var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
 
-    return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
+    return localISOTime.replace(/(T)?[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '');
   },
 
   // Find start of day
@@ -101,11 +101,15 @@ var App = React.createClass({
 
     return date;
   },
-
+  
   render: function() {
+    console.log(this.state.userInfo);
     return (
       <div id="landscape-container">
-        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} />
+        <div className="logo-container">
+          <img src='./client/dist/public/images/stego-logo.png' alt="" className="stego-logo"/>
+        </div>
+        <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} startOfDay={this.state.day} />
       </div>
     );
   }

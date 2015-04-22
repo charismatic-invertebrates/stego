@@ -14,8 +14,6 @@ var react = require('gulp-react');
 var plumber = require('gulp-plumber');
 
 var path = {
-  HTML_SRC: './client/src/index.html',
-  HTML_PUBLIC: './client/dist/public',
   CSS_SRC: './client/src/css/style.scss',
   CSS_PUBLIC: './client/dist/public/css',
   ENTRY_POINT: './client/src/js/App.jsx',
@@ -61,22 +59,6 @@ gulp.task('bower', function(){
   gulp.src([path.BOWER_SRC])
   .pipe(gulp.dest(path.BOWER_PUBLIC))
   .pipe(notify('Bower components have been copied over!'));
-});
-
-// Copy HTML file to dist
-gulp.task('html', function(){
-  return gulp.src([path.HTML_SRC])
-  .pipe(gulp.dest(path.HTML_PUBLIC))
-  .pipe(notify('Stego HTML Build Complete!'));
-});
-
-// HTML Watch task
-gulp.task('watch-html', function(){
-  gulp.watch(path.HTML_SRC, function(){
-    return gulp.src([path.HTML_SRC])
-    .pipe(gulp.dest(path.HTML_PUBLIC))
-    .pipe(notify('WATCH: Stego HTML Build Complete!'));
-  });
 });
 
 // Compile JSX file to build.js
@@ -151,5 +133,5 @@ gulp.task('watch-js', function(){
 });
 
 // When "gulp" is run in the terminal, this is what will be called
-gulp.task('build', ['jsx', 'js', 'html', 'css', 'images', 'bower']);
-gulp.task('default', ['watch-js', 'watch-jsx', 'watch-html', 'watch-css']);
+gulp.task('build', ['jsx', 'js', 'css', 'images', 'bower']);
+gulp.task('default', ['watch-js', 'watch-jsx', 'watch-css']);
