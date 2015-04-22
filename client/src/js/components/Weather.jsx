@@ -7,9 +7,8 @@ var Weather = React.createClass({
       <div className='weather-container'>
         <div className='weather-forecast'>
           {this.props.currentWeather}
-            <div className='test'>
-              {this.props.more}
-            </div>
+          <canvas className="skycon" id="skycon"></canvas>
+          {this.props.more}
         </div>
       </div>
     );
