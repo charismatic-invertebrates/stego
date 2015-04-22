@@ -31,6 +31,9 @@
     "128": "client/dist/public/images/stego128.png"
   },
 
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "sandbox": {
+    "pages": ["client/dist/public/stego-app.html"],
+    "content-security-policy": "sandbox allow-scripts"
+  }
 }
 

@@ -87,12 +87,6 @@ var Landscape = React.createClass({
   },
 
   componentDidMount: function() {
-
-    var el = React.findDOMNode(this.refs.lscape);
-    setTimeout(function() {
-      el.style.opacity = 1;
-    }, 500);
-    
     setInterval(function() {
       this.setState({displayTime: this.checkDisplayTime()});
       this.setState({meridian: this.checkMeridian()});
@@ -174,6 +168,8 @@ var Landscape = React.createClass({
       }, 500);
     }
 
+=======
+>>>>>>> c1e161a... (fix) Move app into sandboxed iframe
   },
 
   render: function() {

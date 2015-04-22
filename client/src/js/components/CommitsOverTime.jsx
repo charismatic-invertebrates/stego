@@ -106,7 +106,8 @@ var CommitsOverTime = React.createClass({
 
   drawChart: function(redraw) {
     this.setState({ chartData: this.getData(redraw) }, function() {
-      drawLineGraph(this.props.parentId, this.state.chartData, redraw);
+      var data = this.state.chartData;
+      drawLineGraph(this.props.parentId, data, redraw);
     });
 
   },
