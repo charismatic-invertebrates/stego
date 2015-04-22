@@ -440,13 +440,18 @@ h3 {
   padding: 0 0.5em;
 }
 
+
 /* Stego Dinosaur */
-.dino-container {
+.stego-container {
+  margin: 0 auto;
+  width: 300px;
+}
+
+.stego-body-wrapper {
   position: absolute;
-  margin: auto;
   bottom: 8%;
-  left: 0;
-  right: 0;
+  width: 300px;
+  height: 300px;
 }
 
 // Stego Moods
@@ -502,7 +507,7 @@ $rightarm-z: 8;
 $leftleg-z: -1;
 $rightleg-z: 7;
 $mouth-z: 8;
-$tail-z: 6;
+$tail-z: 9;
 
 // Stego Timing
 $blink-seconds: 4s;
@@ -735,8 +740,13 @@ $cloud-5-seconds: 300s;
   position: absolute;
 }
 
+.eye, .mouth, .teeth, .left-arm, .right-arm,
+.left-leg, .right-leg, .tear, .tail {
+  position: relative;
+}
+
 .stego-body {
-  margin: 0 auto;
+  position: absolute;
   width: $body-width;
   height: $body-height;
   background-image: url('../images/stego-parts/stego-body.png');

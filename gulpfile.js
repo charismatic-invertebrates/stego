@@ -14,7 +14,7 @@ var react = require('gulp-react');
 var plumber = require('gulp-plumber');
 
 var path = {
-  HTML_SRC: './client/src/stego.html',
+  HTML_SRC: './client/src/*.html',
   HTML_PUBLIC: './client/dist/public',
   CSS_SRC: './client/src/css/style.scss',
   CSS_PUBLIC: './client/dist/public/css',

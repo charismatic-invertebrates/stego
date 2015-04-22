@@ -46,7 +46,7 @@ var App = React.createClass({
         }
       },
       day: this.setDay(),
-      week: this.getStartOfWeek(),
+      week: this.getStartOfWeek()
     };
   },
 
@@ -62,9 +62,10 @@ var App = React.createClass({
 
   processCommits: function() {
     var commitsData = {};
-    var commits = localStorage.getItem('commitCounts') 
+
+    var commits = localStorage.getItem('commitCounts');
     commits = commits !== null ? commits.split(',') : null;
-    var dates = localStorage.getItem('commitDates') 
+    var dates = localStorage.getItem('commitDates');
     dates = dates !== null ? dates.split(',') : null;
 
     if(commits !== null) {
