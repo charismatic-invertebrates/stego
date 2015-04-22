@@ -7,6 +7,7 @@ var Dino = require('./Dino.jsx');
 var CommitsPanel = require('./CommitsPanel.jsx');
 var StepsPanel = require('./StepsPanel.jsx');
 var Weather = require('./Weather.jsx');
+var $ = require('jquery');
 var Q = require('q');
 
 var Landscape = React.createClass({
