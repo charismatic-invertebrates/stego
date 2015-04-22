@@ -1,6 +1,5 @@
 function drawLineGraph(elementId, data, redraw) {
   if (redraw) {
-    console.log('redraw: ', data.labels);
     var canvas = document.getElementById(elementId);
     var container = canvas.parentNode;
     container.removeChild(canvas);

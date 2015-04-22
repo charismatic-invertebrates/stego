@@ -55,10 +55,10 @@ var auth = function(){
         },
         callback: function(res) {
           console.log(res);
-          app.storage['xid'] = res.xid;
-          app.storage['commitCounts'] = res.commitCounts;
-          app.storage['commitDates'] = res.commitDates;
-          app.storage['steps'] = res.steps;
+          localStorage.setItem('xid', res.xid);
+          localStorage.setItem('commitCounts', res.commitCounts);
+          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('steps', res.steps);
         }
       };
       break;
@@ -71,9 +71,9 @@ var auth = function(){
         },
         callback: function(res) {
           console.log(res);
-          app.storage['commitCounts'] = res.commitCounts;
-          app.storage['commitDates'] = res.commitDates;
-          app.storage['steps'] = res.steps;
+          localStorage.setItem('commitCounts', res.commitCounts);
+          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('steps', res.steps);
         }
       };
       break;

@@ -22,7 +22,7 @@ var CommitsOverTime = React.createClass({
 
   getData: function(redraw) {
     var commitsData = this.props.commitsData;
-    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var week;
 
     // Display current week by default
@@ -61,13 +61,14 @@ var CommitsOverTime = React.createClass({
     for (var savedDate in commitsData) {
       // Convert date to day
       var date = new Date(savedDate);
-      var dayNumber = date.getDay();
-      var dateNumber = date.getDate();
+      var dayNumber = date.getUTCDay();
+      var dateNumber = date.getUTCDate();
 
       for (var i = 0; i < chartData.datasets[0].data.length; i++) {
         if (i === dayNumber) {
-          if (chartData.labels[0].match(dateNumber) !== null) {
-            chartData.datasets[0].data[i] = commitsData[date];
+          if (chartData.labels[i].match(dateNumber) !== null) {
+            // 
+            chartData.datasets[0].data[i] = commitsData[savedDate];
           }
         }
       }
