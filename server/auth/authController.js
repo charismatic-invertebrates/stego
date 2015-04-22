@@ -91,11 +91,11 @@ var auth = {
           res.send('User does not exist');
           return null;
         } else {
-          return continueSync(foundUserServer, time);
+          return continueSync(foundUserServer, time, res);
         }
       });
 
-    var continueSync = function(foundUserServer, time) {
+    var continueSync = function(foundUserServer, time, res) {
       // Creating an object who's formatting fits with apiHandler's functionality
       var syncAccount = {
         xid: foundUserServer.xid,
@@ -114,19 +114,21 @@ var auth = {
           accessToken: foundUserServer.fitnessToken,
         },
       };
-      // Do API requests, create userAccount object and modify it accordingly
+      // Do API requests, create syncAccount object and modify it accordingly
       apiHandler.getGithubData(syncAccount)
         .then(function(syncAccount) {
           return apiHandler.getFitnessData(syncAccount);
         })
+
+        // Pass account to database and update the database
         .then(function(syncAccount) {
+          res.json(syncAccount);
           console.log( "THIS ACCOUNT SHOULD HAVE UPDATED DATA: ", syncAccount);
+        })
+
+        .fail(function(error) {
+          console.error('Unable to sync account, ', error);
         });
-
-
-      // Pass this syncAccount object through to userCtrl to update the database.
-
-      // send this to client
     };
   }
 };
