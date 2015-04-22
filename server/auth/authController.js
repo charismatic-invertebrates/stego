@@ -83,35 +83,40 @@ var auth = {
   },
 
   syncAccount: function(req, res) {
-    console.log('syncing account');
+    var time = req.query.timeframe;
+
     userCtrl.checkForUser(res, req.query.xid, 'server')
       .then(function(foundUserServer) {
         if( !foundUserServer ) {
           res.send('User does not exist');
           return null;
         } else {
-          console.log('should try to continue to sync');
-          return continueSync(foundUserServer);
+          return continueSync(foundUserServer, time);
         }
       });
 
-    var continueSync = function(foundUserServer) {
+    var continueSync = function(foundUserServer, time) {
       // Creating an object who's formatting fits with apiHandler's functionality
       var syncAccount = {
         xid: foundUserServer.xid,
+        time: time,
         github: {
+          user: {
+            reposUrl: foundUserServer.reposUrl,
+            username: foundUserServer.githubUsername,
+            commitDates: [],
+            commitCounts: [],
+          },
           accessToken: foundUserServer.githubToken,
         },
         fitness: {
           provider: foundUserServer.provider,
-          accessToken: foundUserServer.providerToken,
+          accessToken: foundUserServer.fitnessToken,
         },
       };
-console.log('about to enter API Handler');
       // Do API requests, create userAccount object and modify it accordingly
       apiHandler.getGithubData(syncAccount)
         .then(function(syncAccount) {
-          console.log('in the then');
           return apiHandler.getFitnessData(syncAccount);
         })
         .then(function(syncAccount) {

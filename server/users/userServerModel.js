@@ -9,6 +9,8 @@ var mongoose = require('mongoose');
 var UserServerSchema = new mongoose.Schema({
 
   xid: String,
+  reposUrl: String,
+  githubUsername: String,
   provider: String,
   githubToken: String,
   fitnessToken: String,

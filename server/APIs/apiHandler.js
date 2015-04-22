@@ -38,7 +38,6 @@ module.exports = {
 
   getGithubUser: function(userAccount) {
     var githubUserParams = assignRequestParams('github', 'getUser', userAccount.github.accessToken);
-
     return deferredRequest(githubUserParams)
     // Store Github User information
       .then(function(response) {
@@ -56,9 +55,7 @@ module.exports = {
   },
 
   getGithubData: function(userAccount) {
-console.log('is this working?')
     var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
-
 
     // Get Github Repo information
     return deferredRequest(githubRepoParams)
@@ -84,7 +81,7 @@ console.log('is this working?')
         }))
           .then(function(results) {
             results.forEach(function(response) {
-              var commits = JSON.parse(response[1]);
+              var commits = JSON.parse(response[1]);              
               commits.forEach(function(commitInfo){
                 var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
                 commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
@@ -92,11 +89,11 @@ console.log('is this working?')
             });
           })
           .then(function() {
-            console.log(commitCountDates);
             Object.keys(commitCountDates).forEach(function(key) {
               userAccount.github.user.commitDates.push(key);
               userAccount.github.user.commitCounts.push(commitCountDates[key]);
             });
+            return userAccount;
           });
       })
 

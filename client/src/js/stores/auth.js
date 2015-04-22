@@ -83,6 +83,7 @@ var auth = function(){
         url: 'http://localhost:8000/api/auth/sync',
         data: {
           xid: param,
+          timeframe: getOneWeekAgo
         },
         callback: function(res) {
           console.log(res);
