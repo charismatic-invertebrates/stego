@@ -1,64 +1,24 @@
-function drawLineGraph(elementId, chartData, max, measurement, redraw) {
-  var graph = d3.select('#' + elementId);
-  var width = 450;
-  var height = 450;
-  var margin = {top: 40, right: 40, left: 40, bottom: 40};
+Chart.defaults.global.responsive = true;
+Chart.defaults.global.tooltipFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+Chart.defaults.global.tooltipFontSize = 12;
+Chart.defaults.global.tooltipTitleFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+Chart.defaults.global.tooltipTitleFontSize = 12;
+Chart.defaults.global.animation = false;
+Chart.defaults.global.scaleFontFamily = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  // set ranges
-  var xScale = d3.time.scale()
-    .domain([new Date(chartData[0].date), d3.time.day.offset(new Date(chartData[chartData.length - 1].date), 1)])
-    .rangeRound([0, width - margin.left - margin.right]);
-
-  var yScale = d3.scale.linear()
-    .domain([0, max])
-    .range([height - margin.top - margin.bottom, 0]);
-
-  // line generator
-  var line;
-
-  if (!redraw) {
-    graph.attr('class', 'graph')
-      .attr('width', width)
-      .attr('height', height);
-
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-      .orient('bottom')
-      .ticks(d3.time.day.range, 1)
-      .tickFormat(d3.time.format('%b %d'));
-
-    var yAxis = d3.svg.axis()
-      .scale(yScale)
-      .orient('left');
-
-    line = d3.svg.line()
-      .interpolate('basis')
-      .x(function(d) { return xScale(new Date(d.date)); })
-      .y(function(d) { return yScale(d[measurement]); });
-
-    graph.append('path')
-      .attr('class', 'line')
-      .attr('transform', 'translate(' + margin.top + ',' + margin.left + ')')
-      .attr('d', line(chartData));
-
-    graph.append('g')
-      .attr('class', 'axis')
-      .attr('transform', 'translate(' + (margin.left + 10) + ',' + (height - margin.top) + ')')
-      .call(xAxis);
-
-    graph.append('g')
-      .attr('class', 'axis')
-      .attr('transform', 'translate(' + (margin.left + 10) + ',' + margin.top + ')')
-      .call(yAxis);
-
-  } else {
-    line = d3.svg.line()
-      .interpolate('basis')
-      .x(function(d) { return xScale(new Date(d.date)); })
-      .y(function(d) { return yScale(d[measurement]); });
-      
-    graph.select('path')
-      .attr('class', 'line')
-      .attr('d', line(chartData));
+function drawLineGraph(elementId, data, redraw) {
+  if (redraw) {
+    console.log('redraw: ', data.labels);
+    var canvas = document.getElementById(elementId);
+    var container = canvas.parentNode;
+    container.removeChild(canvas);
+    var firstButton = container.firstChild;
+    var newCanvas = document.createElement('canvas');
+    newCanvas.id = elementId;
+    newCanvas.className = 'line-chart';
+    container.insertBefore(newCanvas, firstButton);
   }
+
+  var ctx = document.getElementById(elementId).getContext('2d');
+  var graph = new Chart(ctx).Line(data);
 }

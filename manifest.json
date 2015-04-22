@@ -26,6 +26,8 @@
     "16": "client/dist/public/images/stego16.png",
     "48": "client/dist/public/images/stego48.png",
     "128": "client/dist/public/images/stego128.png"
-  }
+  },
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
 
