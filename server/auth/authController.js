@@ -96,9 +96,23 @@ var auth = {
       });
 
     var continueSync = function(foundUserServer) {
-      console.log('in continueSync');
-      console.log('in sync continuation, here is our found user: ', foundUserServer);
-      return 'cats';
+      // Creating an object who's formatting fits with apiHandler's functionality
+      var syncAccount = {
+        github: {
+          accessToken: foundUserServer.githubToken,
+        },
+        fitness: {
+          provider: foundUserServer.provider,
+          accessToken: foundUserServer.providerToken,
+        },
+      };
+      // Do API requests, create userAccount object and modify it accordingly
+
+
+
+      // Pass this syncAccount object through to userCtrl to update the database.
+
+      // send this to client
     };
   }
 };
