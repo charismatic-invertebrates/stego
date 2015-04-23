@@ -103,13 +103,20 @@ module.exports = {
 
   getFitnessData: function(userAccount) {
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
+    userAccount.fitness.stepDates = [];
+    userAccount.fitness.stepCounts = [];
 
     return deferredRequest(fitnessStepsParams)
-      // Store user's steps
+      // Get and process data
       .then(function(response) {
-        userAccount.fitness.user = JSON.parse(response[1]).data;
+        var jawboneMoves = JSON.parse(response[1]).data.items;
+        jawboneMoves.forEach(function(moveData) {
+          userAccount.fitness.stepDates.push(moveData.date);
+          userAccount.fitness.stepCounts.push(moveData.details.steps);
+        });
         return userAccount;
       })
+
       .fail(function(error) {
         console.error('Error in apiHandler.getFitnessData, failed to get steps: ', error);
       });
