@@ -1,4 +1,5 @@
-var keys = require('../config/secureAuth.js');
+var authPath = process.env.AUTH_PATH || 'secureAuth';
+var keys = require('../config/'+ authPath + '.js');
 
 module.exports = function(provider, usage, param, loopedParam) {
   var callLoc = provider + '-' + usage;
