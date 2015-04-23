@@ -16,7 +16,7 @@
   > "Stego revolutionizes the daily life of all of our staff." - Roger Young
 
 ## How to Get Started ##
-  > Search for "Steg" on the Chrome Web Store, and download it now!
+  > Search for "Stego" on the Chrome Web Store, and download it now!
 
 ## Customer Quote ##
   > "Since I adopted a pet on Stego, I've gotten a job at Google and Apple, AND I've lost 300 pounds!" - Rosie O'Donnell
