@@ -43,7 +43,8 @@ module.exports = {
       commitDates: userAccount.github.user.commitDates,
       commitCounts: userAccount.github.user.commitCounts,
       provider: userAccount.fitness.provider,
-      steps: userAccount.fitness.user.items,
+      stepDates: userAccount.fitness.stepDates,
+      stepCounts: userAccount.fitness.stepCounts
     };
 
     // Populate the UserServer information that we want to save
@@ -97,7 +98,8 @@ module.exports = {
     var updateUser = {
       commitDates: syncAccount.github.user.commitDates,
       commitCounts: syncAccount.github.user.commitCounts,
-      // steps: syncAccount.fitness.user.items,
+      stepDates: syncAccount.fitness.stepDates,
+      stepCounts: syncAccount.fitness.stepCounts
     };
     
     // Find and update the database
