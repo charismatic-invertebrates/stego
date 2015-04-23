@@ -27,10 +27,11 @@ var SignUpSplash = React.createClass({
         <div className='button-container'>
           <a className="button" onClick={this.getProviderCode.bind(null, 'github')}><img className="icons" src="./images/icons/githubicon.png"/>Authorize with GitHub</a>
           <div className="or">
-            <p>or</p>
+            <p>&</p>
           </div>
           <a className="button" onClick={this.getProviderCode.bind(null, 'jawbone')}><img className="icons" src="./images/icons/jawboneicon.png"/>Authorize with Jawbone</a>
-          <a className="button" onClick={this.pairAccounts}>Login</a>
+          <div className="or"></div>
+          <a disabled="true" className="button" onClick={this.pairAccounts}>Login</a>
         </div>
       </div>
     )

@@ -152,6 +152,7 @@ var Landscape = React.createClass({
   },
 
   render: function() {
+        // <SignInSplash auth={this.props.auth} />
     return (
       <div className={'time-of-day ' + this.state.timeOfDay}>
       <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
