@@ -18,12 +18,8 @@ var App = React.createClass({
           username: null,
           reposUrl: null,
           repos: null,
-          commitsByRepo: [],
-          totalCommits: 0,
           token: null,
           code: null,
-          weeklyCommits: [],
-          dailyCommits: 0,
           commitsData: this.processCommits()
         },
         fitness: {
@@ -106,32 +102,7 @@ var App = React.createClass({
     return date;
   },
 
-/*
-  // Grab all commits that have occurred since the beginning of the week
-        case 'github-commits-weekly':
-          callParams = {
-            url: 'https://api.github.com/repos/' + app.state.userInfo.github.username + '/' + param + '/commits?author=' + app.state.userInfo.github.username + '&since=' + app.convertTime(app.state.week),
-            data: {access_token: app.state.userInfo.github.token},
-            callback: function(commits) {
-              commits.forEach(function(commitInfo) {
-                // Isolate date (e.g., '2015-04-17')
-                var currentDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-
-                updateState({
-                  userInfo: {
-                    github: {
-                      weeklyCommits: {$push: [currentDate]}
-                    }
-                  }
-                });
-              });
-            }
-          };
-          break;
-*/
-
   render: function() {
-    console.log(this.state.userInfo);
     return (
       <div id="landscape-container">
         <Landscape userInfo={this.state.userInfo} auth={this.state.auth} startOfWeek={this.state.week} startOfDay={this.state.day} />

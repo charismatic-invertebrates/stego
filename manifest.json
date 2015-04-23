@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Stego",
+  "short_name": "Stego",
   "version": "1.0",
 
   "description": "Stego the Tabagotchi",

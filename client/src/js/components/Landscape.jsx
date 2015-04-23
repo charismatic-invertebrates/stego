@@ -138,8 +138,6 @@ var Landscape = React.createClass({
 
           }
 
-          skycons.play();
-
           if (this.isMounted()) {
             this.setState({
               displayWeather: temperature,
@@ -153,7 +151,7 @@ var Landscape = React.createClass({
 
   render: function() {
     return (
-      <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
+      <div className={'time-of-day ' + this.state.timeOfDay}>
         <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
         <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
         <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
@@ -166,7 +164,7 @@ var Landscape = React.createClass({
         <CommitsBox auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} />
         <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.totalCommits} stepsMax={10000} commitsMax={20} />
+        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
         <Weather currentWeather={this.state.displayWeather} />
       </div>
     );
