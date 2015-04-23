@@ -213,6 +213,7 @@ var Landscape = React.createClass({
           <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
           <Weather currentWeather={this.state.displayWeather} />
         </div>
+        
         <div className="admin">
           <a className="admin-button" onClick={this.changeLandscape}>
             <span className="fa fa-clock-o"></span>
