@@ -43,7 +43,6 @@ var CommitsBox = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps) {
-    console.log(this.state.currentValue);
     if (this.props.commits !== undefined) {
       if (JSON.stringify(nextProps.commits) !== JSON.stringify(this.props.commits)) {
         this.setState({currentValue: this.getCurrentCommits()});
@@ -59,7 +58,6 @@ var CommitsBox = React.createClass({
         <h2>Commits</h2>
         <Chart parentId="commits-chart" currentValue={this.state.currentValue} max={this.props.max} />
         <a className="button" onClick={this.getProviderCode.bind(null, 'github')}>Login to Github</a>
-
         <a className="button" onClick={this.pairAccounts}>Pair Accounts</a>
         <a className="button" onClick={this.syncAccount}>Sync Account</a>
       </div>

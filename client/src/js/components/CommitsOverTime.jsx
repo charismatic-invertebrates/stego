@@ -22,7 +22,7 @@ var CommitsOverTime = React.createClass({
 
   getData: function(redraw) {
     var commitsData = this.props.commitsData;
-    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var week;
 
     // Display current week by default
@@ -47,12 +47,12 @@ var CommitsOverTime = React.createClass({
       datasets: [
         {
           label: 'Commits',
-          fillColor: 'rgba(23, 202, 173, 0.2)',
-          strokeColor: 'rgb(23, 202, 173)',
-          pointColor: 'rgb(23, 202, 173)',
+          fillColor: 'rgba(122, 84, 143, 0.2)',
+          strokeColor: 'rgb(122, 84, 143)',
+          pointColor: 'rgb(122, 84, 143)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgb(23, 202, 173)',
+          pointHighlightStroke: 'rgb(122, 84, 143)',
           data: [0, 0, 0, 0, 0, 0, 0]
         }
       ]
@@ -61,23 +61,20 @@ var CommitsOverTime = React.createClass({
     for (var savedDate in commitsData) {
       // Convert date to day
       var date = new Date(savedDate);
-      var dayNumber = date.getDay();
-      var dateNumber = date.getDate();
+      var dayNumber = date.getUTCDay();
+      var dateNumber = date.getUTCDate();
 
       for (var i = 0; i < chartData.datasets[0].data.length; i++) {
         if (i === dayNumber) {
-          if (chartData.labels[0].match(dateNumber) !== null) {
-            chartData.datasets[0].data[i] = commitsData[date];
+          if (chartData.labels[i].match(dateNumber) !== null) {
+            // 
+            chartData.datasets[0].data[i] = commitsData[savedDate];
           }
         }
       }
     }
-
-    // if (redraw) {
-    //   return chartData.datasets[0].data;
-    // } else {
-      return chartData;
-    // }
+    
+    return chartData;
   },
 
   displayPreviousWeek: function() {
@@ -100,13 +97,14 @@ var CommitsOverTime = React.createClass({
 
     // Reset current week to new week and redraw chart
     this.setState({ currentWeek: newWeek }, function() {
-      this.drawChart(false);
+      this.drawChart(true);
     });
   },
 
   drawChart: function(redraw) {
     this.setState({ chartData: this.getData(redraw) }, function() {
-      drawLineGraph(this.props.parentId, this.state.chartData, redraw);
+      var data = this.state.chartData;
+      drawLineGraph(this.props.parentId, data, redraw);
     });
 
   },
