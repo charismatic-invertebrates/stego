@@ -9,17 +9,17 @@ var UserServer = require('./userServerModel.js');
 
 module.exports = {
 
-  checkForUser: function(res, userAccount){
-    var findOneUser = Q.nbind(User.findOne, User);
+  checkForUser: function(res, xid, server){
+    var findOneUser = server === 'server' ?  Q.nbind(UserServer.findOne, UserServer) : Q.nbind(User.findOne, User);
 
     // Check the database for the user
-    return findOneUser({'xid': userAccount.github.user.id})
+    return findOneUser({'xid': xid})
       .then(function(foundUser) {
 
         // If we found a user under that xid, then return that user
         if(foundUser) {
-          res.json(foundUser);
-          return true;
+          console.log('found user', foundUser);
+          return foundUser;
 
         // Otherwise we inform the function that called this function that there is not a user under that ID, and allow it to decide what to do from there.
         } else {
@@ -33,12 +33,12 @@ module.exports = {
   saveUser: function(res, userAccount) {
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
+
+    console.log("WE ARE ABOUT TO SAVE THIS, THIS IS THE FINAL FORMAT GO OFF OF THIS", userAccount);
     
     // Populate the User information that we want to save
     var newUser = {
       xid: userAccount.github.user.id,
-      githubUsername: userAccount.github.user.username,
-      githubName: userAccount.github.user.name,
       repos: userAccount.github.repos,
       commitDates: userAccount.github.user.commitDates,
       commitCounts: userAccount.github.user.commitCounts,
@@ -49,6 +49,8 @@ module.exports = {
     // Populate the UserServer information that we want to save
     var newUserServer = {
       xid: userAccount.github.user.id,
+      reposUrl: userAccount.github.user.reposUrl,
+      githubUsername: userAccount.github.user.username,
       provider: userAccount.fitness.provider,
       githubToken: userAccount.github.accessToken,
       fitnessToken: userAccount.fitness.accessToken,
@@ -85,5 +87,30 @@ module.exports = {
         }
       });
   },
+
+  updateUser: function(res, syncAccount) {
+    // Promisify the find and update command
+    var findAndUpdate = Q.nbind(User.findOneAndUpdate, User);
+
+    // Pull data from syncAccount necessary to find and update our DB's userAccount
+    var xid = syncAccount.xid;
+    var updateUser = {
+      commitDates: syncAccount.github.user.commitDates,
+      commitCounts: syncAccount.github.user.commitCounts,
+      // steps: syncAccount.fitness.user.items,
+    };
+    
+    // Find and update the database
+    findAndUpdate({xid: xid}, updateUser)
+      .then(function(updatedUser) {
+        // If found, send the updated and processed data to the client
+        if(updatedUser) {
+          res.json(updatedUser);
+        } else {
+          // otherwise throw an error
+          res.send(404, 'Sync failed');
+        }
+      });
+  }
 
 };

@@ -23,10 +23,13 @@ var auth = {
 
       // Check if this user is in our database, if so, reply with user.  Otherwise, continue to create a new user
       .then(function(userAccount) {
-        return userCtrl.checkForUser(res, userAccount)
+        return userCtrl.checkForUser(res, userAccount.github.user.id)
           .then(function(foundUser) {
-            if( !foundUser ) {
-              return continueCreation(userAccount);
+            if( foundUser ) {
+              res.json(foundUser);
+              return null;
+            } else {
+              return continueCreation();
             }
           });
       });
@@ -67,15 +70,66 @@ var auth = {
 
     // Use user information to query our database for a pre-existing user
     .then(function() {
-      userCtrl.checkForUser(res, userAccount)
+      userCtrl.checkForUser(res, userAccount.github.user.id)
         .then(function(foundUser) {
           if( !foundUser ) {
             res.status(404).send('No account found for this login');
           } else {
             console.log('We found a user');
+            res.json(foundUser);
           }
         });
     });
+  },
+
+  syncAccount: function(req, res) {
+    var time = req.query.timeframe;
+
+    userCtrl.checkForUser(res, req.query.xid, 'server')
+      .then(function(foundUserServer) {
+        if( !foundUserServer ) {
+          res.send('User does not exist');
+          return null;
+        } else {
+          return continueSync(foundUserServer, time, res);
+        }
+      });
+
+    var continueSync = function(foundUserServer, time, res) {
+      // Creating an object who's formatting fits with apiHandler's functionality
+      var syncAccount = {
+        xid: foundUserServer.xid,
+        time: time,
+        github: {
+          user: {
+            reposUrl: foundUserServer.reposUrl,
+            username: foundUserServer.githubUsername,
+            commitDates: [],
+            commitCounts: [],
+          },
+          accessToken: foundUserServer.githubToken,
+        },
+        fitness: {
+          provider: foundUserServer.provider,
+          accessToken: foundUserServer.fitnessToken,
+        },
+      };
+      // Do API requests, create syncAccount object and modify it accordingly
+      apiHandler.getGithubData(syncAccount)
+        .then(function(syncAccount) {
+          return apiHandler.getFitnessData(syncAccount);
+        })
+
+        // Pass account to database and update the database
+        .then(function(syncAccount) {
+          userCtrl.updateUser(res, syncAccount);
+        })
+
+        // Error Handling
+        .fail(function(error) {
+          console.error('Unable to sync account, ', error);
+        });
+    };
   }
 };
 

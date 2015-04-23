@@ -12,4 +12,8 @@ module.exports = function(app) {
 
   app.route('/loginAccount')
     .get(authController.loginUser);
+
+  app.route('/sync')
+    .get(authController.syncAccount);
+
 };

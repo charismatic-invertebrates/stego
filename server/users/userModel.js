@@ -9,7 +9,6 @@ var mongoose = require('mongoose');
 var UserSchema = new mongoose.Schema({
   xid: String,
   githubUsername: String,
-  githubName: String,
   repos: Array,
   commitDates: Array,
   commitCounts: Array,
