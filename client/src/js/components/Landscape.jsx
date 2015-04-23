@@ -152,10 +152,10 @@ var Landscape = React.createClass({
   },
 
   render: function() {
+        // <SignUpSplash auth={this.props.auth} />
+        // <SignInSplash auth={this.props.auth} />
     return (
       <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
-        <SignUpSplash auth={this.props.auth} />
-        <SignInSplash auth={this.props.auth} />
         <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
         <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
         <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
