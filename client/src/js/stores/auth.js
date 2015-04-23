@@ -87,6 +87,9 @@ var auth = function(){
         },
         callback: function(res) {
           console.log(res);
+          localStorage.setItem('commitCounts', res.commitCounts);
+          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('steps', res.steps);
         }
       };
       break;
