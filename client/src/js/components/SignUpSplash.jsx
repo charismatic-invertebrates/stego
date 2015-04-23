@@ -4,7 +4,7 @@ var SignUpSplash = React.createClass({
 
   getInitialState: function(){
     return {
-      showComponent: true
+      showComponent: false
     };
   },
 
