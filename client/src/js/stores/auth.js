@@ -71,8 +71,8 @@ var auth = function(){
         },
         callback: function(res) {
           console.log(res);
-          localStorage.setItem('commitCounts', res.commitCounts);
-          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('commitCounts', typeof res.commitCounts);
+          localStorage.setItem('commitDates', typeof res.commitDates);
           localStorage.setItem('steps', res.steps);
         }
       };
@@ -89,7 +89,7 @@ var auth = function(){
           console.log(res);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
-          localStorage.setItem('steps', res.steps);
+          // localStorage.setItem('steps', res.steps);
         }
       };
       break;
