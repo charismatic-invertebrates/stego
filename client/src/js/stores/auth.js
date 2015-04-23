@@ -71,20 +71,35 @@ var auth = function(){
         },
         callback: function(res) {
           console.log(res);
-          localStorage.setItem('commitCounts', res.commitCounts);
-          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('commitCounts', typeof res.commitCounts);
+          localStorage.setItem('commitDates', typeof res.commitDates);
           localStorage.setItem('steps', res.steps);
         }
       };
       break;
-    }
+
+      case 'server-syncAccount':
+      callParams = {
+        url: 'http://localhost:8000/api/auth/sync',
+        data: {
+          xid: param,
+          timeframe: getOneWeekAgo
+        },
+        callback: function(res) {
+          console.log(res);
+          localStorage.setItem('commitCounts', res.commitCounts);
+          localStorage.setItem('commitDates', res.commitDates);
+          // localStorage.setItem('steps', res.steps);
+        }
+      };
+      break;
+    };
     return callParams;
   };
 
   // This function is modularized to make all GET requests for all APIs
   var makeRequest = function(provider, usage, param) {
     var callParams = setAJAXParams(provider, usage, param);
-    console.log(callParams);
     $.ajax({
       type: 'GET',
       url: callParams.url,
@@ -163,8 +178,11 @@ var auth = function(){
 
     // Make a call to server to pull the most recent server-data associated with the current user's xid
     syncAccount: function(){
-      console.log('Being built out at the moment');
-      // makeRequest('server', 'loadAccount');
+      if( localStorage.xid ) {
+        makeRequest('server', 'syncAccount', localStorage.getItem('xid'));
+      } else {
+        console.log('There is not a logged-in user');
+      }
     }
   };
 };
