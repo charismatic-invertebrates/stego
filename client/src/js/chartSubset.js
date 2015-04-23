@@ -97,7 +97,7 @@
 			scaleBeginAtZero: false,
 
 			// String - Scale label font declaration for the scale label
-			scaleFontFamily: "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+			scaleFontFamily: "'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif",
 
 			// Number - Scale label font size in pixels
 			scaleFontSize: 12,
@@ -127,7 +127,7 @@
 			tooltipFillColor: "rgba(0,0,0,0.8)",
 
 			// String - Tooltip label font declaration for the scale label
-			tooltipFontFamily: "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+			tooltipFontFamily: "'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif",
 
 			// Number - Tooltip label font size in pixels
 			tooltipFontSize: 12,
@@ -139,7 +139,7 @@
 			tooltipFontColor: "#fff",
 
 			// String - Tooltip title font declaration for the scale label
-			tooltipTitleFontFamily: "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+			tooltipTitleFontFamily: "'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif",
 
 			// Number - Tooltip title font size in pixels
 			tooltipTitleFontSize: 14,
