@@ -95,11 +95,17 @@ var Landscape = React.createClass({
   },
 
   componentDidMount: function() {
+
+    var el = React.findDOMNode(this.refs.lscape);
+    setTimeout(function() {
+      el.style.opacity = 1;
+    }, 500);
+    
     setInterval(function() {
       this.setState({displayTime: this.checkDisplayTime()});
     }.bind(this), 2000);
   
-    // get the user's location and fetch weather data from openWeatherMap. Then update the displayWeather property to allow the child component to display the information.
+    // get the user's location and fetch weather data from OpenWeatherMap. Then update the displayWeather property to allow the child component to display the information.
     navigator.geolocation.getCurrentPosition(function(geolocation){
       var lon = geolocation.coords.longitude;
       var lat = geolocation.coords.latitude;
