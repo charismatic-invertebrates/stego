@@ -20,10 +20,6 @@ var StepsBox = React.createClass({
   },
   
   render: function() {
-        // <a className="button" onClick={this.getProviderCode.bind(null, 'fitbit')}>Login to FitBit</a>
-        // <a className="button" onClick={this.getProviderCode.bind(null, 'jawbone')}>Login to Jawbone</a>
-        // <a className="button" onClick={this.logUser}>Console log user info</a>
-        // <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}>Login to Pre-existing Account</a>
     return (
       <div className="steps-box">
         <h2>Steps</h2>
