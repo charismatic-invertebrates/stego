@@ -88,4 +88,29 @@ module.exports = {
       });
   },
 
+  updateUser: function(res, syncAccount) {
+    // Promisify the find and update command
+    var findAndUpdate = Q.nbind(User.findOneAndUpdate, User);
+
+    // Pull data from syncAccount necessary to find and update our DB's userAccount
+    var xid = syncAccount.xid;
+    var updateUser = {
+      commitDates: syncAccount.github.user.commitDates,
+      commitCounts: syncAccount.github.user.commitCounts,
+      // steps: syncAccount.fitness.user.items,
+    };
+    
+    // Find and update the database
+    findAndUpdate({xid: xid}, updateUser)
+      .then(function(updatedUser) {
+        // If found, send the updated and processed data to the client
+        if(updatedUser) {
+          res.json(updatedUser);
+        } else {
+          // otherwise throw an error
+          res.send(404, 'Sync failed');
+        }
+      });
+  }
+
 };

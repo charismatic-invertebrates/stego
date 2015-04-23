@@ -122,10 +122,10 @@ var auth = {
 
         // Pass account to database and update the database
         .then(function(syncAccount) {
-          res.json(syncAccount);
-          console.log( "THIS ACCOUNT SHOULD HAVE UPDATED DATA: ", syncAccount);
+          userCtrl.updateUser(res, syncAccount);
         })
 
+        // Error Handling
         .fail(function(error) {
           console.error('Unable to sync account, ', error);
         });
