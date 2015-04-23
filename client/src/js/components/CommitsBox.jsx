@@ -16,6 +16,10 @@ var CommitsBox = React.createClass({
     this.props.auth.syncAccount();
   },
 
+  pairAccounts: function() {
+    this.props.auth.sendToServer('pairing');
+  },
+
   getCurrentCommits: function() {
     var commits = this.props.commits;
     var today = this.props.startOfDay;
@@ -52,6 +56,7 @@ var CommitsBox = React.createClass({
         <h2>Commits</h2>
         <Chart parentId="commits-chart" currentValue={this.state.currentValue} max={this.props.max} />
         <a className="button" onClick={this.syncAccount}>Sync Account</a>
+        <a className="button" onClick={this.syncAccount}>Pair Accounts</a>
       </div>
     );
   }
