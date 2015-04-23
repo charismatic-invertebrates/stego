@@ -78,12 +78,14 @@ html, img {
 }
 
 body {
-  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h1, h2 {
   color: #fff;
+  font-weight: 700;
   text-align: center;
+  text-shadow: 1px 1px 10px #555;
 }
 
 h3 {
@@ -92,15 +94,12 @@ h3 {
 
 h1 {
   font-size: 6em;
-  font-weight: 700;
   margin: 0.8em 0 0.5em 0;
 }
 
 h2 {
   font-size: 2.2em;
-  font-weight: 300;
   text-transform: uppercase;
-  -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
 
 h3 {
@@ -255,7 +254,6 @@ h3 {
 
 .meridian {
   font-size: 0.4em;
-  font-weight: 300;
   margin: 0 0.4em;
 }
 
@@ -403,6 +401,7 @@ h3 {
 .panel-button, .nav-button-left, .nav-button-right {
   display: inline-block;
   font-size: 0.8em;
+  font-weight: 700;
   padding: 0.5em;
   margin: 0.2em;
   cursor: pointer;
@@ -497,7 +496,7 @@ $mouth-pos-happy: 45px,130px;
 $body-z: 8;
 $eye-z: 8;
 $leftarm-z: -1;
-$rightarm-z: 8;
+$rightarm-z: 10;
 $leftleg-z: -1;
 $rightleg-z: 7;
 $mouth-z: 8;

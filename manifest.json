@@ -6,11 +6,6 @@
 
   "description": "Stego the Tabagotchi",
 
-  "background": {
-    "scripts": ["client/dist/public/js/bundle.js"],
-    "persistent": false
-  },
-
   "permissions": [
     "activeTab",
     "<all_urls>",
@@ -30,11 +25,6 @@
     "16": "client/dist/public/images/stego16.png",
     "48": "client/dist/public/images/stego48.png",
     "128": "client/dist/public/images/stego128.png"
-  },
-
-  "sandbox": {
-    "pages": ["client/dist/public/stego-app.html"],
-    "content-security-policy": "sandbox allow-scripts"
   }
 }
 
