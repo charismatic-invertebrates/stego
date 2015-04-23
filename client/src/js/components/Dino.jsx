@@ -4,7 +4,8 @@ var Dino = React.createClass({
 
   getInitialState: function() {
     return {
-      mood: this.checkMood()
+      mood: this.checkMood(),
+      moodCounter: 0
     }
   },
 
