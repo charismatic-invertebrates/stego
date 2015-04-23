@@ -18,12 +18,8 @@ var App = React.createClass({
           username: null,
           reposUrl: null,
           repos: null,
-          commitsByRepo: [],
-          totalCommits: 0,
           token: null,
           code: null,
-          weeklyCommits: [],
-          dailyCommits: 0,
           commitsData: this.processCommits()
         },
         fitness: {

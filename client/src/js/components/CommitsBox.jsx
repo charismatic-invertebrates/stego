@@ -27,8 +27,6 @@ var CommitsBox = React.createClass({
     var today = this.props.startOfDay;
     var commitCount = 0;
 
-    console.log(this.props.commits);
-
     for (var savedDate in commits) {
       if (savedDate === today) {
         commitCount = commits[savedDate];
