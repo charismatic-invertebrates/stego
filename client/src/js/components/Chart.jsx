@@ -27,7 +27,6 @@ var Chart = React.createClass({
 
   componentDidMount: function() {
     this.drawChart();
-    console.log(this.props.currentValue);
   },
 
   shouldComponentUpdate: function(nextProps) {

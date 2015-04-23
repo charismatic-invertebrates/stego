@@ -47,12 +47,12 @@ var CommitsOverTime = React.createClass({
       datasets: [
         {
           label: 'Commits',
-          fillColor: 'rgba(23, 202, 173, 0.2)',
-          strokeColor: 'rgb(23, 202, 173)',
-          pointColor: 'rgb(23, 202, 173)',
+          fillColor: 'rgba(122, 84, 143, 0.2)',
+          strokeColor: 'rgb(122, 84, 143)',
+          pointColor: 'rgb(122, 84, 143)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgb(23, 202, 173)',
+          pointHighlightStroke: 'rgb(122, 84, 143)',
           data: [0, 0, 0, 0, 0, 0, 0]
         }
       ]

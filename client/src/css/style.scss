@@ -77,7 +77,6 @@ html, img {
   @include fadein;
 }
 
-
 body {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -101,6 +100,7 @@ h2 {
   font-size: 2.2em;
   font-weight: 300;
   text-transform: uppercase;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
 
 h3 {
@@ -282,34 +282,27 @@ h3 {
 }
 
 .line-chart {
-  width: 420px;
-  height: 420px;
+  width: 410px;
+  height: 410px;
 }
 
 .weather-container {
-  width: 100%;
-  height: 30%;
   position: fixed;
-  margin-top: 1%;
-  left: 0px;
-  top: 0px;
-  z-index: -1;
+  right: 0;
+  top: 0;
+  margin: 0.5em 0;
+  color: #fff;
 }
 
-.weather-forecast {
-  width: 30%;
-  height: 100%;
-  z-index: -1;
-  text-align: right;
-  position: absolute;
-  margin: 0 auto;
-  color: white;
-  right: 0px;
+.weather-degrees {
+  float: left;
+  margin: 0.2em 0.8em 0 0;
 }
 
 #skycon {
-  width: 80px;
-  z-index: -1;
+  width: 40px;
+  margin: 0;
+  float: left;
 }
 
 .chart-container {
@@ -339,6 +332,7 @@ h3 {
   position: absolute;
   left: 0;
   right: 0;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
 
 .panel-container {
@@ -354,7 +348,7 @@ h3 {
   width: 500px;
   z-index: 1000;
   padding: 1em;
-  color: #4359C9;
+  color: rgb(122, 84, 143);
   background: rgb(240, 240, 240);
   -webkit-box-shadow: 1px 1px 10px #555;
   box-shadow: 1px 1px 10px #555;
@@ -422,9 +416,9 @@ h3 {
 }
 
 .nav-button-left, .nav-button-right {
-  border: 2px solid #CBD4FF;
+  border: 2px solid rgb(193, 159, 215);
   &:hover {
-    border: 2px solid #4359C9;
+    border: 2px solid rgb(122, 84, 143);
   }
 }
 
