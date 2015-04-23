@@ -14,7 +14,7 @@ function liquidFillGaugeDefaultSettings(){
     waveCount: 3, // The number of full waves per width of the wave circle.
     waveRiseTime: 1000, // The amount of time in milliseconds for the wave to rise from 0 to its final height.
     waveAnimateTime: 18000, // The amount of time in milliseconds for a full wave to enter the wave circle.
-    waveRise: true, // Control if the wave should rise from 0 to its full height, or start at its full height.
+    waveRise: false, // Control if the wave should rise from 0 to its full height, or start at its full height.
     waveHeightScaling: true, // Controls wave size scaling at low and high fill percentages. When true, wave height reaches its maximum at 50% fill, and minimum at 0% and 100% fill. This helps to prevent the wave from making the wave circle from appear totally full or empty when near its minimum or maximum fill.
     waveAnimate: false, // Controls if the wave scrolls or is static.
     waveColor: 'rgba(122, 84, 143, 0.6)', // The color of the fill wave.

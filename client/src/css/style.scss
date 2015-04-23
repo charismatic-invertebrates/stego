@@ -460,6 +460,11 @@ h3 {
   // background: midnightblue;
 }
 
+@mixin enable3d {
+  -webkit-transform: translateZ(0);
+}
+
+$enable3d: translateZ(0);
 
 // Stego Asset Sizes
 $eye-size: 14px;
@@ -643,7 +648,7 @@ $cloud-1-x2: 2700px;
 $cloud-1-y: 50px;
 $cloud-1-seconds: 400s;
 
-$cloud-2-x1: 150px;
+$cloud-2-x1: 300px;
 $cloud-2-x2: 2700px;
 $cloud-2-y: 60px;
 $cloud-2-seconds: 280s;
@@ -709,26 +714,31 @@ $cloud-5-seconds: 300s;
 }
 
 .cloud-1 {
+  @include enable3d;
   @include cloud-1;
   position: absolute;
 }
 
 .cloud-2 {
+  @include enable3d;
   @include cloud-2;
   position: absolute;
 }
 
 .cloud-3 {
+  @include enable3d;
   @include cloud-3;
   position: absolute;
 }
 
 .cloud-4 {
+  @include enable3d;
   @include cloud-4;
   position: absolute;
 }
 
 .cloud-5 {
+  @include enable3d;
   @include cloud-5;
   position: absolute;
 }
@@ -759,16 +769,19 @@ $cloud-5-seconds: 300s;
 }
 
 .eye.left-eye.neutral, .eye.left-eye.happy {
+  @include enable3d;
   @include left-eye-blink;
   // transform: translate($left-eye-pos);
 }
 
 .eye.right-eye.neutral, .eye.right-eye.happy {
+  @include enable3d;
   @include right-eye-blink;
   // transform: translate($right-eye-pos);
 }
 
 .eye.left-eye.sad {
+  @include enable3d;
   @include left-eye-blink;
   width: 19px;
   height: 19px;
@@ -780,6 +793,7 @@ $cloud-5-seconds: 300s;
 }
 
 .eye.right-eye.sad {
+  @include enable3d;
   @include right-eye-blink;
   width: 19px;
   height: 19px;
@@ -837,6 +851,7 @@ $cloud-5-seconds: 300s;
   z-index: $mouth-z;
   transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
   background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  @include enable3d;
   @include mouth-happy;
 }
 
@@ -859,6 +874,7 @@ $cloud-5-seconds: 300s;
   z-index: $mouth-z;
   background-image: url('../images/stego-parts/stego-teeth.png');
   transform: translate(110px,143px);
+  @include enable3d;
   @include teeth-happy;
 }
 
@@ -889,10 +905,12 @@ $cloud-5-seconds: 300s;
   transform: translate($rightarm-pos);
   transform-origin: center top;
   z-index: $rightarm-z;
+  @include enable3d;
   @include right-arm-sway;
 }
 
 .right-arm.happy {
+  @include enable3d;
   @include right-arm-happy-wave;
 }
 
@@ -922,10 +940,12 @@ $cloud-5-seconds: 300s;
   transform-origin: center left;
   transform: translate($tail-pos);
   z-index: $tail-z;
+  @include enable3d;
   @include tail-sway;
 }
 
 .tail.happy {
+  @include enable3d;
   @include tail-sway-happy;
 }
 
@@ -955,6 +975,7 @@ $tear-z: 9;
   position: absolute;
   transform: translate($tear-start);
   z-index: $tear-z;
+  @include enable3d;
   @include tear-sad;
 }
 
@@ -970,9 +991,13 @@ $tear-z: 9;
   margin: auto;
   text-align: center;
   width: 500px;
-  height: 300px;
+  height: 380px;
   background-color: rgba(255,255,255,.7);
   border-radius: 10px;
+}
+
+.sign-in-container.login {
+  height: 300px;
 }
 
 
