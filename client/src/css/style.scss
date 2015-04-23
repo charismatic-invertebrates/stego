@@ -114,9 +114,7 @@ h3 {
   color: #fff;
   cursor: pointer;
   text-align: center;
-  // text-shadow: -1px -1px 1px rgb(0, 143, 120);
   border-radius: 5px;
-  // box-shadow: 1px 1px 1px rgb(0, 143, 120);
 }
 
 .button:hover {
@@ -333,6 +331,13 @@ h3 {
   -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
 
+.admin {
+  position: absolute;
+  z-index: 1000;
+  top: 1em;
+  left: 1em;
+}
+
 .panel-container {
   position: absolute;
   top: 0;
@@ -398,7 +403,7 @@ h3 {
   transition: transform 400ms ease-in;
 }
 
-.panel-button, .nav-button-left, .nav-button-right {
+.panel-button, .nav-button-left, .nav-button-right, .admin-button {
   display: inline-block;
   font-size: 0.8em;
   font-weight: 700;
@@ -407,6 +412,13 @@ h3 {
   cursor: pointer;
   text-align: center;
   border-radius: 5px;
+}
+
+.admin-button {
+  background: rgba(255, 255, 255, 0.4);
+  &:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
 }
 
 .nav-button-container {

@@ -31,16 +31,21 @@ var CommitsBox = React.createClass({
     return commitCount;
   },
 
-
   componentDidMount: function() {
     this.setState({currentValue: this.getCurrentCommits()});
   },
 
   shouldComponentUpdate: function(nextProps) {
     if (this.props.commits !== undefined) {
-      if (JSON.stringify(nextProps.commits) !== JSON.stringify(this.props.commits)) {
-        this.setState({currentValue: this.getCurrentCommits()});
-      } 
+      if (typeof nextProps.commits === 'number') {
+        if (nextProps.commits !== this.props.commits || JSON.stringify(nextProps.commits) !== JSON.stringify(this.props.commits)) {
+          this.setState({currentValue: nextProps.commits});
+        }
+      } else {
+        if (nextProps.commits !== this.props.commits || JSON.stringify(nextProps.commits) !== JSON.stringify(this.props.commits)) {
+          this.setState({currentValue: this.getCurrentCommits()});
+        } 
+      }
     }
 
     return true;

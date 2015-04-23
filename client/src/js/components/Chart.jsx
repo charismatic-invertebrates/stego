@@ -7,7 +7,7 @@ var Chart = React.createClass({
     config.maxValue = this.props.max;
 
     if (this.props.currentValue < (config.maxValue / 2)) {
-      config.waveColor = 'rgb(213, 0, 94)';
+      config.waveColor = 'rgba(213, 0, 94, 0.5)';
     }
 
     loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, false);
@@ -19,7 +19,7 @@ var Chart = React.createClass({
     config.maxValue = this.props.max;
     
     if (this.props.currentValue < (config.maxValue / 2)) {
-      config.waveColor = 'rgb(213, 0, 94)';
+      config.waveColor = 'rgba(213, 0, 94, 0.5)';
     }
 
     loadLiquidFillGauge(this.props.parentId, this.props.currentValue, config, true);

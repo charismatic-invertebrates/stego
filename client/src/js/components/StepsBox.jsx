@@ -10,6 +10,14 @@ var StepsBox = React.createClass({
   logUser: function() {
     console.log(this.props.user);
   },
+
+  shouldComponentUpdate: function(nextProps) {
+    if (nextProps.steps !== this.props.steps) {
+      this.setState({ currentValue: this.props.steps });
+    }
+
+    return true;
+  },
   
   render: function() {
         // <a className="button" onClick={this.getProviderCode.bind(null, 'fitbit')}>Login to FitBit</a>
@@ -19,7 +27,7 @@ var StepsBox = React.createClass({
     return (
       <div className="steps-box">
         <h2>Steps</h2>
-        <Chart parentId="steps-chart" currentValue={this.props.user.fitness.moves} max={this.props.max} />
+        <Chart parentId="steps-chart" currentValue={this.props.steps} max={this.props.max} />
       </div>
     );
   }

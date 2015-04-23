@@ -20,7 +20,11 @@ var Landscape = React.createClass({
       displayTime: this.checkDisplayTime(),
       meridian: this.checkMeridian(),
       displayWeather: '',
-      weatherIcon: ''
+      weatherIcon: '',
+      landscapeCounter: 0,
+      moodCounter: 0,
+      commits: this.props.userInfo.github.commitsData,
+      steps: this.props.userInfo.fitness.moves
     };
   },
 
@@ -40,6 +44,8 @@ var Landscape = React.createClass({
 
     if (hour > 12) {
       hour = hour - 12;
+    } else if (hour === 12) {
+      this.setState({meridian: this.checkMeridian()});
     }
 
     return hour + ':' + minutes;
@@ -91,7 +97,6 @@ var Landscape = React.createClass({
   componentDidMount: function() {
     setInterval(function() {
       this.setState({displayTime: this.checkDisplayTime()});
-      this.setState({meridian: this.checkMeridian()});
     }.bind(this), 2000);
   
     // get the user's location and fetch weather data from openWeatherMap. Then update the displayWeather property to allow the child component to display the information.
@@ -151,11 +156,39 @@ var Landscape = React.createClass({
     }.bind(this));
   },
 
+  changeLandscape: function() {
+    var landscapes = ['dawn', 'morning', 'afternoon', 'evening', 'night', 'latenight'];
+
+    this.setState({ timeOfDay: landscapes[this.state.landscapeCounter] }, function() {
+      if (this.state.landscapeCounter === landscapes.length - 1) {
+        this.setState({ landscapeCounter: 0 });
+      } else {
+        this.setState({ landscapeCounter: this.state.landscapeCounter + 1 });
+      }
+    });
+  },
+  
+  changeMood: function() {
+    var demoCommits = [6, 24];
+    var demoSteps = [8015, 35400];
+    this.setState({
+      commits: demoCommits[this.state.moodCounter],
+      steps: demoSteps[this.state.moodCounter]
+     }, function() {
+      if (this.state.moodCounter === demoCommits.length - 1) {
+        this.setState({ moodCounter: 0 });
+      } else {
+        this.setState({ moodCounter: this.state.moodCounter + 1 });
+      }
+    });
+  },
+
   render: function() {
         // <SignUpSplash auth={this.props.auth} />
         // <SignInSplash auth={this.props.auth} />
+
     return (
-      <div className={'time-of-day ' + this.state.timeOfDay} ref="lscape">
+      <div className={'time-of-day ' + this.state.timeOfDay}>
         <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
         <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
         <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
@@ -163,13 +196,22 @@ var Landscape = React.createClass({
         <img src="./images/landscape/clouds-5.png" alt="" className="clouds cloud-5"/>
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
         <div className={'landscape ' + this.state.timeOfDay}></div>
-        <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000}/>
+        <StepsBox auth={this.props.auth} steps={this.state.steps} max={10000}/>
         <StepsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10000} />
-        <CommitsBox auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} />
-        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
+        <CommitsBox auth={this.props.auth} commits={this.state.commits} startOfDay={this.props.startOfDay} max={10} />
+        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10} />
         <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
+        <Dino steps={this.state.steps} commits={this.state.commits} stepsMax={10000} commitsMax={10} />
         <Weather currentWeather={this.state.displayWeather} />
+
+        <div className="admin">
+          <a className="admin-button" onClick={this.changeLandscape}>
+            <span className="fa fa-clock-o"></span>
+          </a>
+          <a className="admin-button" onClick={this.changeMood}>
+            <span className="fa fa-smile-o"></span>
+          </a>
+        </div>
       </div>
     );
   }
