@@ -2,12 +2,15 @@ var React = require('react');
 var auth = require('../stores/auth.js');
 var SignUpSplash = require('./SignUpSplash.jsx');
 
-
 var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
-      showComponent: true
+      showSplash: this.isLoggedIn(),
+      showLogin: true,
+      showSignup: false,
+      githubAuth: this.checkAuth('github'),
+      jawboneAuth: this.checkAuth('jawbone')
     };
   },
 
@@ -15,27 +18,105 @@ var SignInSplash = React.createClass({
     this.props.auth.getCode(service, loginServer);
   },
 
-  logUser: function(){
-    this.removeComponent();
+  pairAccounts: function() {
+    this.props.auth.sendToServer('pairing');
+    this.setState({showSplash: false});
+  },
+
+  isLoggedIn: function() {
+    if (this.state !== null) {
+      if (this.state.githubAuth && this.state.jawboneAuth) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    return false;
+  },
+
+  checkAuth: function(service) {
+    if (service === 'github') {
+      return this.props.user.github.code !== null;
+    } else if (service === 'jawbone') {
+      return this.props.user.fitness.code !== null;
+    }
+
+    return false;
+  },
+
+  hideLogin: function() {
+    this.setState({
+      showLogin: false,
+      showSignup: true
+    });
+  },
+
+  shouldComponentUpdate: function(nextProps) {
+    if (nextProps.user.github.code !== null && !this.state.githubAuth) {
+      this.setState({githubAuth: true});
+    }
+
+    if (nextProps.user.fitness.code !== null && !this.state.jawboneAuth) {
+      this.setState({jawboneAuth: true});
+    }
+
+    return true;
   },
 
   render: function() {
-    var css = {display: this.state.showComponent ? 'block' : 'none'};
-    
+    var splashCSS = {display: this.state.showSplash ? 'block' : 'none'};
+    var loginCSS = {display: this.state.showLogin ? 'block' : 'none'};
+    var signupCSS = {display: this.state.showSignup ? 'block' : 'none'};
+    var githubDefaultCSS = {display: this.state.githubAuth ? 'none' : 'inline-block'};
+    var githubAuthCSS = {display: this.state.githubAuth ? 'inline-block' : 'none'}
+    var jawboneDefaultCSS = {display: this.state.jawboneAuth ? 'none' : 'inline-block'};
+    var jawboneAuthCSS = {display: this.state.jawboneAuth ? 'inline-block' : 'none'}
+    var pairCSS = {display: this.state.githubAuth && this.state.jawboneAuth ? 'inline-block' : 'none'};
+
     return (
-      <div className='sign-in-container login' style={css}>
-        <img className="logo" src="./images/stego-logo.png"/>
-        <div className='button-container'>
-          <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
-          <div className="or">
-            <p>or</p>
-          </div>  
-          <a className="button" onClick={this.props.hideComponent}>Sign Up</a>
+      <div className="splash-wrapper" style={splashCSS}>
+        <div className="sign-in-container">
+          <img className="logo" src="./images/stego-logo.png"/>
+
+          <div className="login" style={loginCSS}>
+            <div className="button-container">
+              <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
+              <div className="or">
+                <p>or</p>
+              </div>  
+              <a className="button" onClick={this.hideLogin}>Sign Up</a>
+            </div>
+          </div>
+
+          <div className="signup" style={signupCSS}>
+            <div className="button-container">
+              <a className="button" onClick={this.getProviderCode.bind(null, 'github')} style={githubDefaultCSS}>
+                <img className="icons" src="./images/icons/githubicon.png"/>
+                Authorize with GitHub
+              </a>
+              <p style={githubAuthCSS}>
+                Thank you for signing in to GitHub.
+              </p>
+              <div className="or">
+                <p>&</p>
+              </div>
+              <a className="button" onClick={this.getProviderCode.bind(null, 'jawbone')} style={jawboneDefaultCSS}>
+                <img className="icons" src="./images/icons/jawboneicon.png"/>
+                Authorize with Jawbone
+              </a>
+              <p style={jawboneAuthCSS}>
+                Thank you for signing in to Jawbone.
+              </p> 
+              <div className="or"></div>
+              <a className="button" onClick={this.pairAccounts} style={pairCSS}>Login</a>
+            </div>
+          </div>
+
         </div>
       </div>
     )
   }
-
 });
 
 module.exports = SignInSplash;
