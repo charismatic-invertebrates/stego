@@ -9,6 +9,7 @@ module.exports = {
     consumerKey: process.env.FITBIT_KEY
   },
   jawbone: {
-    clientID: process.env.JAWBONE_ID
+    clientID: process.env.JAWBONE_ID,
+    clientSecret: process.env.JAWBONE_SECRET
   }
 };
