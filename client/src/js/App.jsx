@@ -29,6 +29,7 @@ var App = React.createClass({
           code: null,
           stepsData: this.processData('stepCounts', 'stepDates')
         },
+        found: null
       },
       day: this.setDay(),
       week: this.getStartOfWeek()
