@@ -55,8 +55,6 @@ var CommitsBox = React.createClass({
       <div className="commits-box">
         <h2>Commits</h2>
         <Chart parentId="commits-chart" currentValue={this.state.currentValue} max={this.props.max} />
-        <a className="button" onClick={this.syncAccount}>Sync Account</a>
-        <a className="button" onClick={this.pairAccounts}>Pair Accounts</a>
       </div>
     );
   }
