@@ -58,7 +58,8 @@ var auth = function(){
           localStorage.setItem('xid', res.xid);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
-          localStorage.setItem('steps', res.steps);
+          localStorage.setItem('stepCounts', res.stepCounts);
+          localStorage.setItem('stepDates', res.stepDates);
         }
       };
       break;
@@ -73,7 +74,8 @@ var auth = function(){
           console.log(res);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
-          localStorage.setItem('steps', res.steps);
+          localStorage.setItem('stepCounts', res.stepCounts);
+          localStorage.setItem('stepDates', res.stepDates);
         }
       };
       break;
@@ -89,7 +91,8 @@ var auth = function(){
           console.log(res);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
-          // localStorage.setItem('steps', res.steps);
+          localStorage.setItem('stepCounts', res.stepCounts);
+          localStorage.setItem('stepDates', res.stepDates);
         }
       };
       break;

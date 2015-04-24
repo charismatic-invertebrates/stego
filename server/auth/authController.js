@@ -112,6 +112,8 @@ var auth = {
         fitness: {
           provider: foundUserServer.provider,
           accessToken: foundUserServer.fitnessToken,
+          stepDates: [],
+          stepCounts: [],
         },
       };
       // Do API requests, create syncAccount object and modify it accordingly
