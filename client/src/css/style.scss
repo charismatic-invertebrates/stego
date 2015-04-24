@@ -478,7 +478,8 @@ h3 {
 }
 
 @mixin enable-contrast {
-  @include enable-contrast;
+  image-rendering : -webkit-optimize-contrast;
+  image-rendering : optimizeQuality;
 }
 
 
