@@ -477,6 +477,9 @@ h3 {
   -webkit-transform: translateZ(0);
 }
 
+@mixin enable-contrast {
+  @include enable-contrast;
+}
 
 
 // Stego Asset Sizes
@@ -687,7 +690,7 @@ $cloud-5-seconds: 300s;
 }
 
 @mixin cloud-1 {
-  -webkit-animation: cloud-1 $cloud-1-seconds linear;
+  -webkit-animation: cloud-1 $cloud-1-seconds linear infinite;
 }
 
 @-webkit-keyframes cloud-2 {
@@ -696,7 +699,7 @@ $cloud-5-seconds: 300s;
 }
 
 @mixin cloud-2 {
-  -webkit-animation: cloud-2 $cloud-2-seconds linear;
+  -webkit-animation: cloud-2 $cloud-2-seconds linear infinite;
 }
 
 @-webkit-keyframes cloud-3 {
@@ -705,7 +708,7 @@ $cloud-5-seconds: 300s;
 }
 
 @mixin cloud-3 {
-  -webkit-animation: cloud-3 $cloud-3-seconds linear;
+  -webkit-animation: cloud-3 $cloud-3-seconds linear infinite;
 }
 
 @-webkit-keyframes cloud-4 {
@@ -714,7 +717,7 @@ $cloud-5-seconds: 300s;
 }
 
 @mixin cloud-4 {
-  -webkit-animation: cloud-4 $cloud-4-seconds linear;
+  -webkit-animation: cloud-4 $cloud-4-seconds linear infinite;
 }
 
 @-webkit-keyframes cloud-5 {
@@ -723,7 +726,7 @@ $cloud-5-seconds: 300s;
 }
 
 @mixin cloud-5 {
-  -webkit-animation: cloud-5 $cloud-5-seconds linear;
+  -webkit-animation: cloud-5 $cloud-5-seconds linear infinite;
 }
 
 .cloud-1 {
@@ -766,7 +769,9 @@ $cloud-5-seconds: 300s;
   width: $body-width;
   height: $body-height;
   background-image: url('../images/stego-parts/stego-body.png');
+  background-size: $body-width $body-height;
   z-index: $body-z;
+  @include enable-contrast;
 }
 
 .eye {
@@ -794,34 +799,41 @@ $cloud-5-seconds: 300s;
 }
 
 .eye.left-eye.sad {
+  @include enable3d;
   @include left-eye-blink;
   width: 19px;
   height: 19px;
+  background-size: 19px, 19px;
   background-color: transparent;
   border-width: 0;
   background-image: url('../images/stego-parts/stego-sad-eye-left.png');
   border-color: none;
+  @include enable-contrast;
   // transform: translate($left-eye-pos);
 }
 
 .eye.right-eye.sad {
   @include enable3d;
   @include right-eye-blink;
+  background-size: 19px, 19px;
   width: 19px;
   height: 19px;
   background-color: transparent;
   border-width: 0;
   background-image: url('../images/stego-parts/stego-sad-eye-right.png');
   border-color: none;
+  @include enable-contrast;
 }
 
 .mouth {
   width: $mouth-width;
   height: $mouth-height;
+  background-size: $mouth-width, $mouth-height;
   background-image: url('../images/stego-parts/stego-mouth.png');
   position: absolute;
   transform: translate($mouth-pos);
   z-index: $mouth-z;
+  @include enable-contrast;
 }
 
 .mouth.sad {
@@ -857,21 +869,23 @@ $cloud-5-seconds: 300s;
 }
 
 .mouth.happy {
-  height:28px;
-  width:86px;
+  height:27px;
+  width:85px;
+  background-size: 85px, 27px;
   position: absolute;
   z-index: $mouth-z;
   transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
   background-image: url('../images/stego-parts/stego-mouth-happy.png');
   @include mouth-happy;
+  @include enable-contrast;
 }
 
 @-webkit-keyframes teeth-happy {
-  0% {transform: translate3d(110px,143px,0)};
-  15% {transform: translate3d(110px,143px,0)};
-  20% {transform: translate3d(110px,140px,0)};
-  33% {transform: translate3d(110px,140px,0)};
-  36% {transform: translate3d(110px,143px,0)};
+  0% {transform: translate3d(110px,142px,0)};
+  15% {transform: translate3d(110px,142px,0)};
+  20% {transform: translate3d(110px,139px,0)};
+  33% {transform: translate3d(110px,139px,0)};
+  36% {transform: translate3d(110px,142px,0)};
 }
 
 @mixin teeth-happy {
@@ -881,22 +895,26 @@ $cloud-5-seconds: 300s;
 .teeth.happy {
   height: 11px;
   width: 11px;
+  background-size: 11px 11px;
   position: absolute;
   z-index: $mouth-z;
   background-image: url('../images/stego-parts/stego-teeth.png');
-  transform: translate3d(110px,143px,0);
+  transform: translate3d(110px,142px,0);
   @include teeth-happy;
+  @include enable-contrast;
 }
 
 .left-arm {
+  background-image: url('../images/stego-parts/stego-leftarm.png');
   width: $leftarm-width;
   height: $leftarm-height;
+  background-size: $leftarm-width $leftarm-height;
   position: absolute;
-  background-image: url('../images/stego-parts/stego-leftarm.png');
   transform: translate($leftarm-pos);
   transform-origin: center top;
   z-index: $leftarm-z;
   @include wave;
+  @include enable-contrast;
 }
 
 .left-arm.sad {
@@ -910,21 +928,25 @@ $cloud-5-seconds: 300s;
 .right-arm {
   width: $rightarm-width;
   height: $rightarm-height;
+  background-size: $rightarm-width $rightarm-height;
   position: absolute;
   background-image: url('../images/stego-parts/stego-rightarm.png');
   transform: translate($rightarm-pos);
   transform-origin: center top;
   z-index: $rightarm-z;
   @include right-arm-sway;
+  @include enable-contrast;
 }
 
 .right-arm.happy {
   @include right-arm-happy-wave;
+
 }
 
 .left-leg {
   width: $leftleg-width;
   height: $leftleg-height;
+  background-size: $leftleg-width $leftleg-height;
   background-image: url('../images/stego-parts/stego-leftleg.png');
   position: absolute;
   transform: translate($leftleg-pos);
@@ -934,6 +956,7 @@ $cloud-5-seconds: 300s;
 .right-leg {
   width: $rightleg-width;
   height: $rightleg-height;
+  background-size: $rightleg-width $rightleg-height;
   background-image: url('../images/stego-parts/stego-rightleg.png');
   position: absolute;
   transform: translate($rightleg-pos);
@@ -943,6 +966,7 @@ $cloud-5-seconds: 300s;
 .tail {
   width: $tail-width;
   height: $tail-height;
+  background-size: $tail-width $tail-height;
   background-image: url('../images/stego-parts/stego-tail.png');
   position: absolute;
   transform-origin: center left;
@@ -950,6 +974,7 @@ $cloud-5-seconds: 300s;
   z-index: $tail-z;
   @include enable3d;
   @include tail-sway;
+  @include enable-contrast;
 }
 
 .tail.happy {
@@ -985,6 +1010,7 @@ $tear-z: 9;
   z-index: $tear-z;
   @include enable3d;
   @include tear-sad;
+  @include enable-contrast;
 }
 
 /* Connect Splash */
