@@ -13,7 +13,8 @@ var UserSchema = new mongoose.Schema({
   commitDates: Array,
   commitCounts: Array,
   provider: String,
-  steps: String,
+  stepDates: Array,
+  stepCounts: Array,
   githubToken: String,
   fitnessToken: Array,
   createdAt: {

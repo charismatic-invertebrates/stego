@@ -103,13 +103,22 @@ module.exports = {
 
   getFitnessData: function(userAccount) {
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
+    userAccount.fitness.stepDates = [];
+    userAccount.fitness.stepCounts = [];
 
     return deferredRequest(fitnessStepsParams)
-      // Store user's steps
+      // Get and process data
       .then(function(response) {
-        userAccount.fitness.user = JSON.parse(response[1]).data;
+        var jawboneMoves = JSON.parse(response[1]).data.items;
+        jawboneMoves.forEach(function(moveData) {
+          var date = moveData.date.toString();
+          date = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+          userAccount.fitness.stepDates.push(date);
+          userAccount.fitness.stepCounts.push(moveData.details.steps);
+        });
         return userAccount;
       })
+
       .fail(function(error) {
         console.error('Error in apiHandler.getFitnessData, failed to get steps: ', error);
       });
