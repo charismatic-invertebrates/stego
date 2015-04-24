@@ -1,9 +1,10 @@
 var React = require('react');
-
+var $ = require('jquery');
 var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
+      enableBlur: this.enableBlur(),
       showSplash: this.checkSplashStatus(),
       showLogin: true,
       showSignup: false,
@@ -23,6 +24,10 @@ var SignInSplash = React.createClass({
     this.setState({
       showSplash: this.checkSplashStatus()
     });
+  },
+
+  enableBlur: function(){
+    $('.blur-bg').css({'-webkit-filter': 'blur(20px)'});
   },
 
   shouldComponentUpdate: function(nextProps) {
@@ -45,7 +50,6 @@ var SignInSplash = React.createClass({
         jawboneLoading: false
       });
     }
-
     return true;
   },
 
