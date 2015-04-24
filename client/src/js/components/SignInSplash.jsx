@@ -6,7 +6,8 @@ var SignInSplash = React.createClass({
     return {
       showSplash: this.checkSplashStatus(),
       showLogin: true,
-      showSignup: false
+      showSignup: false,
+      loading: false
     };
   },
 
@@ -41,6 +42,7 @@ var SignInSplash = React.createClass({
 
   getProviderCode: function(service, loginServer) {
     this.props.auth.getCode(service, loginServer);
+    this.setState({'loading': true});
   },
 
   pairAccounts: function() {
@@ -57,6 +59,7 @@ var SignInSplash = React.createClass({
     var jawboneDefaultCSS = {display: this.state.jawboneAuth ? 'none' : 'inline-block'};
     var jawboneAuthCSS = {display: this.state.jawboneAuth ? 'inline-block' : 'none'};
     var pairCSS = {display: this.state.githubAuth && this.state.jawboneAuth ? 'inline-block' : 'none'};
+    var spinnerCSS = {display: this.state.loading ? 'block' : 'none'};
 
     return (
       <div className="splash-wrapper" style={splashCSS}>
@@ -69,6 +72,11 @@ var SignInSplash = React.createClass({
                 <img className="icons" src="./images/icons/githubicon.png"/>
                 Sign in with GitHub
               </a>
+
+              <div className="spinner" style={spinnerCSS}>
+                <img src="./images/icons/spinner.gif" />
+              </div>
+
               <div className="or">
                 <p>or</p>
               </div>  
