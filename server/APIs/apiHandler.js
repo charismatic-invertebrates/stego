@@ -61,7 +61,7 @@ console.log("THIS IS THE USER ACCOUNT AFTER GETTING GITHUB USER", userAccount);
 console.log("THIS IS THE USER ACCOUNT BEFORE GETTING GITHUB DATA", userAccount);
 
     var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
-console.log("THESE ARE OUR GITHUB REPO GET REQUEST PARAMETERS", assignRequestParams);
+console.log("THESE ARE OUR GITHUB REPO GET REQUEST PARAMETERS", githubRepoParams);
 
     // Get Github Repo information
     return deferredRequest(githubRepoParams)
