@@ -7,19 +7,7 @@ var CommitsBox = React.createClass({
       currentValue: this.getCurrentCommits()
     }
   },
-
-  // This function logs in to Github, and triggers a series of AJAX calls that extract the user's info, repos, and commits
-
-  // This function logs the user object saved in App.jsx's state
-
-  syncAccount: function() {
-    this.props.auth.syncAccount();
-  },
-
-  pairAccounts: function() {
-    this.props.auth.sendToServer('pairing');
-  },
-
+  
   getCurrentCommits: function() {
     var commits = this.props.commits;
     var today = this.props.startOfDay;
@@ -54,7 +42,7 @@ var CommitsBox = React.createClass({
 
     return true;
   },
-
+  
   render: function() {
     return (
       <div className="commits-box">

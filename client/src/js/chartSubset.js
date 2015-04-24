@@ -79,7 +79,7 @@
 			scaleStartValue: null,
 
 			// String - Colour of the scale line
-			scaleLineColor: "rgba(0,0,0,.1)",
+			scaleLineColor: "rgba(5,5,5,.1)",
 
 			// Number - Pixel width of the scale line
 			scaleLineWidth: 1,

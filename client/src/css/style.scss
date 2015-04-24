@@ -283,12 +283,16 @@ h3 {
   height: 410px;
 }
 
-.weather-container {
+.weather-container, .sync-button {
   position: fixed;
-  right: 0;
   top: 0;
-  margin: 0.5em 0;
   color: #fff;
+  z-index: 1050;
+}
+
+.weather-container {
+  margin: 0.5em 0;
+  right: 0;
 }
 
 .weather-degrees {
@@ -302,27 +306,17 @@ h3 {
   float: left;
 }
 
+.sync-button {
+  cursor: pointer;
+  margin: 0.5em;
+  left: 0;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .chart-container {
   margin: 1em;
-}
-
-.line {
-  stroke-width: 1;
-  stroke-opacity: 0.5;
-  stroke: #4359C9;
-  fill: transparent;
-}
-
-.axis {
-  fill: none;
-  stroke: #4359C9;
-  shape-rendering: crispEdges;
-}
-
-.axis text {
-  font-size: 12px;
-  fill: #4359C9;
-  stroke: none;
 }
 
 .clock {
@@ -350,7 +344,7 @@ h3 {
 
 .panel {
   width: 500px;
-  z-index: 1000;
+  z-index: 2000;
   padding: 1em;
   color: rgb(122, 84, 143);
   background: rgb(240, 240, 240);
@@ -390,7 +384,7 @@ h3 {
 
 .panel-button {
   position: fixed;
-  z-index: 2000;
+  z-index: 2050;
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.4);
 }
@@ -445,7 +439,6 @@ h3 {
 .icon {
   padding: 0 0.5em;
 }
-
 
 /* Stego Dinosaur */
 .stego-container {

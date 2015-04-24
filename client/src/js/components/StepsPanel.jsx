@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var StepsOverTime = require('./StepsOverTime.jsx');
+var WeeklyChart = require('./WeeklyChart.jsx');
 
 var StepsPanel = React.createClass({
 
@@ -26,7 +26,7 @@ var StepsPanel = React.createClass({
         </a>
         <div className="panel steps-panel" ref="stepsPanel">
           <h3>Weekly Steps</h3>
-          <StepsOverTime steps={this.props.user.fitness.moves} startOfWeek={this.props.startOfWeek} max={this.props.max} parentId="steps-over-time" />
+          <WeeklyChart data={this.props.steps} startOfWeek={this.props.startOfWeek} max={this.props.max} label={'Steps'} parentId="steps-over-time" />
         </div>
       </div>
     );

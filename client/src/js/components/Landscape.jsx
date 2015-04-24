@@ -27,6 +27,11 @@ var Landscape = React.createClass({
     };
   },
 
+  syncAccount: function() {
+    console.log(this.props.userInfo);
+    this.props.auth.syncAccount();
+  },
+
   checkDisplayTime: function() {
     var now = new Date();
     var hour = now.getHours();
@@ -94,12 +99,6 @@ var Landscape = React.createClass({
   },
 
   componentDidMount: function() {
-
-    var el = React.findDOMNode(this.refs.lscape);
-    setTimeout(function() {
-      el.style.opacity = 1;
-    }, 500);
-    
     setInterval(function() {
       this.setState({displayTime: this.checkDisplayTime()});
     }.bind(this), 2000);
@@ -198,6 +197,9 @@ var Landscape = React.createClass({
         <img src="./images/landscape/clouds-4.png" alt="" className="clouds cloud-4"/>
         <img src="./images/landscape/clouds-5.png" alt="" className="clouds cloud-5"/>
         <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
+        <a className="sync-button" onClick={this.syncAccount}>
+          <span className="fa fa-refresh"></span>
+        </a>
         <div className={'landscape ' + this.state.timeOfDay}></div>
         <StepsBox auth={this.props.auth} steps={this.state.steps} max={10000}/>
         <StepsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10000} />
