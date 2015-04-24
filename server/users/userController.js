@@ -33,9 +33,7 @@ module.exports = {
   saveUser: function(res, userAccount) {
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
-
-    console.log("WE ARE ABOUT TO SAVE THIS, THIS IS THE FINAL FORMAT GO OFF OF THIS", userAccount);
-    
+        
     // Populate the User information that we want to save
     var newUser = {
       xid: userAccount.github.user.id,

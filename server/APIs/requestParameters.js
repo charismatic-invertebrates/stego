@@ -10,7 +10,6 @@ module.exports = function(provider, usage, param, loopedParam) {
     case 'github-getToken':
       callParams = {
         uri: 'https://github.com/login/oauth/access_token',
-        // redirect_uri: 'http://localhost:8000',
         redirect_uri: 'http://stegodb.herokuapp.com/',
         method: 'GET',
         body: {
