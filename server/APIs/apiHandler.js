@@ -80,9 +80,12 @@ module.exports = {
           return deferredRequest(callParam);
         }))
           .then(function(results) {
-            console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", results);
+console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof results);
+if( !Array.isArray(results) ) {console.log(results)};
             results.forEach(function(response) {
-              var commits = JSON.parse(response[1]);              
+              var commits = JSON.parse(response[1]);
+console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits);
+if( !Array.isArray(commits) ) {console.log(commits)};
               commits.forEach(function(commitInfo){
                 var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
                 commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
@@ -112,6 +115,8 @@ module.exports = {
       // Get and process data
       .then(function(response) {
         var jawboneMoves = JSON.parse(response[1]).data.items;
+console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof jawboneMoves);
+if( !Array.isArray(jawboneMoves) ) {console.log(jawboneMoves)};
         jawboneMoves.forEach(function(moveData) {
           var date = moveData.date.toString();
           date = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
