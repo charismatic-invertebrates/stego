@@ -48,7 +48,7 @@ var auth = function(){
       // These cases handle requests to and through our server   
       case 'paired-createAccount':
       callParams = {
-        url: 'http://localhost:8000/api/auth/createAccount/',
+        url: 'http://stegodb.herokuapp.com/api/auth/createAccount/',
         data: {
           accountCodes: param,
           timeframe: getOneWeekAgo
@@ -65,7 +65,7 @@ var auth = function(){
 
       case 'server-loginAccount':
       callParams = {
-        url: 'http://localhost:8000/api/auth/loginAccount',
+        url: 'http://stegodb.herokuapp.com/api/auth/loginAccount',
         data: {
           code: param,
         },
@@ -80,7 +80,7 @@ var auth = function(){
 
       case 'server-syncAccount':
       callParams = {
-        url: 'http://localhost:8000/api/auth/sync',
+        url: 'http://stegodb.herokuapp.com/api/auth/sync',
         data: {
           xid: param,
           timeframe: getOneWeekAgo
