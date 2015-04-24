@@ -58,7 +58,7 @@ module.exports = function(provider, usage, param, loopedParam) {
           '&client_secret=' + keys.jawbone.clientSecret + 
           '&grant_type=authorization_code' +
           '&code=' + param +
-          '?redirect_uri' + 'http://stegodb.herokuapp.com/'
+          '?redirect_uri=' + 'http://stegodb.herokuapp.com/'
       };
       break;
 
