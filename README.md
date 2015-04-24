@@ -8,7 +8,8 @@
   - __Scrum Master__: Michael Hari
   - __Project Manager__: Chad Fong
   - __Development Team Members__: Stephanie A. Higa
-
+## Contributor
+  - Dennis C. Yang
 ## Table of Contents
 
 1. [Usage](#Usage)
