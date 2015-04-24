@@ -23,7 +23,7 @@ var Dino = React.createClass({
       currentMood = 'neutral';
     }
 
-    return 'neutral';
+    return currentMood;
   },
 
   componentDidMount: function() {
