@@ -81,14 +81,15 @@ console.log("THESE ARE OUR GITHUB REPO GET REQUEST PARAMETERS", githubRepoParams
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
           return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
-
+console.log("THESE ARE THE REPOS THAT WE WANT TO RUN OUR FUNCTION ON, IF THIS IS BEING LOGGED EVERYTHING IS ALL HAPPY HUNKY-DORY", repoUrlsToCall);
         return Q.all(repoUrlsToCall.map(function(callParam) {
           return deferredRequest(callParam);
         }))
           .then(function(results) {
             results.forEach(function(response) {
-              var commits = JSON.parse(response[1]);              
+              var commits = JSON.parse(response[1]);
               commits.forEach(function(commitInfo){
+console.log("THIS IS THE TYPE OF EACH COMMIT THAT WE ARE RETURNING, WE EXPECT IT TO BE AN OBJECT", commitInfo);
                 var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
                 commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
               });
