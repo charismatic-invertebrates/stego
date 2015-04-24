@@ -57,8 +57,7 @@ module.exports = function(provider, usage, param, loopedParam) {
         uri: 'https://jawbone.com/auth/oauth2/token?client_id=' + keys.jawbone.clientID + 
           '&client_secret=' + keys.jawbone.clientSecret + 
           '&grant_type=authorization_code' +
-          '&code=' + param +
-          '?redirect_uri=' + 'http://stegodb.herokuapp.com/'
+          '&code=' + param
       };
       break;
 
