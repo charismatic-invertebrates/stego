@@ -10,13 +10,15 @@ var auth = function(){
   var getOneWeekAgo = function() {
       // Set date to be seven days ago (this accounts for changing months)
       var date = new Date();
-      date.setDate(date.getDate()-7);
+      date.setDate(date.getUTCDate()-7);
+
+      return date.toISOString().slice(0, -1).replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
       
       // Time zone offset calculator from http://stackoverflow.com/a/28149561
-      var tzoffset = new Date().getTimezoneOffset() * 60000;
-      var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
+      // var tzoffset = new Date().getTimezoneOffset() * 60000;
+      // var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
 
-      return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
+      // return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
   };
 
   // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options

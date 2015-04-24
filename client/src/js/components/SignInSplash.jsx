@@ -12,14 +12,15 @@ var SignInSplash = React.createClass({
     };
   },
 
-  // componentDidMount: function() {
-  //   this.setState({githubAuth: this.checkAuth('github')});
-  //   this.setState({jawboneAuth: this.checkAuth('jawbone')});
-  //   this.setState({showSplash: this.checkLogin()});
-  // },
+  componentDidMount: function() {
+    this.setState({
+      githubAuth: this.checkAuth('github'),
+      jawboneAuth: this.checkAuth('jawbone'),
+      showSplash: this.checkLogin()
+    });
+  },
 
   checkAuth: function(service) {
-    console.log('checkAuth: ', this.props.user);
     if (service === 'github') {
       return this.props.user.github.code !== null;
     } else if (service === 'jawbone') {
