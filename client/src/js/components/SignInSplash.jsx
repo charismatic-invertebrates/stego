@@ -4,20 +4,38 @@ var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
-      showSplash: this.checkAuth(),
+      showSplash: this.checkSplashStatus(),
       showLogin: true,
       showSignup: false
     };
   },
 
-  checkAuth: function() {
+  checkSplashStatus: function() {
     console.log(localStorage);
     return localStorage.xid === undefined;
   },
 
   componentDidMount: function() {
     this.setState({
-      showSplash: this.checkAuth()
+      showSplash: this.checkSplashStatus()
+    });
+  },
+
+  shouldComponentUpdate: function(nextProps) {
+    if (nextProps.user.found && (nextProps.user.found !== this.props.user.found)) {
+      console.log(nextProps.user.found, this.props.user.found);
+      this.setState({
+        showSplash: false
+      });
+    }
+
+    return true;
+  },
+
+  hideLogin: function() {
+    this.setState({
+      showLogin: false,
+      showSignup: true
     });
   },
 
@@ -49,7 +67,7 @@ var SignInSplash = React.createClass({
             <div className="button-container">
               <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}>
                 <img className="icons" src="./images/icons/githubicon.png"/>
-                Sign in with Github
+                Sign in with GitHub
               </a>
               <div className="or">
                 <p>or</p>

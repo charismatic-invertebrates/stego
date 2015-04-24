@@ -79,6 +79,14 @@ var auth = function(){
           localStorage.setItem('commitDates', res.commitDates);
           localStorage.setItem('stepCounts', res.stepCounts);
           localStorage.setItem('stepDates', res.stepDates);
+
+          if (res.xid) {
+            app.setState(React.addons.update(app.state, {
+              userInfo: {
+                found: {$set: true}
+              }
+            }));
+          }
         }
       };
       break;
