@@ -16,7 +16,6 @@ var SignInSplash = React.createClass({
   },
 
   checkSplashStatus: function() {
-    console.log(localStorage);
     return localStorage.xid === undefined;
   },
 
@@ -102,13 +101,14 @@ var SignInSplash = React.createClass({
                 Sign in with GitHub
               </a>
 
-            <div className="spinner" style={spinnerCSS}>
-              <img src="./images/icons/spinner.gif" />
+              <img className="spinner" style={spinnerCSS} src="./images/icons/spinner.gif" />
             </div>
 
-              <div className="or">
-                <p>or</p>
-              </div>  
+            <div className="or">
+              or
+            </div>
+            
+            <div className="button-container">
               <a className="button" onClick={this.hideLogin}>Sign Up</a>
             </div>
           </div>
