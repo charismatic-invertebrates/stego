@@ -117,8 +117,8 @@ h3 {
   border-radius: 5px;
 }
 
-.button:hover {
-  background: rgb(0, 181, 255);
+.button:disabled {
+  background: #eee;
 }
 
 .latenight, .dawn, .morning, .afternoon, .evening, .night {
@@ -275,6 +275,7 @@ h3 {
   width: 250px;
   height: 250px;
   padding: 10px;
+  text-shadow: 1px 1px 10px #555;
 }
 
 .line-chart {
@@ -990,7 +991,7 @@ $tear-z: 9;
 .sign-in-container {
   position: absolute;
   padding: 20px;
-  z-index: 10;
+  z-index: 2400;
   top: 0;
   right: 0;
   bottom: 0;
@@ -999,7 +1000,7 @@ $tear-z: 9;
   text-align: center;
   width: 500px;
   height: 380px;
-  background-color: rgba(255,255,255,.7);
+  background-color: #fff;
   border-radius: 10px;
 }
 
@@ -1007,6 +1008,15 @@ $tear-z: 9;
   height: 300px;
 }
 
+.splash-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2200;
+  background: rgba(0, 0, 0, 0.8);
+}
 
 // Login/Sign-Up Page
 .button-container {
@@ -1024,8 +1034,6 @@ $tear-z: 9;
   cursor: pointer;
   text-align: center;
   border-radius: 5px;
-  // text-shadow: -1px -1px 1px rgb(0, 143, 120);
-  // box-shadow: 1px 1px 1px rgb(0, 143, 120);
 }
 
 .button:hover {
