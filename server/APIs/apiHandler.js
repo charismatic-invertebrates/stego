@@ -29,6 +29,7 @@ module.exports = {
             console.log("THIS IS THE RESPONSE");
             console.log("THIS IS WHAT WE'RE TRYING TO GET THE ACCESS TOKEN FROM", JSON.parse(response[1]));
             userAccount.fitness.accessToken = JSON.parse(response[1]).access_token;
+console.log("WE SHOULD HAVE ALL OF OUR TOKENS AT THIS POINT IN TIME", userAccount);
             return userAccount;
           });
         }
@@ -51,11 +52,14 @@ module.exports = {
           commitDates: [],
           commitCounts: []
         };
+console.log("THIS IS THE USER ACCOUNT AFTER GETTING GITHUB USER", userAccount);
         return userAccount;
       });
   },
 
   getGithubData: function(userAccount) {
+console.log("THIS IS THE USER ACCOUNT BEFORE GETTING GITHUB DATA", userAccount);
+
     var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
 
     // Get Github Repo information
@@ -94,6 +98,7 @@ module.exports = {
               userAccount.github.user.commitDates.push(key);
               userAccount.github.user.commitCounts.push(commitCountDates[key]);
             });
+console.log("THIS IS THE USER ACCOUNT AFTER GETTING GITHUB DATA", userAccount);
             return userAccount;
           });
       })
@@ -104,6 +109,7 @@ module.exports = {
   },
 
   getFitnessData: function(userAccount) {
+console.log("THIS IS THE USER ACCOUNT BEFORE GETTING FITNESS DATA", userAcount);
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
     userAccount.fitness.stepDates = [];
     userAccount.fitness.stepCounts = [];
@@ -119,6 +125,7 @@ module.exports = {
           userAccount.fitness.stepCounts.push(moveData.details.steps);
         });
         return userAccount;
+console.log("THIS IS THE USER ACCOUNT AFTER GETTING FITNESS DATA", userAcount);
       })
 
       .fail(function(error) {
