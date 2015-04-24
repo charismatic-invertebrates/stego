@@ -74,6 +74,7 @@ var auth = function(){
         },
         callback: function(res) {
           console.log(res);
+          localStorage.setItem('xid', res.xid);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
           localStorage.setItem('stepCounts', res.stepCounts);

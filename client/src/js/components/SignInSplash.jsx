@@ -4,60 +4,20 @@ var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
+      showSplash: this.checkAuth(),
       showLogin: true,
-      showSignup: false,
-      githubAuth: this.checkAuth('github'),
-      jawboneAuth: this.checkAuth('jawbone'),
-      showSplash: this.checkLogin()
+      showSignup: false
     };
+  },
+
+  checkAuth: function() {
+    console.log(localStorage);
+    return localStorage.xid === undefined;
   },
 
   componentDidMount: function() {
     this.setState({
-      githubAuth: this.checkAuth('github'),
-      jawboneAuth: this.checkAuth('jawbone'),
-      showSplash: this.checkLogin()
-    });
-  },
-
-  checkAuth: function(service) {
-    if (service === 'github') {
-      return this.props.user.github.code !== null;
-    } else if (service === 'jawbone') {
-      return this.props.user.fitness.code !== null;
-    } else {
-      return false;
-    }
-  },
-
-  checkLogin: function() {
-    if (this.state !== null) {
-      if (this.state.githubAuth && this.state.jawboneAuth) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  },
-
-  shouldComponentUpdate: function(nextProps) {
-    if (nextProps.user.github.code !== null && !this.state.githubAuth) {
-      this.setState({githubAuth: true});
-    }
-
-    if (nextProps.user.fitness.code !== null && !this.state.jawboneAuth) {
-      this.setState({jawboneAuth: true});
-    }
-
-    return true;
-  },
-
-  hideLogin: function() {
-    this.setState({
-      showLogin: false,
-      showSignup: true
+      showSplash: this.checkAuth()
     });
   },
 
@@ -87,7 +47,10 @@ var SignInSplash = React.createClass({
 
           <div className="login" style={loginCSS}>
             <div className="button-container">
-              <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}><img className="icons" src="./images/icons/githubicon.png"/>Sign in with Github</a>
+              <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}>
+                <img className="icons" src="./images/icons/githubicon.png"/>
+                Sign in with Github
+              </a>
               <div className="or">
                 <p>or</p>
               </div>  
