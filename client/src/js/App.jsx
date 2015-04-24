@@ -91,6 +91,12 @@ var App = React.createClass({
     return date;
   },
 
+  shouldComponentUpdate: function(nextProps, nextState) {
+    console.log(nextState);
+
+    return true;
+  },
+
   render: function() {
     return (
       <div id="landscape-container">
