@@ -56,7 +56,6 @@ var auth = function(){
           timeframe: getOneWeekAgo
         },
         callback: function(res) {
-          console.log(res);
           localStorage.setItem('xid', res.xid);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
@@ -73,7 +72,6 @@ var auth = function(){
           code: param,
         },
         callback: function(res) {
-          console.log(res);
           localStorage.setItem('xid', res.xid);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);

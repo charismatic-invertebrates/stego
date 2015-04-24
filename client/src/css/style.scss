@@ -106,6 +106,10 @@ h3 {
   font-size: 1.4em;
 }
 
+p {
+  line-height: 1.5em;
+}
+
 .button {
   display: inline-block;
   padding: 0.5em;
@@ -1005,7 +1009,7 @@ $tear-z: 9;
   margin: auto;
   text-align: center;
   width: 500px;
-  height: 380px;
+  height: 320px;
   background-color: #fff;
   border-radius: 10px;
 }
@@ -1027,23 +1031,33 @@ $tear-z: 9;
 // Login/Sign-Up Page
 .button-container {
   position: relative;
-  padding-top: 20px;
+  padding: 1em 0;
 }
 
 .button {
-  display: inline-block;
-  padding: 1em;
-  margin: 0.2em;
-  background: rgb(51, 51, 51);
+  display: block;
+  padding: 1.2em;
+  margin: 0.2em 4em;
+  background: #6DD742;
   color: #fff;
   min-width: 200px;
   cursor: pointer;
   text-align: center;
+  font-weight: 700;
   border-radius: 5px;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
-.button:hover {
-  background: rgb(0, 181, 255);
+.logo {
+  padding: 0.5em;
+}
+
+.spinner {
+  position: absolute;
+  top: 2em;
+  right: 1em;
 }
 
 .icons {
@@ -1055,10 +1069,6 @@ $tear-z: 9;
 .linebreak {
   width: 40%;
   border-bottom: 1px solid rgb(51, 51, 51);
-}
-
-.or {
-  padding: 15px;
 }
 
 .logo-container {
