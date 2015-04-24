@@ -29,6 +29,7 @@ var auth = {
               res.json(foundUser);
               return null;
             } else {
+console.log("ENTERING THE continueCreation SECTION OF THE CODE");
               return continueCreation();
             }
           });
