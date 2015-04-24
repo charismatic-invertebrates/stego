@@ -26,6 +26,8 @@ module.exports = {
         return deferredRequest(fitnessParams)
           // Save Fitness token to userAccount
           .then(function(response) {
+            console.log("THIS IS THE RESPONSE");
+            console.log("THIS IS WHAT WE'RE TRYING TO GET THE ACCESS TOKEN FROM", JSON.parse(response[1]));
             userAccount.fitness.accessToken = JSON.parse(response[1]).access_token;
             return userAccount;
           });
