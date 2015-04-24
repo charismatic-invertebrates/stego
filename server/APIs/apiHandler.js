@@ -61,6 +61,7 @@ console.log("THIS IS THE USER ACCOUNT AFTER GETTING GITHUB USER", userAccount);
 console.log("THIS IS THE USER ACCOUNT BEFORE GETTING GITHUB DATA", userAccount);
 
     var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
+console.log("THESE ARE OUR GITHUB REPO GET REQUEST PARAMETERS", assignRequestParams);
 
     // Get Github Repo information
     return deferredRequest(githubRepoParams)
@@ -109,7 +110,7 @@ console.log("THIS IS THE USER ACCOUNT AFTER GETTING GITHUB DATA", userAccount);
   },
 
   getFitnessData: function(userAccount) {
-console.log("THIS IS THE USER ACCOUNT BEFORE GETTING FITNESS DATA", userAcount);
+console.log("THIS IS THE USER ACCOUNT BEFORE GETTING FITNESS DATA", userAccount);
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
     userAccount.fitness.stepDates = [];
     userAccount.fitness.stepCounts = [];
@@ -125,7 +126,7 @@ console.log("THIS IS THE USER ACCOUNT BEFORE GETTING FITNESS DATA", userAcount);
           userAccount.fitness.stepCounts.push(moveData.details.steps);
         });
         return userAccount;
-console.log("THIS IS THE USER ACCOUNT AFTER GETTING FITNESS DATA", userAcount);
+console.log("THIS IS THE USER ACCOUNT AFTER GETTING FITNESS DATA", userAccount);
       })
 
       .fail(function(error) {
