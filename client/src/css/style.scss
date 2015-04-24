@@ -464,7 +464,7 @@ h3 {
   -webkit-transform: translateZ(0);
 }
 
-$enable3d: translateZ(0);
+
 
 // Stego Asset Sizes
 $eye-size: 14px;
@@ -525,11 +525,11 @@ $mouth-happy-seconds: 6s;
 
 // Left Eye Blink
 @-webkit-keyframes left-eye-blink {
-  0% {transform: translate($left-eye-pos) scale(1,1);}
-  2% {transform: translate($left-eye-pos) scale(1,0);}
-  3% {transform: translate($left-eye-pos) scale(1,0);}
-  10% {transform: translate($left-eye-pos) scale(1,1);}
-  100% {transform: translate($left-eye-pos) scale(1,1);}
+  0% {transform: translate3d($left-eye-pos,0) scale3d(1,1,0);}
+  2% {transform: translate3d($left-eye-pos,0) scale3d(1,0,0);}
+  3% {transform: translate3d($left-eye-pos,0) scale3d(1,0,0);}
+  10% {transform: translate3d($left-eye-pos,0) scale3d(1,1,0);}
+  100% {transform: translate3d($left-eye-pos,0) scale3d(1,1,0);}
 }
 
 @mixin left-eye-blink {
@@ -539,11 +539,11 @@ $mouth-happy-seconds: 6s;
 
 // Right Eye Blink
 @-webkit-keyframes right-eye-blink {
-  0% {transform: translate($right-eye-pos) scale(1,1);}
-  2% {transform: translate($right-eye-pos) scale(1,0);}
-  3% {transform: translate($right-eye-pos) scale(1,0);}
-  10% {transform: translate($right-eye-pos) scale(1,1);}
-  100% {transform: translate($right-eye-pos) scale(1,1);}
+  0% {transform: translate3d($right-eye-pos,0) scale3d(1,1,0);}
+  2% {transform: translate3d($right-eye-pos,0) scale3d(1,0,0);}
+  3% {transform: translate3d($right-eye-pos,0) scale3d(1,0,0);}
+  10% {transform: translate3d($right-eye-pos,0) scale3d(1,1,0);}
+  100% {transform: translate3d($right-eye-pos,0) scale3d(1,1,0);}
 }
 
 @mixin right-eye-blink {
@@ -552,12 +552,12 @@ $mouth-happy-seconds: 6s;
 
 // Left Arm Wave
 @-webkit-keyframes wave {
-  0% {transform: translate($leftarm-pos) rotate(0deg)};
-  20% {transform: translate($leftarm-pos) rotate(135deg)};
-  30% {transform: translate($leftarm-pos) rotate(105deg)};
-  40% {transform: translate($leftarm-pos) rotate(135deg)};
-  45% {transform: translate($leftarm-pos) rotate(135deg)};
-  80% {transform: translate($leftarm-pos-end) rotate(0deg)};
+  0% {transform: translate3d($leftarm-pos,0) rotate(0deg)};
+  20% {transform: translate3d($leftarm-pos,0) rotate(135deg)};
+  30% {transform: translate3d($leftarm-pos,0) rotate(105deg)};
+  40% {transform: translate3d($leftarm-pos,0) rotate(135deg)};
+  45% {transform: translate3d($leftarm-pos,0) rotate(135deg)};
+  80% {transform: translate3d($leftarm-pos-end,0) rotate(0deg)};
 }
 
 @mixin wave {
@@ -611,9 +611,9 @@ $mouth-happy-seconds: 6s;
 
 // Right Arm Sway
 @-webkit-keyframes right-arm-sway {
-  0% {transform: translate($rightarm-pos) rotate(-2.5deg)};
-  50% {transform: translate($rightarm-pos) rotate(2.5deg)};
-  100% {transform: translate($rightarm-pos) rotate(-2.5deg)};
+  0% {transform: translate3d($rightarm-pos,0) rotate(-2.5deg)};
+  50% {transform: translate3d($rightarm-pos,0) rotate(2.5deg)};
+  100% {transform: translate3d($rightarm-pos,0) rotate(-2.5deg)};
 }
 
 @mixin right-arm-sway {
@@ -781,7 +781,6 @@ $cloud-5-seconds: 300s;
 }
 
 .eye.left-eye.sad {
-  @include enable3d;
   @include left-eye-blink;
   width: 19px;
   height: 19px;
@@ -819,23 +818,23 @@ $cloud-5-seconds: 300s;
 // Smile Happy
 @-webkit-keyframes mouth-happy {
   0% {
-    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
     background-image: url('../images/stego-parts/stego-mouth-happy.png');
   };
   15% {
-    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
     background-image: url('../images/stego-parts/stego-mouth-happy.png');
   };
   20% {
-    transform: translate($mouth-pos-happy) scale(1,1);
+    transform: translate3d($mouth-pos-happy,0) scale(1,1);
     background-image: url('../images/stego-parts/stego-mouth-happy.png');
   };
   33% {
-    transform: translate($mouth-pos-happy) scale(1,1);
+    transform: translate3d($mouth-pos-happy,0) scale(1,1);
     background-image: url('../images/stego-parts/stego-mouth-happy.png');
   };
   36% {
-    transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+    transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
     background-image: url('../images/stego-parts/stego-mouth-happy.png');
   };
 }
@@ -849,18 +848,17 @@ $cloud-5-seconds: 300s;
   width:86px;
   position: absolute;
   z-index: $mouth-z;
-  transform: translate($mouth-pos-happy) scale(1,$mouth-scale);
+  transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
   background-image: url('../images/stego-parts/stego-mouth-happy.png');
-  @include enable3d;
   @include mouth-happy;
 }
 
 @-webkit-keyframes teeth-happy {
-  0% {transform: translate(110px,143px)};
-  15% {transform: translate(110px,143px)};
-  20% {transform: translate(110px,140px)};
-  33% {transform: translate(110px,140px)};
-  36% {transform: translate(110px,143px)};
+  0% {transform: translate3d(110px,143px,0)};
+  15% {transform: translate3d(110px,143px,0)};
+  20% {transform: translate3d(110px,140px,0)};
+  33% {transform: translate3d(110px,140px,0)};
+  36% {transform: translate3d(110px,143px,0)};
 }
 
 @mixin teeth-happy {
@@ -873,8 +871,7 @@ $cloud-5-seconds: 300s;
   position: absolute;
   z-index: $mouth-z;
   background-image: url('../images/stego-parts/stego-teeth.png');
-  transform: translate(110px,143px);
-  @include enable3d;
+  transform: translate3d(110px,143px,0);
   @include teeth-happy;
 }
 
@@ -905,12 +902,10 @@ $cloud-5-seconds: 300s;
   transform: translate($rightarm-pos);
   transform-origin: center top;
   z-index: $rightarm-z;
-  @include enable3d;
   @include right-arm-sway;
 }
 
 .right-arm.happy {
-  @include enable3d;
   @include right-arm-happy-wave;
 }
 
@@ -1038,4 +1033,25 @@ $tear-z: 9;
 
 .or {
   padding: 15px;
+}
+
+.logo-container {
+  width: 387px;
+  height: 262px;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0 auto;
+}
+
+.logo-container h3{
+  color: white;
+  font-size: 15px;
+}
+
+img.stego-logo{
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
