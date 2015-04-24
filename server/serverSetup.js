@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var app = express();
 
 // Configure MongoDB connection depending on environment. If deployed, it will be using the process.env variable, and if not it will be on localhost:27017/gitfit.
-mongoURI = process.env.CUSTOMCONNSTR_MONGOLAB_URI || 'mongodb://localhost:27017/gitfit';
+mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/gitfit';
 mongoose.connect(mongoURI);
 
 // Log the status of the database connection
