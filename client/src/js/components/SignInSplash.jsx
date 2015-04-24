@@ -1,38 +1,23 @@
 var React = require('react');
-var auth = require('../stores/auth.js');
-var SignUpSplash = require('./SignUpSplash.jsx');
 
 var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
-      showSplash: this.isLoggedIn(),
       showLogin: true,
       showSignup: false,
       githubAuth: this.checkAuth('github'),
-      jawboneAuth: this.checkAuth('jawbone')
+      jawboneAuth: this.checkAuth('jawbone'),
+      showSplash: this.checkLogin()
     };
   },
 
-  getProviderCode: function(service, loginServer) {
-    this.props.auth.getCode(service, loginServer);
-  },
-
-  pairAccounts: function() {
-    this.props.auth.sendToServer('pairing');
-    this.setState({showSplash: false});
-  },
-
-  isLoggedIn: function() {
-    if (this.state !== null) {
-      if (this.state.githubAuth && this.state.jawboneAuth) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    return false;
+  componentDidMount: function() {
+    this.setState({
+      githubAuth: this.checkAuth('github'),
+      jawboneAuth: this.checkAuth('jawbone'),
+      showSplash: this.checkLogin()
+    });
   },
 
   checkAuth: function(service) {
@@ -40,16 +25,21 @@ var SignInSplash = React.createClass({
       return this.props.user.github.code !== null;
     } else if (service === 'jawbone') {
       return this.props.user.fitness.code !== null;
+    } else {
+      return false;
     }
-
-    return false;
   },
 
-  hideLogin: function() {
-    this.setState({
-      showLogin: false,
-      showSignup: true
-    });
+  checkLogin: function() {
+    if (this.state !== null) {
+      if (this.state.githubAuth && this.state.jawboneAuth) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
   },
 
   shouldComponentUpdate: function(nextProps) {
@@ -64,14 +54,30 @@ var SignInSplash = React.createClass({
     return true;
   },
 
+  hideLogin: function() {
+    this.setState({
+      showLogin: false,
+      showSignup: true
+    });
+  },
+
+  getProviderCode: function(service, loginServer) {
+    this.props.auth.getCode(service, loginServer);
+  },
+
+  pairAccounts: function() {
+    this.props.auth.sendToServer('pairing');
+    this.setState({showSplash: false});
+  },
+
   render: function() {
     var splashCSS = {display: this.state.showSplash ? 'block' : 'none'};
     var loginCSS = {display: this.state.showLogin ? 'block' : 'none'};
     var signupCSS = {display: this.state.showSignup ? 'block' : 'none'};
     var githubDefaultCSS = {display: this.state.githubAuth ? 'none' : 'inline-block'};
-    var githubAuthCSS = {display: this.state.githubAuth ? 'inline-block' : 'none'}
+    var githubAuthCSS = {display: this.state.githubAuth ? 'inline-block' : 'none'};
     var jawboneDefaultCSS = {display: this.state.jawboneAuth ? 'none' : 'inline-block'};
-    var jawboneAuthCSS = {display: this.state.jawboneAuth ? 'inline-block' : 'none'}
+    var jawboneAuthCSS = {display: this.state.jawboneAuth ? 'inline-block' : 'none'};
     var pairCSS = {display: this.state.githubAuth && this.state.jawboneAuth ? 'inline-block' : 'none'};
 
     return (

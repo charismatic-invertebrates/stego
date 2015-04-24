@@ -30,3 +30,4 @@ GitFit/node_modules/
 bower_components/
 server/config/secureAuth.js
 server/config/clientKeys.js
+db/
