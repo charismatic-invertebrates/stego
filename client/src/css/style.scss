@@ -106,6 +106,10 @@ h3 {
   font-size: 1.4em;
 }
 
+p {
+  line-height: 1.5em;
+}
+
 .button {
   display: inline-block;
   padding: 0.5em;
@@ -283,12 +287,16 @@ h3 {
   height: 410px;
 }
 
-.weather-container {
+.weather-container, .sync-button {
   position: fixed;
-  right: 0;
   top: 0;
-  margin: 0.5em 0;
   color: #fff;
+  z-index: 1050;
+}
+
+.weather-container {
+  margin: 0.5em 0;
+  right: 0;
 }
 
 .weather-degrees {
@@ -302,27 +310,17 @@ h3 {
   float: left;
 }
 
+.sync-button {
+  cursor: pointer;
+  margin: 0.5em;
+  left: 0;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .chart-container {
   margin: 1em;
-}
-
-.line {
-  stroke-width: 1;
-  stroke-opacity: 0.5;
-  stroke: #4359C9;
-  fill: transparent;
-}
-
-.axis {
-  fill: none;
-  stroke: #4359C9;
-  shape-rendering: crispEdges;
-}
-
-.axis text {
-  font-size: 12px;
-  fill: #4359C9;
-  stroke: none;
 }
 
 .clock {
@@ -343,7 +341,7 @@ h3 {
 
 .panel {
   width: 500px;
-  z-index: 1000;
+  z-index: 2000;
   padding: 1em;
   color: rgb(122, 84, 143);
   background: rgb(240, 240, 240);
@@ -383,7 +381,7 @@ h3 {
 
 .panel-button {
   position: fixed;
-  z-index: 2000;
+  z-index: 2050;
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.4);
 }
@@ -431,7 +429,6 @@ h3 {
 .icon {
   padding: 0 0.5em;
 }
-
 
 /* Stego Dinosaur */
 .stego-container {
@@ -1012,8 +1009,9 @@ $tear-z: 9;
   margin: auto;
   text-align: center;
   width: 500px;
-  height: 380px;
-  background-color: #fff;
+  height: 320px;
+  background-color: rgb(255,255,255);
+  height: 300px;
   border-radius: 10px;
 }
 
@@ -1031,26 +1029,41 @@ $tear-z: 9;
   background: rgba(0, 0, 0, 0.8);
 }
 
+.blur-bg {
+  width: 100%;
+  height: 100%;
+}
+
 // Login/Sign-Up Page
 .button-container {
   position: relative;
-  padding-top: 20px;
+  padding: 1em 0;
 }
 
 .button {
-  display: inline-block;
-  padding: 1em;
-  margin: 0.2em;
-  background: rgb(51, 51, 51);
+  display: block;
+  padding: 1.2em;
+  margin: 0.2em 4em;
+  background: #6DD742;
   color: #fff;
   min-width: 200px;
   cursor: pointer;
   text-align: center;
+  font-weight: 700;
   border-radius: 5px;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
-.button:hover {
-  background: rgb(0, 181, 255);
+.logo {
+  padding: 0.5em;
+}
+
+.spinner {
+  position: absolute;
+  top: 2em;
+  right: 1em;
 }
 
 .icons {
@@ -1062,10 +1075,6 @@ $tear-z: 9;
 .linebreak {
   width: 40%;
   border-bottom: 1px solid rgb(51, 51, 51);
-}
-
-.or {
-  padding: 15px;
 }
 
 .logo-container {

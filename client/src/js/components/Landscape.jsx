@@ -23,6 +23,11 @@ var Landscape = React.createClass({
     };
   },
 
+  syncAccount: function() {
+    console.log(this.props.userInfo);
+    this.props.auth.syncAccount();
+  },
+
   checkDisplayTime: function() {
     var now = new Date();
     var hour = now.getHours();
@@ -37,7 +42,9 @@ var Landscape = React.createClass({
       this.setState({timeOfDay: this.checkTimeOfDay(hour)});
     }
 
-    if (hour > 12) {
+    if (hour === 0) {
+      hour = 12;
+    } else if (hour > 12) {
       hour = hour - 12;
     }
 
@@ -88,12 +95,6 @@ var Landscape = React.createClass({
   },
 
   componentDidMount: function() {
-
-    var el = React.findDOMNode(this.refs.lscape);
-    setTimeout(function() {
-      el.style.opacity = 1;
-    }, 500);
-    
     setInterval(function() {
       this.setState({displayTime: this.checkDisplayTime()});
       this.setState({meridian: this.checkMeridian()});
@@ -160,20 +161,25 @@ var Landscape = React.createClass({
     return (
       <div className={'time-of-day ' + this.state.timeOfDay}>
         <SignInSplash auth={this.props.auth} user={this.props.userInfo} />
-        <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
-        <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
-        <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
-        <img src="./images/landscape/clouds-4.png" alt="" className="clouds cloud-4"/>
-        <img src="./images/landscape/clouds-5.png" alt="" className="clouds cloud-5"/>
-        <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
-        <div className={'landscape ' + this.state.timeOfDay}></div>
-        <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000}/>
-        <StepsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={10000} />
-        <CommitsBox auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} />
-        <CommitsPanel auth={this.props.auth} user={this.props.userInfo} startOfWeek={this.props.startOfWeek} max={20} />
-        <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
-        <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
-        <Weather currentWeather={this.state.displayWeather} />
+        <div className="blur-bg">
+          <img src="./images/landscape/clouds-1.png" alt="" className="clouds cloud-1"/>
+          <img src="./images/landscape/clouds-2.png" alt="" className="clouds cloud-2"/>
+          <img src="./images/landscape/clouds-3.png" alt="" className="clouds cloud-3"/>
+          <img src="./images/landscape/clouds-4.png" alt="" className="clouds cloud-4"/>
+          <img src="./images/landscape/clouds-5.png" alt="" className="clouds cloud-5"/>
+          <img src={'./images/landscape/sunmoon-'+ this.state.timeOfDay +'.png'} alt="" className={'sunmoon-'+this.state.timeOfDay}/>
+          <a className="sync-button" onClick={this.syncAccount}>
+            <span className="fa fa-refresh"></span>
+          </a>
+          <div className={'landscape ' + this.state.timeOfDay}></div>
+          <StepsBox auth={this.props.auth} user={this.props.userInfo} max={10000}/>
+          <StepsPanel auth={this.props.auth} steps={this.props.userInfo.fitness.moves} startOfWeek={this.props.startOfWeek} max={10000} />
+          <CommitsBox auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} />
+          <CommitsPanel auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfWeek={this.props.startOfWeek} max={20} />
+          <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
+          <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
+          <Weather currentWeather={this.state.displayWeather} />
+        </div>
       </div>
     );
   }

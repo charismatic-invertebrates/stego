@@ -3,8 +3,6 @@
 var React = require('react');
 var Landscape = require('./components/Landscape.jsx');
 var auth = require('./stores/auth.js');
-var SignInSplash = require('./components/SignInSplash.jsx');
-var SignUpSplash = require('./components/SignUpSplash.jsx');
 var Q = require('q');
 
 var App = React.createClass({
@@ -31,6 +29,7 @@ var App = React.createClass({
           code: null,
           stepsData: this.processData('stepCounts', 'stepDates')
         },
+        found: null
       },
       day: this.setDay(),
       week: this.getStartOfWeek()
@@ -91,6 +90,12 @@ var App = React.createClass({
     }
 
     return date;
+  },
+
+  shouldComponentUpdate: function(nextProps, nextState) {
+    console.log(nextState);
+
+    return true;
   },
 
   render: function() {

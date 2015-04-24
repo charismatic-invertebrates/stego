@@ -1,6 +1,6 @@
 var React = require('react');
 
-var CommitsOverTime = React.createClass({
+var WeeklyChart = React.createClass({
   getInitialState: function() {
     return {
       currentWeek: this.props.startOfWeek,
@@ -21,7 +21,7 @@ var CommitsOverTime = React.createClass({
   },
 
   getData: function(redraw) {
-    var commitsData = this.props.commitsData;
+    var data = this.props.data;
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var week;
 
@@ -46,19 +46,19 @@ var CommitsOverTime = React.createClass({
       labels: dates,
       datasets: [
         {
-          label: 'Commits',
-          fillColor: 'rgba(122, 84, 143, 0.2)',
-          strokeColor: 'rgb(122, 84, 143)',
-          pointColor: 'rgb(122, 84, 143)',
+          label: this.props.label,
+          fillColor: 'rgba(255, 189, 82, 0.2)',
+          strokeColor: 'rgba(140, 234, 102, 0.5)',
+          pointColor: 'rgb(140, 234, 102)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgb(122, 84, 143)',
+          pointHighlightStroke: 'rgb(140, 234, 102)',
           data: [0, 0, 0, 0, 0, 0, 0]
         }
       ]
     };
 
-    for (var savedDate in commitsData) {
+    for (var savedDate in data) {
       // Convert date to day
       var date = new Date(savedDate);
       var dayNumber = date.getUTCDay();
@@ -68,7 +68,7 @@ var CommitsOverTime = React.createClass({
         if (i === dayNumber) {
           if (chartData.labels[i].match(dateNumber) !== null) {
             // 
-            chartData.datasets[0].data[i] = commitsData[savedDate];
+            chartData.datasets[0].data[i] = data[savedDate];
           }
         }
       }
@@ -114,8 +114,8 @@ var CommitsOverTime = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps) {
-    if (this.props.commitsData !== undefined) {
-      if (JSON.stringify(nextProps.commitsData) !== JSON.stringify(this.props.commitsData)) {
+    if (this.props.data !== undefined) {
+      if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)) {
         this.drawChart();
       } 
     }
@@ -142,4 +142,4 @@ var CommitsOverTime = React.createClass({
   }
 });
 
-module.exports = CommitsOverTime;
+module.exports = WeeklyChart;

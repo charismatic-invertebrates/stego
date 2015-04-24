@@ -2,14 +2,6 @@ var React = require('react');
 var Chart = require('./Chart.jsx');
 
 var StepsBox = React.createClass({
-
-  getProviderCode: function(service, loginServer) {
-    this.props.auth.getCode(service, loginServer);
-  },
-
-  logUser: function() {
-    console.log(this.props.user);
-  },
   
   render: function() {
     return (
