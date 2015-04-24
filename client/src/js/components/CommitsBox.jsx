@@ -4,34 +4,50 @@ var Chart = require('./Chart.jsx');
 var CommitsBox = React.createClass({
   getInitialState: function() {
     return {
+      commits: localStorage.commitCounts,
+      dates: localStorage.commitDates,
       currentValue: this.getCurrentCommits()
     }
   },
+
+  componentDidMount: function() {
+    this.setState({
+      commits: localStorage.commitCounts,
+      dates: localStorage.commitDates,
+      currentValue: this.getCurrentCommits()
+    });
+  },
   
   getCurrentCommits: function() {
-    var commits = this.props.commits;
-    var today = this.props.startOfDay;
-    var commitCount = 0;
+    var commitsCount = 0;
 
-    for (var savedDate in commits) {
-      if (savedDate === today) {
-        commitCount = commits[savedDate];
-        break;
+    if (this.state !== null) {
+      if (this.state.commits !== undefined) {
+        var commitsList = this.state.commits.split(',');
+        var datesList = this.state.dates.split(',');
+        var today = this.props.startOfDay;
+
+        for (var i = 0; i < commitsList.length; i++) {
+          if (datesList[i] === today) {
+            commitsCount = commitsList[i];
+          }
+        }
       }
     }
 
-    return commitCount;
+    return commitsCount;
   },
 
-  componentDidMount: function() {
-    this.setState({currentValue: this.getCurrentCommits()});
-  },
-
-  shouldComponentUpdate: function(nextProps) {
-    if (this.props.commits !== undefined) {
-      if (JSON.stringify(nextProps.commits) !== JSON.stringify(this.props.commits)) {
-        this.setState({currentValue: this.getCurrentCommits()});
-      } 
+  shouldComponentUpdate: function() {
+    if (localStorage.commitCounts !== this.state.commits) {
+      this.setState({
+        commits: localStorage.commitCounts,
+        dates: localStorage.commitDates
+      }, function() {
+        this.setState({
+          currentValue: this.getCurrentCommits()
+        });
+      });
     }
 
     return true;
