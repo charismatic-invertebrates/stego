@@ -4,7 +4,7 @@ var SignInSplash = React.createClass({
 
   getInitialState: function(){
     return {
-      enableBlur: this.enableBlur(),
+      toggleBlur: this.toggleBlur(),
       showSplash: this.checkSplashStatus(),
       showLogin: true,
       showSignup: false,
@@ -24,13 +24,21 @@ var SignInSplash = React.createClass({
     this.setState({
       showSplash: this.checkSplashStatus()
     });
+    if (this.checkSplashStatus()){
+      this.toggleBlur();
+    }
   },
 
-  enableBlur: function(){
-    $('.blur-bg').css({'-webkit-filter': 'blur(20px)'});
+  toggleBlur: function(){
+    $('.bg').toggleClass('blur');
   },
 
+  toggleTransitionBlur: function(){
+    $('.bg').toggleClass('blur-transition').removeClass('blur');
+  },
+  
   shouldComponentUpdate: function(nextProps) {
+
     if (nextProps.user.found && (nextProps.user.found !== this.props.user.found)) {
       this.setState({
         showSplash: false
@@ -73,9 +81,26 @@ var SignInSplash = React.createClass({
     }
   },
 
+  getProviderCodeEnableBlur: function(service, loginServer) {
+    this.props.auth.getCode(service, loginServer);
+    this.setState({'loading': true});
+
+    if (service === 'github') {
+      this.setState({'githubLoading': true});
+    }
+
+    if (service === 'jawbone') {
+      this.setState({'jawboneLoading': true});
+    }
+
+    // $('.blur').removeClass();
+    this.toggleTransitionBlur();
+  },
+
   pairAccounts: function() {
     this.props.auth.sendToServer('pairing');
     this.setState({showSplash: false});
+    $('.bg').toggleClass('blur-transition').removeClass('blur');
   },
 
   render: function() {
@@ -100,7 +125,7 @@ var SignInSplash = React.createClass({
 
           <div className="login" style={loginCSS}>
             <div className="button-container">
-              <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}>
+              <a className="button" onClick={this.getProviderCodeEnableBlur.bind(null, 'github', true)}>
                 <img className="icons" src="./images/icons/githubicon.png"/>
                 Sign in with GitHub
               </a>
