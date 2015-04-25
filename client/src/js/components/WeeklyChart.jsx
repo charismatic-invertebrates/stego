@@ -4,6 +4,8 @@ var WeeklyChart = React.createClass({
   getInitialState: function() {
     return {
       currentWeek: this.props.startOfWeek,
+      metric: localStorage[this.props.storageType + 'Counts'],
+      dates: localStorage[this.props.storageType + 'Dates'],
       chartData: this.getData()
     }
   },
@@ -21,7 +23,6 @@ var WeeklyChart = React.createClass({
   },
 
   getData: function(redraw) {
-    var data = this.props.data;
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var week;
 
@@ -58,22 +59,29 @@ var WeeklyChart = React.createClass({
       ]
     };
 
-    for (var savedDate in data) {
-      // Convert date to day
-      var date = new Date(savedDate);
-      var dayNumber = date.getUTCDay();
-      var dateNumber = date.getUTCDate();
 
-      for (var i = 0; i < chartData.datasets[0].data.length; i++) {
-        if (i === dayNumber) {
-          if (chartData.labels[i].match(dateNumber) !== null) {
-            // 
-            chartData.datasets[0].data[i] = data[savedDate];
+    if (this.state !== null) {
+      if (this.state.metric !== undefined) {
+        var metricList = this.state.metric.split(',');
+        var datesList = this.state.dates.split(',');
+
+        for (var i = 0; i < metricList.length; i++) {
+          // Convert date to day
+          var date = new Date(datesList[i]);
+          var dayNumber = date.getUTCDay();
+          var dateNumber = date.getUTCDate();
+
+          for (var j = 0; j < chartData.datasets[0].data.length; j++) {
+            if (j === dayNumber) {
+              if (chartData.labels[j].match(dateNumber) !== null) {
+                chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
+              }
+            }
           }
         }
       }
     }
-    
+
     return chartData;
   },
 
@@ -106,18 +114,30 @@ var WeeklyChart = React.createClass({
       var data = this.state.chartData;
       drawLineGraph(this.props.parentId, data, redraw);
     });
-
   },
 
   componentDidMount: function() {
-    this.drawChart(false);
+    this.setState({
+      metric: localStorage[this.props.storageType + 'Counts'],
+      dates: localStorage[this.props.storageType + 'Dates'],
+      currentValue: this.getData()
+    }, function() {
+      this.drawChart(false);
+    });
   },
 
-  shouldComponentUpdate: function(nextProps) {
-    if (this.props.data !== undefined) {
-      if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)) {
-        this.drawChart();
-      } 
+  shouldComponentUpdate: function() {
+    if (localStorage[this.props.storageType + 'Counts'] !== this.state.metric) {
+      this.setState({
+        metric: localStorage[this.props.storageType + 'Counts'],
+        dates: localStorage[this.props.storageType + 'Dates']
+      }, function() {
+        this.setState({
+          chartData: this.getData()
+        }, function() {
+          this.drawChart(true);
+        });
+      });
     }
 
     return true;
