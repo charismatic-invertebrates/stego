@@ -1,0 +1,1116 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+// Landscape Keyframes
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+// Animation mixins
+@mixin rotating {
+  -webkit-animation: rotating 120s linear infinite;
+  animation: rotating 120s linear infinite;
+}
+
+@mixin fadein {
+  -webkit-animation: fadein 1s;
+  animation: fadein 1s;
+}
+
+/* Main */
+
+html, img {
+  @include fadein;
+}
+
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1, h2 {
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 1px 1px 10px #555;
+}
+
+h3 {
+  text-align: center;
+}
+
+h1 {
+  font-size: 6em;
+  margin: 0.8em 0 0.5em 0;
+}
+
+h2 {
+  font-size: 2.2em;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em;
+  margin: 0.2em;
+  background: rgb(23, 202, 173);
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.button:disabled {
+  background: #eee;
+}
+
+.latenight, .dawn, .morning, .afternoon, .evening, .night {
+  @include fadein;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  -webkit-transition: opacity .5s ease-in;
+  transition: opacity .5s ease-in;
+}
+
+.time-of-day.active {
+  opacity: 1;
+}
+
+
+// Background Images
+.latenight {
+  background-image: url('../images/landscape/background-latenight.png');
+}
+
+.dawn {
+  background-image: url('../images/landscape/background-dawn.png');
+}
+
+.morning {
+  background-image: url('../images/landscape/background-morning.png');
+}
+
+.afternoon {
+  background-image: url('../images/landscape/background-afternoon.png');
+}
+
+.evening {
+  background-image: url('../images/landscape/background-evening.png');
+}
+
+.night {
+  background-image: url('../images/landscape/background-night.png');
+}
+
+// Landscape Images
+.landscape {
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-position: bottom center;
+  z-index: -1;
+  @include fadein;
+}
+
+.landscape.latenight {
+  background-image: url('../images/landscape/landscape-latenight.png');
+}
+
+.landscape.dawn {
+  background-image: url('../images/landscape/landscape-dawn.png');
+}
+
+.landscape.morning {
+  background-image: url('../images/landscape/landscape-morning.png');
+}
+
+.landscape.afternoon {
+  background-image: url('../images/landscape/landscape-afternoon.png');
+}
+
+.landscape.evening {
+  background-image: url('../images/landscape/landscape-evening.png');
+}
+
+.landscape.night {
+  background-image: url('../images/landscape/landscape-night.png');
+}
+
+// Landscape Positions
+
+// Sun and Moon Colors
+
+.sunmoon-latenight {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
+  right: 20%;
+  top: 7%;
+}
+
+.sunmoon-dawn {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,1));
+  left: 5%;
+  top: 8%;
+}
+
+.sunmoon-morning {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,194,43,1));
+  left: 25%;
+  top: 0;
+}
+
+.sunmoon-afternoon {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,186,16,1));
+  right: 25%;
+  top: 0;
+}
+
+.sunmoon-evening {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(254,138,13,1));
+  right: 5%;
+  top: 25%;
+}
+
+.sunmoon-night {
+  z-index: -2;
+  position: absolute;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(238,235,223,1));
+  left: 20%;
+  top: 7%;
+}
+
+.meridian {
+  font-size: 0.4em;
+  margin: 0 0.4em;
+}
+
+.commits-box, .steps-box {
+  position: absolute;
+  top: 2em;
+  width: 400px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.commits-box {
+  right: 1em;
+}
+
+.steps-box {
+  left: 1em;
+}
+
+.chart {
+  width: 250px;
+  height: 250px;
+  padding: 10px;
+  text-shadow: 1px 1px 10px #555;
+}
+
+.line-chart {
+  width: 410px;
+  height: 410px;
+}
+
+.weather-container, .sync-button {
+  position: fixed;
+  top: 0;
+  color: #fff;
+  z-index: 1050;
+}
+
+.weather-container {
+  margin: 0.5em 0;
+  right: 0;
+}
+
+.weather-degrees {
+  float: left;
+  margin: 0.2em 0.8em 0 0;
+}
+
+#skycon {
+  width: 40px;
+  margin: 0;
+  float: left;
+}
+
+.sync-button {
+  cursor: pointer;
+  margin: 0.5em;
+  left: 0;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.chart-container {
+  margin: 1em;
+}
+
+.clock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
+}
+
+.panel-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.panel {
+  width: 500px;
+  z-index: 2000;
+  padding: 1em;
+  color: rgb(122, 84, 143);
+  background: rgb(240, 240, 240);
+  -webkit-box-shadow: 1px 1px 10px #555;
+  box-shadow: 1px 1px 10px #555;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.commits-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  -webkit-transform: translateX(500px);
+  transform: translateX(500px);
+}
+
+.steps-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-transform: translateX(-500px);
+  transform: translateX(-500px);
+}
+
+.commits-panel-button {
+  bottom: 10px;
+  right: 10px;
+}
+
+.steps-panel-button {
+  bottom: 10px;
+  left: 10px;
+}
+
+.panel-button {
+  position: fixed;
+  z-index: 2050;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.panel-button:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.panel, .panel-button {
+  -webkit-transition: transform 400ms ease-in;
+  transition: transform 400ms ease-in;
+}
+
+.panel-button, .nav-button-left, .nav-button-right {
+  display: inline-block;
+  font-size: 0.8em;
+  font-weight: 700;
+  padding: 0.5em;
+  margin: 0.2em;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.nav-button-container {
+  overflow: hidden;
+  margin: 1em 0;
+}
+
+.nav-button-left, .nav-button-right {
+  border: 2px solid rgb(193, 159, 215);
+  &:hover {
+    border: 2px solid rgb(122, 84, 143);
+  }
+}
+
+.nav-button-left {
+  float: left;
+}
+
+.nav-button-right {
+  float: right;
+}
+
+.icon {
+  padding: 0 0.5em;
+}
+
+/* Stego Dinosaur */
+.stego-container {
+  margin: 0 auto;
+  width: 300px;
+}
+
+.stego-body-wrapper {
+  position: absolute;
+  bottom: 8%;
+  width: 300px;
+  height: 300px;
+}
+
+// Stego Moods
+.happy {
+  // background: gold;
+}
+
+.neutral {
+  // background: mediumturquoise;
+}
+
+.sad {
+  // background: midnightblue;
+}
+
+@mixin enable3d {
+  -webkit-transform: translateZ(0);
+}
+
+@mixin enable-contrast {
+  image-rendering : -webkit-optimize-contrast;
+  image-rendering : optimizeQuality;
+}
+
+
+// Stego Asset Sizes
+$eye-size: 14px;
+$body-width: 227px;
+$body-height: 326px;
+$leftarm-width: 35px;
+$leftarm-height: 93px;
+$rightarm-width: 35px;
+$rightarm-height: 64px;
+$leftleg-width: 36px;
+$leftleg-height: 27px;
+$rightleg-width: 39px;
+$rightleg-height: 30px;
+$mouth-width: 84px;
+$mouth-height: 21px;
+$tail-width: 122px;
+$tail-height: 96px;
+$mouth-scale: .3;
+
+// Stego Asset Positions (X,Y)
+$left-eye-pos: 40px,100px;
+$right-eye-pos: 120px,105px;
+$rightarm-pos: 120px, 203px;
+$rightarm-pos-end: 120px, 203px;
+$leftarm-pos: 40px, 208px;
+$leftarm-pos-end: 60px, 208px;
+$leftleg-pos: 60px, 310px;
+$rightleg-pos: 115px, 310px;
+$mouth-pos: 45px,137px;
+$tail-pos: 155px,225px;
+$mouth-pos-happy: 45px,130px;
+
+// Stego Z-Indexes
+$body-z: 8;
+$eye-z: 8;
+$leftarm-z: -1;
+$rightarm-z: 10;
+$leftleg-z: -1;
+$rightleg-z: 7;
+$mouth-z: 8;
+$tail-z: 9;
+
+// Stego Timing
+$blink-seconds: 4s;
+$blink-delay: 2s;
+$wave-seconds: 1.5s;
+$wave-seconds-sad: 2.5s;
+$wave-delay: 1s;
+$right-arm-sway-seconds: 4s;
+$tail-sway-seconds: 3s;
+$tail-sway-happy-seconds: 1.5s;
+$wave-seconds-happy: 6s;
+$mouth-happy-seconds: 6s;
+
+
+
+/* Stego Keyframe Animations */
+
+// Left Eye Blink
+@-webkit-keyframes left-eye-blink {
+  0% {transform: translate3d($left-eye-pos,0) scale3d(1,1,0);}
+  2% {transform: translate3d($left-eye-pos,0) scale3d(1,0,0);}
+  3% {transform: translate3d($left-eye-pos,0) scale3d(1,0,0);}
+  10% {transform: translate3d($left-eye-pos,0) scale3d(1,1,0);}
+  100% {transform: translate3d($left-eye-pos,0) scale3d(1,1,0);}
+}
+
+@mixin left-eye-blink {
+  -webkit-animation: left-eye-blink $blink-seconds linear infinite;
+  animation-delay: $blink-delay;
+}
+
+// Right Eye Blink
+@-webkit-keyframes right-eye-blink {
+  0% {transform: translate3d($right-eye-pos,0) scale3d(1,1,0);}
+  2% {transform: translate3d($right-eye-pos,0) scale3d(1,0,0);}
+  3% {transform: translate3d($right-eye-pos,0) scale3d(1,0,0);}
+  10% {transform: translate3d($right-eye-pos,0) scale3d(1,1,0);}
+  100% {transform: translate3d($right-eye-pos,0) scale3d(1,1,0);}
+}
+
+@mixin right-eye-blink {
+  -webkit-animation: right-eye-blink $blink-seconds linear infinite;
+}
+
+// Left Arm Wave
+@-webkit-keyframes wave {
+  0% {transform: translate3d($leftarm-pos,0) rotate(0deg)};
+  20% {transform: translate3d($leftarm-pos,0) rotate(135deg)};
+  30% {transform: translate3d($leftarm-pos,0) rotate(105deg)};
+  40% {transform: translate3d($leftarm-pos,0) rotate(135deg)};
+  45% {transform: translate3d($leftarm-pos,0) rotate(135deg)};
+  80% {transform: translate3d($leftarm-pos-end,0) rotate(0deg)};
+}
+
+@mixin wave {
+  -webkit-animation: wave $wave-seconds $wave-delay;
+}
+
+// Right Arm Happy Wave
+@-webkit-keyframes right-arm-happy-wave {
+  0% {transform: translate($rightarm-pos) rotate(0deg)};
+  5% {transform: translate($rightarm-pos) rotate(-135deg)};
+  8% {transform: translate($rightarm-pos) rotate(-105deg)};
+  10% {transform: translate($rightarm-pos) rotate(-135deg)};
+  11% {transform: translate($rightarm-pos) rotate(-135deg)};
+  20% {transform: translate($rightarm-pos-end) rotate(0deg)};
+  47% {transform: translate($rightarm-pos) rotate(2.5deg)};
+  74% {transform: translate($rightarm-pos) rotate(-2.5deg)};
+  100% {transform: translate($rightarm-pos) rotate(2.5deg)};
+}
+
+@mixin right-arm-happy-wave {
+  -webkit-animation: right-arm-happy-wave $wave-seconds-happy $wave-delay infinite;
+}
+
+// Left Arm Happy Wave
+@-webkit-keyframes happy-wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  5% {transform: translate($leftarm-pos) rotate(135deg)};
+  8% {transform: translate($leftarm-pos) rotate(105deg)};
+  10% {transform: translate($leftarm-pos) rotate(135deg)};
+  11% {transform: translate($leftarm-pos) rotate(135deg)};
+  20% {transform: translate($leftarm-pos-end) rotate(0deg)};
+}
+
+@mixin happy-wave {
+  -webkit-animation: happy-wave $wave-seconds-happy $wave-delay infinite;
+}
+
+// Left Arm Sad Wave
+@-webkit-keyframes sad-wave {
+  0% {transform: translate($leftarm-pos) rotate(0deg)};
+  30% {transform: translate($leftarm-pos) rotate(130deg)};
+  40% {transform: translate($leftarm-pos) rotate(120deg)};
+  50% {transform: translate($leftarm-pos) rotate(130deg)};
+  70% {transform: translate($leftarm-pos) rotate(130deg)};
+  100% {transform: translate($leftarm-pos-end) rotate(0deg)};
+}
+
+@mixin sad-wave {
+  -webkit-animation: sad-wave $wave-seconds-sad $wave-delay ease-in-out;
+}
+
+// Right Arm Sway
+@-webkit-keyframes right-arm-sway {
+  0% {transform: translate3d($rightarm-pos,0) rotate(-2.5deg)};
+  50% {transform: translate3d($rightarm-pos,0) rotate(2.5deg)};
+  100% {transform: translate3d($rightarm-pos,0) rotate(-2.5deg)};
+}
+
+@mixin right-arm-sway {
+  -webkit-animation: right-arm-sway $right-arm-sway-seconds ease-in-out infinite;
+}
+
+// Tail Sway
+@-webkit-keyframes tail-sway {
+  0% {transform: translate($tail-pos) rotate(0deg)};
+  50% {transform: translate($tail-pos) rotate(2deg)};
+  100% {transform: translate($tail-pos) rotate(0deg)};
+}
+
+@mixin tail-sway {
+  -webkit-animation: tail-sway $tail-sway-seconds ease-in-out infinite;
+}
+
+// Tail Sway Happy
+@-webkit-keyframes tail-sway-happy {
+  0% {transform: translate($tail-pos) rotate(0deg)};
+  50% {transform: translate($tail-pos) rotate(2deg)};
+  100% {transform: translate($tail-pos) rotate(0deg)};
+}
+
+@mixin tail-sway-happy {
+  -webkit-animation: tail-sway-happy $tail-sway-happy-seconds ease-in-out infinite;
+}
+
+// Clouds
+$cloud-1-x1: -200px;
+$cloud-1-x2: 2700px;
+$cloud-1-y: 50px;
+$cloud-1-seconds: 400s;
+
+$cloud-2-x1: 300px;
+$cloud-2-x2: 2700px;
+$cloud-2-y: 60px;
+$cloud-2-seconds: 280s;
+
+$cloud-3-x1: -50px;
+$cloud-3-x2: 2700px;
+$cloud-3-y: 20px;
+$cloud-3-seconds: 380s;
+
+$cloud-4-x1: 700px;
+$cloud-4-x2: 2700px;
+$cloud-4-y: 40px;
+$cloud-4-seconds: 600s;
+
+$cloud-5-x1: 1100px;
+$cloud-5-x2: 2700px;
+$cloud-5-y: 50px;
+$cloud-5-seconds: 300s;
+
+@-webkit-keyframes cloud-1 {
+  0% {transform: translate($cloud-1-x1, $cloud-1-y)};
+  100% {transform: translate($cloud-1-x2, $cloud-1-y)};
+}
+
+@mixin cloud-1 {
+  -webkit-animation: cloud-1 $cloud-1-seconds linear infinite;
+}
+
+@-webkit-keyframes cloud-2 {
+  0% {transform: translate($cloud-2-x1, $cloud-2-y)};
+  100% {transform: translate($cloud-2-x2, $cloud-2-y)};
+}
+
+@mixin cloud-2 {
+  -webkit-animation: cloud-2 $cloud-2-seconds linear infinite;
+}
+
+@-webkit-keyframes cloud-3 {
+  0% {transform: translate($cloud-3-x1, $cloud-3-y)};
+  100% {transform: translate($cloud-3-x2, $cloud-3-y)};
+}
+
+@mixin cloud-3 {
+  -webkit-animation: cloud-3 $cloud-3-seconds linear infinite;
+}
+
+@-webkit-keyframes cloud-4 {
+  0% {transform: translate($cloud-4-x1, $cloud-4-y)};
+  100% {transform: translate($cloud-4-x2, $cloud-4-y)};
+}
+
+@mixin cloud-4 {
+  -webkit-animation: cloud-4 $cloud-4-seconds linear infinite;
+}
+
+@-webkit-keyframes cloud-5 {
+  0% {transform: translate($cloud-5-x1, $cloud-5-y)};
+  100% {transform: translate($cloud-5-x2, $cloud-5-y)};
+}
+
+@mixin cloud-5 {
+  -webkit-animation: cloud-5 $cloud-5-seconds linear infinite;
+}
+
+.cloud-1 {
+  @include enable3d;
+  @include cloud-1;
+  position: absolute;
+}
+
+.cloud-2 {
+  @include enable3d;
+  @include cloud-2;
+  position: absolute;
+}
+
+.cloud-3 {
+  @include enable3d;
+  @include cloud-3;
+  position: absolute;
+}
+
+.cloud-4 {
+  @include enable3d;
+  @include cloud-4;
+  position: absolute;
+}
+
+.cloud-5 {
+  @include enable3d;
+  @include cloud-5;
+  position: absolute;
+}
+
+.eye, .mouth, .teeth, .left-arm, .right-arm,
+.left-leg, .right-leg, .tear, .tail {
+  position: relative;
+}
+
+.stego-body {
+  position: absolute;
+  width: $body-width;
+  height: $body-height;
+  background-image: url('../images/stego-parts/stego-body.png');
+  background-size: $body-width $body-height;
+  z-index: $body-z;
+  @include enable-contrast;
+}
+
+.eye {
+  background-color: black; 
+  border-radius: 50%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  width: $eye-size;
+  height: $eye-size;
+  position: absolute;
+  z-index: $eye-z;
+}
+
+.eye.left-eye.neutral, .eye.left-eye.happy {
+  @include enable3d;
+  @include left-eye-blink;
+  // transform: translate($left-eye-pos);
+}
+
+.eye.right-eye.neutral, .eye.right-eye.happy {
+  @include enable3d;
+  @include right-eye-blink;
+  // transform: translate($right-eye-pos);
+}
+
+.eye.left-eye.sad {
+  @include enable3d;
+  @include left-eye-blink;
+  width: 19px;
+  height: 19px;
+  background-size: 19px, 19px;
+  background-color: transparent;
+  border-width: 0;
+  background-image: url('../images/stego-parts/stego-sad-eye-left.png');
+  border-color: none;
+  @include enable-contrast;
+  // transform: translate($left-eye-pos);
+}
+
+.eye.right-eye.sad {
+  @include enable3d;
+  @include right-eye-blink;
+  background-size: 19px, 19px;
+  width: 19px;
+  height: 19px;
+  background-color: transparent;
+  border-width: 0;
+  background-image: url('../images/stego-parts/stego-sad-eye-right.png');
+  border-color: none;
+  @include enable-contrast;
+}
+
+.mouth {
+  width: $mouth-width;
+  height: $mouth-height;
+  background-size: $mouth-width, $mouth-height;
+  background-image: url('../images/stego-parts/stego-mouth.png');
+  position: absolute;
+  transform: translate($mouth-pos);
+  z-index: $mouth-z;
+  @include enable-contrast;
+}
+
+.mouth.sad {
+  background-image: url('../images/stego-parts/stego-sad-mouth.png');
+}
+
+// Smile Happy
+@-webkit-keyframes mouth-happy {
+  0% {
+    transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  15% {
+    transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  20% {
+    transform: translate3d($mouth-pos-happy,0) scale(1,1);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  33% {
+    transform: translate3d($mouth-pos-happy,0) scale(1,1);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+  36% {
+    transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
+    background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  };
+}
+
+@mixin mouth-happy {
+  -webkit-animation: mouth-happy $mouth-happy-seconds linear infinite;
+}
+
+.mouth.happy {
+  height:27px;
+  width:85px;
+  background-size: 85px, 27px;
+  position: absolute;
+  z-index: $mouth-z;
+  transform: translate3d($mouth-pos-happy,0) scale(1,$mouth-scale);
+  background-image: url('../images/stego-parts/stego-mouth-happy.png');
+  @include mouth-happy;
+  @include enable-contrast;
+}
+
+@-webkit-keyframes teeth-happy {
+  0% {transform: translate3d(110px,142px,0)};
+  15% {transform: translate3d(110px,142px,0)};
+  20% {transform: translate3d(110px,139px,0)};
+  33% {transform: translate3d(110px,139px,0)};
+  36% {transform: translate3d(110px,142px,0)};
+}
+
+@mixin teeth-happy {
+  -webkit-animation: teeth-happy $mouth-happy-seconds linear infinite;
+}
+
+.teeth.happy {
+  height: 11px;
+  width: 11px;
+  background-size: 11px 11px;
+  position: absolute;
+  z-index: $mouth-z;
+  background-image: url('../images/stego-parts/stego-teeth.png');
+  transform: translate3d(110px,142px,0);
+  @include teeth-happy;
+  @include enable-contrast;
+}
+
+.left-arm {
+  background-image: url('../images/stego-parts/stego-leftarm.png');
+  width: $leftarm-width;
+  height: $leftarm-height;
+  background-size: $leftarm-width $leftarm-height;
+  position: absolute;
+  transform: translate($leftarm-pos);
+  transform-origin: center top;
+  z-index: $leftarm-z;
+  @include wave;
+  @include enable-contrast;
+}
+
+.left-arm.sad {
+  @include sad-wave;
+}
+
+.left-arm.happy {
+  @include happy-wave;
+}
+
+.right-arm {
+  width: $rightarm-width;
+  height: $rightarm-height;
+  background-size: $rightarm-width $rightarm-height;
+  position: absolute;
+  background-image: url('../images/stego-parts/stego-rightarm.png');
+  transform: translate($rightarm-pos);
+  transform-origin: center top;
+  z-index: $rightarm-z;
+  @include right-arm-sway;
+  @include enable-contrast;
+}
+
+.right-arm.happy {
+  @include right-arm-happy-wave;
+
+}
+
+.left-leg {
+  width: $leftleg-width;
+  height: $leftleg-height;
+  background-size: $leftleg-width $leftleg-height;
+  background-image: url('../images/stego-parts/stego-leftleg.png');
+  position: absolute;
+  transform: translate($leftleg-pos);
+  z-index: $leftleg-z;
+}
+
+.right-leg {
+  width: $rightleg-width;
+  height: $rightleg-height;
+  background-size: $rightleg-width $rightleg-height;
+  background-image: url('../images/stego-parts/stego-rightleg.png');
+  position: absolute;
+  transform: translate($rightleg-pos);
+  z-index: $rightleg-z;
+}
+
+.tail {
+  width: $tail-width;
+  height: $tail-height;
+  background-size: $tail-width $tail-height;
+  background-image: url('../images/stego-parts/stego-tail.png');
+  position: absolute;
+  transform-origin: center left;
+  transform: translate($tail-pos);
+  z-index: $tail-z;
+  @include enable3d;
+  @include tail-sway;
+  @include enable-contrast;
+}
+
+.tail.happy {
+  @include enable3d;
+  @include tail-sway-happy;
+}
+
+// Tears
+$tear-width: 6px;
+$tear-height: 9px;
+$tear-start: 130px, 120px;
+$tear-end: 130px, 140px;
+$tear-z: 9;
+
+@-webkit-keyframes tear-sad {
+  0% {transform: translate($tear-start); opacity: 0;};
+  10% {opacity: 100};
+  70% {opacity: 100};
+  90% {transform: translate($tear-end); opacity: 0;};
+  100% {transform: translate($tear-end); opacity: 0;};
+}
+
+@mixin tear-sad {
+  -webkit-animation: tear-sad 9s infinite ease-in-out;
+}
+
+.tear.sad {
+  width: $tear-width;
+  height: $tear-height;
+  background-image: url('../images/stego-parts/stego-sad-tears.png');
+  position: absolute;
+  transform: translate($tear-start);
+  z-index: $tear-z;
+  @include enable3d;
+  @include tear-sad;
+  @include enable-contrast;
+}
+
+/* Connect Splash */
+.sign-in-container {
+  position: absolute;
+  padding: 20px;
+  z-index: 2400;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: 500px;
+  height: 320px;
+  background-color: rgb(255,255,255);
+  height: 300px;
+  border-radius: 10px;
+}
+
+.sign-in-container.login {
+  height: 300px;
+}
+
+.splash-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2200;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.bg {
+  width: 100%;
+  height: 100%;
+}
+
+// Login/Sign-Up Page
+.button-container {
+  position: relative;
+  padding: 1em 0;
+}
+
+.button {
+  display: block;
+  padding: 1.2em;
+  margin: 0.2em 4em;
+  background: #6DD742;
+  color: #fff;
+  min-width: 200px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 5px;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logo {
+  padding: 0.5em;
+}
+
+.spinner {
+  position: absolute;
+  top: 2em;
+  right: 1em;
+}
+
+.icons {
+  vertical-align: middle;
+  padding-right: 5px;
+  margin-top: -3px;
+}
+
+.linebreak {
+  width: 40%;
+  border-bottom: 1px solid rgb(51, 51, 51);
+}
+
+.logo-container {
+  width: 387px;
+  height: 262px;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0 auto;
+}
+
+.logo-container h3{
+  color: white;
+  font-size: 15px;
+}
+
+img.stego-logo{
+  -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
+}
+
+@-webkit-keyframes blur-transition {
+  0% {-webkit-filter: blur(20px);};
+  100% {-webkit-filter: blur(0px);};
+}
+
+@mixin blur-transition {
+  -webkit-animation: blur-transition 2s linear;
+}
+
+.blur-transition {
+  @include blur-transition;
+}
+
+.blur {
+  -webkit-filter: blur(20px);
+}

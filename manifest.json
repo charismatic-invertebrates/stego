@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Stego",
+  "short_name": "Stego",
+  "version": "1.1",
+
+  "description": "Stego the Tabagotchi",
+
+  "permissions": [
+    "activeTab",
+    "<all_urls>",
+    "identity",
+    "http://localhost/*",
+    "geolocation"
+  ],
+
+  "chrome_url_overrides": {
+    "newtab": "client/dist/public/stego.html"
+  },
+
+  "icons": {
+    "16": "client/dist/public/images/stego16.png",
+    "48": "client/dist/public/images/stego48.png",
+    "128": "client/dist/public/images/stego128.png"
+  }
+}
+
