@@ -26,7 +26,7 @@ var CommitsPanel = React.createClass({
         </a>
         <div className="panel commits-panel" ref="commitsPanel">
           <h3>Weekly Commits</h3>
-          <WeeklyChart data={this.props.commits} startOfWeek={this.props.startOfWeek} max={this.props.max} label={'Commits'} parentId="commits-over-time" />
+          <WeeklyChart data={this.props.commits} startOfWeek={this.props.startOfWeek} label={'Commits'} parentId="commits-over-time" />
         </div>
       </div>
     );

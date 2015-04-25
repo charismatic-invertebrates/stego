@@ -22,8 +22,6 @@ var Chart = React.createClass({
       config.waveColor = 'rgba(213, 0, 94, 0.5)';
     }
 
-    console.log('updateChart in charts: ', value);
-
     loadLiquidFillGauge(this.props.parentId, value, config, true);
   },
 
@@ -33,7 +31,6 @@ var Chart = React.createClass({
 
   shouldComponentUpdate: function(nextProps) {
     if (nextProps.currentValue !== this.props.currentValue) {
-      console.log('shouldComponentUpdate in charts: ', nextProps.currentValue, this.props.currentValue);
       this.updateChart(nextProps.currentValue);
     }
 
