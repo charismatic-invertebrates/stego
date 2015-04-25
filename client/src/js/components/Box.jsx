@@ -6,7 +6,7 @@ var Box = React.createClass({
     return {
       metric: localStorage[this.props.storageType + 'Counts'],
       dates: localStorage[this.props.storageType + 'Dates'],
-      currentValue: this.getCurrent()
+      currentValue: this.getData()
     }
   },
 
@@ -14,11 +14,11 @@ var Box = React.createClass({
     this.setState({
       metric: localStorage[this.props.storageType + 'Counts'],
       dates: localStorage[this.props.storageType + 'Dates'],
-      currentValue: this.getCurrent()
+      currentValue: this.getData()
     });
   },
   
-  getCurrent: function() {
+  getData: function() {
     var metricCount = 0;
 
     if (this.state !== null) {
@@ -45,7 +45,7 @@ var Box = React.createClass({
         dates: localStorage[this.props.storageType + 'Dates']
       }, function() {
         this.setState({
-          currentValue: this.getCurrent()
+          currentValue: this.getData()
         });
       });
     }
