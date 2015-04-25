@@ -26,7 +26,7 @@ var StepsPanel = React.createClass({
         </a>
         <div className="panel steps-panel" ref="stepsPanel">
           <h3>Weekly Steps</h3>
-          <WeeklyChart data={this.props.steps} startOfWeek={this.props.startOfWeek} max={this.props.max} label={'Steps'} parentId="steps-over-time" />
+          <WeeklyChart data={this.props.steps} startOfWeek={this.props.startOfWeek} label={'Steps'} parentId="steps-over-time" />
         </div>
       </div>
     );
