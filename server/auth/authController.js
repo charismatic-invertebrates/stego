@@ -120,6 +120,7 @@ console.log("ENTERING THE continueCreation SECTION OF THE CODE");
       // Do API requests, create syncAccount object and modify it accordingly
       apiHandler.getGithubData(syncAccount)
         .then(function(syncAccount) {
+          console.log('THIS IS THE ACCOUNT BEING PASSED INTO GETFITNESSDATA', syncAccount);
           return apiHandler.getFitnessData(syncAccount);
         })
 

@@ -109,6 +109,7 @@ if( !Array.isArray(commits) ) {console.log(commits)};
               userAccount.github.user.commitDates.push(key);
               userAccount.github.user.commitCounts.push(commitCountDates[key]);
             });
+console.log("THIS USER SHOULD HAVE ALL GITHUB DATA", userAccount);
             return userAccount;
           });
       })
@@ -119,6 +120,8 @@ if( !Array.isArray(commits) ) {console.log(commits)};
   },
 
   getFitnessData: function(userAccount) {
+console.log('THIS IS THE ACCOUNT BEING PASSED INTO GETFITNESSDATA', userAccount);
+
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
     userAccount.fitness.stepDates = [];
     userAccount.fitness.stepCounts = [];
