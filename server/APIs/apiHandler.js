@@ -92,7 +92,7 @@ if( !Array.isArray(results) ) {console.log(results)};
 
 
 
-console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, results[index]);
+console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, repoUrlsToCall[index]);
 if( !Array.isArray(commits) ) {console.log(commits)};
 
 
