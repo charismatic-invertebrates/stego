@@ -67,6 +67,7 @@ module.exports = {
         repos.forEach(function(repo) {
           repoList.push(repo.name);
         });
+console.log("THIS IS THE REPO LIST IS THERE ONE THAT IS UNDEFINED WHAT THE HELL IS GOING ON", repoList);
         userAccount.github.repos = repoList;
       })
       // Extract commit information by repo and store on userAccount:
@@ -75,7 +76,7 @@ module.exports = {
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
           return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
-console.log("WE ARE ABOUT TO MAP THROUGH ALL OF THESE: ", repoUrlsToCall);
+// console.log("WE ARE ABOUT TO MAP THROUGH ALL OF THESE: ", repoUrlsToCall);
         return Q.all(repoUrlsToCall.map(function(callParam) {
           return deferredRequest(callParam);
         }))
@@ -83,8 +84,8 @@ console.log("WE ARE ABOUT TO MAP THROUGH ALL OF THESE: ", repoUrlsToCall);
 
 
 
-console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
-if( !Array.isArray(results) ) {console.log(results)};
+// console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
+// if( !Array.isArray(results) ) {console.log(results)};
 
 
             return results.forEach(function(response, index) {
@@ -92,8 +93,8 @@ if( !Array.isArray(results) ) {console.log(results)};
 
 
 
-console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, repoUrlsToCall[index]);
-if( !Array.isArray(commits) ) {console.log(commits)};
+// console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, repoUrlsToCall[index]);
+// if( !Array.isArray(commits) ) {console.log(commits)};
 
 
 
