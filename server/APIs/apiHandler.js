@@ -75,12 +75,12 @@ module.exports = {
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
           return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
-
+console.log("WE ARE ABOUT TO MAP THROUGH ALL OF THESE: ", repoUrlsToCall);
         return Q.all(repoUrlsToCall.map(function(callParam) {
           return deferredRequest(callParam);
         }))
           .then(function(results) {
-console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof results);
+console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
 if( !Array.isArray(results) ) {console.log(results)};
             results.forEach(function(response) {
               var commits = JSON.parse(response[1]);
