@@ -77,7 +77,6 @@ var auth = function(){
           localStorage.setItem('commitDates', res.commitDates);
           localStorage.setItem('stepCounts', res.stepCounts);
           localStorage.setItem('stepDates', res.stepDates);
-
           if (res.xid) {
             app.setState(React.addons.update(app.state, {
               userInfo: {
@@ -97,7 +96,7 @@ var auth = function(){
           timeframe: getOneWeekAgo
         },
         callback: function(res) {
-          console.log(res);
+          console.log('localStorage getitem', localStorage.getItem('commitCounts'));
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
           localStorage.setItem('stepCounts', res.stepCounts);
