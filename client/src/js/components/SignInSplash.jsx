@@ -24,6 +24,13 @@ var SignInSplash = React.createClass({
     this.setState({
       showSplash: this.checkSplashStatus()
     });
+    if (this.checkSplashStatus()){
+      this.enableBlur();
+    }
+  },
+
+  enableBlur: function(){
+    $('.bg').toggleClass('blur');
   },
 
   enableBlur: function(){
@@ -31,6 +38,10 @@ var SignInSplash = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps) {
+    if (!$('.blur')){
+      $('.bg').removeClass('blur');
+    }
+
     if (nextProps.user.found && (nextProps.user.found !== this.props.user.found)) {
       this.setState({
         showSplash: false
@@ -76,6 +87,7 @@ var SignInSplash = React.createClass({
   pairAccounts: function() {
     this.props.auth.sendToServer('pairing');
     this.setState({showSplash: false});
+    $('.bg').removeClass('blur');
   },
 
   render: function() {
@@ -102,7 +114,7 @@ var SignInSplash = React.createClass({
             <div className="button-container">
               <a className="button" onClick={this.getProviderCode.bind(null, 'github', true)}>
                 <img className="icons" src="./images/icons/githubicon.png"/>
-                Sign in with GitHub
+                Sign in with github
               </a>
 
               <img className="spinner" style={spinnerCSS} src="./images/icons/spinner.gif" />

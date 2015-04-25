@@ -1111,3 +1111,7 @@ $tear-z: 9;
 img.stego-logo{
   -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
+
+.blur {
+  -webkit-filter: blur(20px);
+}
