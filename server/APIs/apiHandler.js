@@ -80,12 +80,23 @@ console.log("WE ARE ABOUT TO MAP THROUGH ALL OF THESE: ", repoUrlsToCall);
           return deferredRequest(callParam);
         }))
           .then(function(results) {
+
+
+
 console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
 if( !Array.isArray(results) ) {console.log(results)};
-            results.forEach(function(response) {
+
+
+            return results.forEach(function(response) {
               var commits = JSON.parse(response[1]);
+
+
+
 console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits);
 if( !Array.isArray(commits) ) {console.log(commits)};
+
+
+
               commits.forEach(function(commitInfo){
                 var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
                 commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;

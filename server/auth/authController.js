@@ -125,6 +125,7 @@ console.log("ENTERING THE continueCreation SECTION OF THE CODE");
 
         // Pass account to database and update the database
         .then(function(syncAccount) {
+console.log("We suspect that xid is not defined before we enter userCtrl, is this true?", syncAccount);
           userCtrl.updateUser(res, syncAccount);
         })
 
