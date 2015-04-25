@@ -117,7 +117,13 @@ var WeeklyChart = React.createClass({
   },
 
   componentDidMount: function() {
-    this.drawChart(false);
+    this.setState({
+      metric: localStorage[this.props.storageType + 'Counts'],
+      dates: localStorage[this.props.storageType + 'Dates'],
+      currentValue: this.getData()
+    }, function() {
+      this.drawChart(false);
+    });
   },
 
   shouldComponentUpdate: function() {
@@ -128,18 +134,13 @@ var WeeklyChart = React.createClass({
       }, function() {
         this.setState({
           chartData: this.getData()
+        }, function() {
+          this.drawChart(true);
         });
       });
     }
 
     return true;
-    // if (this.props.data !== undefined) {
-    //   if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)) {
-    //     this.drawChart();
-    //   } 
-    // }
-
-    // return true;
   },
 
   render: function() {
