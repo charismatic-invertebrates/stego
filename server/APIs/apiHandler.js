@@ -87,12 +87,12 @@ console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON
 if( !Array.isArray(results) ) {console.log(results)};
 
 
-            return results.forEach(function(response) {
+            return results.forEach(function(response, index) {
               var commits = JSON.parse(response[1]);
 
 
 
-console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits);
+console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, results[index]);
 if( !Array.isArray(commits) ) {console.log(commits)};
 
 
