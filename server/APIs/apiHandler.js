@@ -84,8 +84,8 @@ console.log("THIS IS THE REPO LIST IS THERE ONE THAT IS UNDEFINED WHAT THE HELL 
 
 
 
-// console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
-// if( !Array.isArray(results) ) {console.log(results)};
+console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
+if( !Array.isArray(results) ) {console.log(results)};
 
 
             return results.forEach(function(response, index) {
@@ -93,8 +93,8 @@ console.log("THIS IS THE REPO LIST IS THERE ONE THAT IS UNDEFINED WHAT THE HELL 
 
 
 
-// console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, repoUrlsToCall[index]);
-// if( !Array.isArray(commits) ) {console.log(commits)};
+console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, userAccount.github.repos[index]);
+if( !Array.isArray(commits) ) {console.log(commits)};
 
 
 
