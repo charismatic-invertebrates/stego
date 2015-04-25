@@ -85,8 +85,8 @@ console.log("THIS IS THE REPO LIST IS THERE ONE THAT IS UNDEFINED WHAT THE HELL 
 
 
 console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
-if( !Array.isArray(results) ) {console.log(results)};
-
+console.log("THIS IS THE RESULTS LENGTH", results.length);
+console.log("THIS IS THE RESULTS LENGTH", results);
 
             return results.forEach(function(response, index) {
               var commits = JSON.parse(response[1]);
