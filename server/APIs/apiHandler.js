@@ -113,12 +113,14 @@ module.exports = {
       // Get and process data
       .then(function(response) {
         var jawboneMoves = JSON.parse(response[1]).data.items;
-        jawboneMoves.forEach(function(moveData) {
-          var date = moveData.date.toString();
-          date = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
-          userAccount.fitness.stepDates.push(date);
-          userAccount.fitness.stepCounts.push(moveData.details.steps);
-        });
+        if( Array.isArray(jawboneMoves) ) {
+          jawboneMoves.forEach(function(moveData) {
+            var date = moveData.date.toString();
+            date = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+            userAccount.fitness.stepDates.push(date);
+            userAccount.fitness.stepCounts.push(moveData.details.steps);
+          });
+        }
         return userAccount;
       })
 
