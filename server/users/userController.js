@@ -91,8 +91,6 @@ module.exports = {
     // Promisify the find and update command
     var findAndUpdate = Q.nbind(User.findOneAndUpdate, User);
 
-console.log("THIS IS THE USER ACCOUNT THAT WE ARE TRYING TO SYNC WITH", syncAccount);
-
     // Pull data from syncAccount necessary to find and update our DB's userAccount
     var xid = syncAccount.xid;
     var updateUser = {
