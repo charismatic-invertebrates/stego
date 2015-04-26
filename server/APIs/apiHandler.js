@@ -67,7 +67,6 @@ module.exports = {
         repos.forEach(function(repo) {
           repoList.push(repo.name);
         });
-console.log("THIS IS THE REPO LIST IS THERE ONE THAT IS UNDEFINED WHAT THE HELL IS GOING ON", repoList);
         userAccount.github.repos = repoList;
       })
       // Extract commit information by repo and store on userAccount:
@@ -76,32 +75,19 @@ console.log("THIS IS THE REPO LIST IS THERE ONE THAT IS UNDEFINED WHAT THE HELL 
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
           return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
-// console.log("WE ARE ABOUT TO MAP THROUGH ALL OF THESE: ", repoUrlsToCall);
         return Q.all(repoUrlsToCall.map(function(callParam) {
           return deferredRequest(callParam);
         }))
           .then(function(results) {
-
-
-
-// console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", Array.isArray(results), typeof results);
-console.log("THIS IS THE RESULTS LENGTH", results.length);
-// console.log("THIS IS THE RESULTS LENGTH", results);
-
-            return results.forEach(function(response, index) {
+            return results.forEach(function(response) {
               var commits = JSON.parse(response[1]);
-
-
-
-console.log("ARE ALL OF THESE COMMITS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof commits, userAccount.github.repos[index]);
-if( !Array.isArray(commits) ) {console.log(commits)};
-
-
-
-              commits.forEach(function(commitInfo){
-                var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-                commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
-              });
+              console.log(Array.isArray(commits));
+              if( Array.isArray(commits) ) { 
+                commits.forEach(function(commitInfo){
+                  var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
+                  commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
+                });
+              }
             });
           })
           .then(function() {
@@ -109,7 +95,6 @@ if( !Array.isArray(commits) ) {console.log(commits)};
               userAccount.github.user.commitDates.push(key);
               userAccount.github.user.commitCounts.push(commitCountDates[key]);
             });
-console.log("THIS USER SHOULD HAVE ALL GITHUB DATA", userAccount);
             return userAccount;
           });
       })
@@ -120,8 +105,6 @@ console.log("THIS USER SHOULD HAVE ALL GITHUB DATA", userAccount);
   },
 
   getFitnessData: function(userAccount) {
-console.log('THIS IS THE ACCOUNT BEING PASSED INTO GETFITNESSDATA', userAccount);
-
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
     userAccount.fitness.stepDates = [];
     userAccount.fitness.stepCounts = [];
@@ -130,8 +113,6 @@ console.log('THIS IS THE ACCOUNT BEING PASSED INTO GETFITNESSDATA', userAccount)
       // Get and process data
       .then(function(response) {
         var jawboneMoves = JSON.parse(response[1]).data.items;
-console.log("ARE ALL OF THESE RESULTS DEFINED?  WHY ARE WE GETTING NO FOREACH ON UNDEFINED?  WHICH FOREACH IS FAILING? ", typeof jawboneMoves);
-if( !Array.isArray(jawboneMoves) ) {console.log(jawboneMoves)};
         jawboneMoves.forEach(function(moveData) {
           var date = moveData.date.toString();
           date = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
