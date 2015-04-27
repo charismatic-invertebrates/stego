@@ -1,9 +1,11 @@
 var React = require('react');
 
-var CommitsOverTime = React.createClass({
+var WeeklyChart = React.createClass({
   getInitialState: function() {
     return {
       currentWeek: this.props.startOfWeek,
+      metric: localStorage[this.props.storageType + 'Counts'],
+      dates: localStorage[this.props.storageType + 'Dates'],
       chartData: this.getData()
     }
   },
@@ -21,7 +23,6 @@ var CommitsOverTime = React.createClass({
   },
 
   getData: function(redraw) {
-    var commitsData = this.props.commitsData;
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var week;
 
@@ -46,34 +47,41 @@ var CommitsOverTime = React.createClass({
       labels: dates,
       datasets: [
         {
-          label: 'Commits',
-          fillColor: 'rgba(122, 84, 143, 0.2)',
-          strokeColor: 'rgb(122, 84, 143)',
-          pointColor: 'rgb(122, 84, 143)',
+          label: this.props.label,
+          fillColor: 'rgba(255, 189, 82, 0.2)',
+          strokeColor: 'rgba(140, 234, 102, 0.5)',
+          pointColor: 'rgb(140, 234, 102)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgb(122, 84, 143)',
+          pointHighlightStroke: 'rgb(140, 234, 102)',
           data: [0, 0, 0, 0, 0, 0, 0]
         }
       ]
     };
 
-    for (var savedDate in commitsData) {
-      // Convert date to day
-      var date = new Date(savedDate);
-      var dayNumber = date.getUTCDay();
-      var dateNumber = date.getUTCDate();
 
-      for (var i = 0; i < chartData.datasets[0].data.length; i++) {
-        if (i === dayNumber) {
-          if (chartData.labels[i].match(dateNumber) !== null) {
-            // 
-            chartData.datasets[0].data[i] = commitsData[savedDate];
+    if (this.state !== null) {
+      if (this.state.metric !== undefined) {
+        var metricList = this.state.metric.split(',');
+        var datesList = this.state.dates.split(',');
+
+        for (var i = 0; i < metricList.length; i++) {
+          // Convert date to day
+          var date = new Date(datesList[i]);
+          var dayNumber = date.getUTCDay();
+          var dateNumber = date.getUTCDate();
+
+          for (var j = 0; j < chartData.datasets[0].data.length; j++) {
+            if (j === dayNumber) {
+              if (chartData.labels[j].match(dateNumber) !== null) {
+                chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
+              }
+            }
           }
         }
       }
     }
-    
+
     return chartData;
   },
 
@@ -106,18 +114,30 @@ var CommitsOverTime = React.createClass({
       var data = this.state.chartData;
       drawLineGraph(this.props.parentId, data, redraw);
     });
-
   },
 
   componentDidMount: function() {
-    this.drawChart(false);
+    this.setState({
+      metric: localStorage[this.props.storageType + 'Counts'],
+      dates: localStorage[this.props.storageType + 'Dates'],
+      currentValue: this.getData()
+    }, function() {
+      this.drawChart(false);
+    });
   },
 
-  shouldComponentUpdate: function(nextProps) {
-    if (this.props.commitsData !== undefined) {
-      if (JSON.stringify(nextProps.commitsData) !== JSON.stringify(this.props.commitsData)) {
-        this.drawChart();
-      } 
+  shouldComponentUpdate: function() {
+    if (localStorage[this.props.storageType + 'Counts'] !== this.state.metric) {
+      this.setState({
+        metric: localStorage[this.props.storageType + 'Counts'],
+        dates: localStorage[this.props.storageType + 'Dates']
+      }, function() {
+        this.setState({
+          chartData: this.getData()
+        }, function() {
+          this.drawChart(true);
+        });
+      });
     }
 
     return true;
@@ -142,4 +162,4 @@ var CommitsOverTime = React.createClass({
   }
 });
 
-module.exports = CommitsOverTime;
+module.exports = WeeklyChart;

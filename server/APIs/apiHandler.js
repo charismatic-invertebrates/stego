@@ -54,6 +54,7 @@ module.exports = {
   },
 
   getGithubData: function(userAccount) {
+
     var githubRepoParams = assignRequestParams('github', 'repos', userAccount.github);
 
     // Get Github Repo information
@@ -74,17 +75,19 @@ module.exports = {
         var repoUrlsToCall = userAccount.github.repos.map(function(repo) {
           return assignRequestParams('github', 'commits-weekly', userAccount, repo);
         });
-
         return Q.all(repoUrlsToCall.map(function(callParam) {
           return deferredRequest(callParam);
         }))
           .then(function(results) {
-            results.forEach(function(response) {
-              var commits = JSON.parse(response[1]);              
-              commits.forEach(function(commitInfo){
-                var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-                commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
-              });
+            return results.forEach(function(response) {
+              var commits = JSON.parse(response[1]);
+              console.log(Array.isArray(commits));
+              if( Array.isArray(commits) ) { 
+                commits.forEach(function(commitInfo){
+                  var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
+                  commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
+                });
+              }
             });
           })
           .then(function() {
@@ -103,13 +106,24 @@ module.exports = {
 
   getFitnessData: function(userAccount) {
     var fitnessStepsParams = assignRequestParams(userAccount.fitness.provider, 'steps', userAccount.fitness.accessToken);
+    userAccount.fitness.stepDates = [];
+    userAccount.fitness.stepCounts = [];
 
     return deferredRequest(fitnessStepsParams)
-      // Store user's steps
+      // Get and process data
       .then(function(response) {
-        userAccount.fitness.user = JSON.parse(response[1]).data;
+        var jawboneMoves = JSON.parse(response[1]).data.items;
+        if( Array.isArray(jawboneMoves) ) {
+          jawboneMoves.forEach(function(moveData) {
+            var date = moveData.date.toString();
+            date = date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+            userAccount.fitness.stepDates.push(date);
+            userAccount.fitness.stepCounts.push(moveData.details.steps);
+          });
+        }
         return userAccount;
       })
+
       .fail(function(error) {
         console.error('Error in apiHandler.getFitnessData, failed to get steps: ', error);
       });

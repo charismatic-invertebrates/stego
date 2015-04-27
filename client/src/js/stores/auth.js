@@ -10,13 +10,15 @@ var auth = function(){
   var getOneWeekAgo = function() {
       // Set date to be seven days ago (this accounts for changing months)
       var date = new Date();
-      date.setDate(date.getDate()-7);
+      date.setDate(date.getUTCDate()-7);
+
+      return date.toISOString().slice(0, -1).replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
       
       // Time zone offset calculator from http://stackoverflow.com/a/28149561
-      var tzoffset = new Date().getTimezoneOffset() * 60000;
-      var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
+      // var tzoffset = new Date().getTimezoneOffset() * 60000;
+      // var localISOTime = (new Date(date - tzoffset)).toISOString().slice(0,-1);
 
-      return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
+      // return localISOTime.replace(/[0-9][0-9]:[0-9][0-9]:[0-9][0-9](\.[0-9][0-9][0-9])?/g, '00:00:00Z');
   };
 
   // Set AJAXParams inputs a provider and task and returns an object which our AJAX calls use to set their options
@@ -48,48 +50,57 @@ var auth = function(){
       // These cases handle requests to and through our server   
       case 'paired-createAccount':
       callParams = {
-        url: 'http://localhost:8000/api/auth/createAccount/',
+        url: 'http://stegodb.herokuapp.com/api/auth/createAccount/',
         data: {
           accountCodes: param,
           timeframe: getOneWeekAgo
         },
         callback: function(res) {
-          console.log(res);
           localStorage.setItem('xid', res.xid);
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
-          localStorage.setItem('steps', res.steps);
+          localStorage.setItem('stepCounts', res.stepCounts);
+          localStorage.setItem('stepDates', res.stepDates);
         }
       };
       break;
 
       case 'server-loginAccount':
       callParams = {
-        url: 'http://localhost:8000/api/auth/loginAccount',
+        url: 'http://stegodb.herokuapp.com/api/auth/loginAccount',
         data: {
           code: param,
         },
         callback: function(res) {
-          console.log(res);
-          localStorage.setItem('commitCounts', typeof res.commitCounts);
-          localStorage.setItem('commitDates', typeof res.commitDates);
-          localStorage.setItem('steps', res.steps);
+          localStorage.setItem('xid', res.xid);
+          localStorage.setItem('commitCounts', res.commitCounts);
+          localStorage.setItem('commitDates', res.commitDates);
+          localStorage.setItem('stepCounts', res.stepCounts);
+          localStorage.setItem('stepDates', res.stepDates);
+          if (res.xid) {
+            app.setState(React.addons.update(app.state, {
+              userInfo: {
+                found: {$set: true}
+              }
+            }));
+          }
         }
       };
       break;
 
       case 'server-syncAccount':
       callParams = {
-        url: 'http://localhost:8000/api/auth/sync',
+        url: 'http://stegodb.herokuapp.com/api/auth/sync',
         data: {
           xid: param,
           timeframe: getOneWeekAgo
         },
         callback: function(res) {
-          console.log(res);
+          console.log('localStorage getitem', localStorage.getItem('commitCounts'));
           localStorage.setItem('commitCounts', res.commitCounts);
           localStorage.setItem('commitDates', res.commitDates);
-          // localStorage.setItem('steps', res.steps);
+          localStorage.setItem('stepCounts', res.stepCounts);
+          localStorage.setItem('stepDates', res.stepDates);
         }
       };
       break;

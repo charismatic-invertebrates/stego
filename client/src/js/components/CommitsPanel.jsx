@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var CommitsOverTime = require('./CommitsOverTime.jsx');
+var WeeklyChart = require('./WeeklyChart.jsx');
 
 var CommitsPanel = React.createClass({
 
@@ -26,7 +26,7 @@ var CommitsPanel = React.createClass({
         </a>
         <div className="panel commits-panel" ref="commitsPanel">
           <h3>Weekly Commits</h3>
-          <CommitsOverTime commitsData={this.props.user.github.commitsData} startOfWeek={this.props.startOfWeek} max={this.props.max} parentId="commits-over-time" />
+          <WeeklyChart data={this.props.commits} startOfWeek={this.props.startOfWeek} label={'Commits'} storageType={'commit'} parentId="commits-over-time" />
         </div>
       </div>
     );

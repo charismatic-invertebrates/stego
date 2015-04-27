@@ -1,4 +1,5 @@
-var keys = require('../config/secureAuth.js');
+var authPath = process.env.AUTH_PATH || 'secureAuth';
+var keys = require('../config/'+ authPath + '.js');
 
 module.exports = function(provider, usage, param, loopedParam) {
   var callLoc = provider + '-' + usage;
@@ -9,7 +10,7 @@ module.exports = function(provider, usage, param, loopedParam) {
     case 'github-getToken':
       callParams = {
         uri: 'https://github.com/login/oauth/access_token',
-        redirect_uri: 'http://localhost:8000',
+        redirect_uri: 'http://stegodb.herokuapp.com/',
         method: 'GET',
         body: {
           code: param,
@@ -55,7 +56,7 @@ module.exports = function(provider, usage, param, loopedParam) {
         uri: 'https://jawbone.com/auth/oauth2/token?client_id=' + keys.jawbone.clientID + 
           '&client_secret=' + keys.jawbone.clientSecret + 
           '&grant_type=authorization_code' +
-          '&code=' + param,
+          '&code=' + param
       };
       break;
 

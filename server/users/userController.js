@@ -33,9 +33,7 @@ module.exports = {
   saveUser: function(res, userAccount) {
     var createUser = Q.nbind(User.create, User);
     var createUserServer = Q.nbind(UserServer.create, UserServer);
-
-    console.log("WE ARE ABOUT TO SAVE THIS, THIS IS THE FINAL FORMAT GO OFF OF THIS", userAccount);
-    
+        
     // Populate the User information that we want to save
     var newUser = {
       xid: userAccount.github.user.id,
@@ -43,7 +41,8 @@ module.exports = {
       commitDates: userAccount.github.user.commitDates,
       commitCounts: userAccount.github.user.commitCounts,
       provider: userAccount.fitness.provider,
-      steps: userAccount.fitness.user.items,
+      stepDates: userAccount.fitness.stepDates,
+      stepCounts: userAccount.fitness.stepCounts
     };
 
     // Populate the UserServer information that we want to save
@@ -97,7 +96,8 @@ module.exports = {
     var updateUser = {
       commitDates: syncAccount.github.user.commitDates,
       commitCounts: syncAccount.github.user.commitCounts,
-      // steps: syncAccount.fitness.user.items,
+      stepDates: syncAccount.fitness.stepDates,
+      stepCounts: syncAccount.fitness.stepCounts
     };
     
     // Find and update the database
