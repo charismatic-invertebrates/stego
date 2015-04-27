@@ -198,14 +198,9 @@ var Landscape = React.createClass({
           <Weather currentWeather={this.state.displayWeather} />
         </div>
 
-        <div className="admin">
-          <a className="admin-button" onClick={this.changeLandscape}>
-            <span className="fa fa-clock-o"></span>
-          </a>
-          <a className="admin-button" onClick={this.changeMood}>
-            <span className="fa fa-smile-o"></span>
-          </a>
-        </div>
+        <a className="admin-button admin-landscape" onClick={this.changeLandscape}>
+          <span className="fa fa-clock-o"></span>
+        </a>
       </div>
     );
   }
