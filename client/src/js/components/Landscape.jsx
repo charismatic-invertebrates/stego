@@ -20,7 +20,6 @@ var Landscape = React.createClass({
       displayWeather: '',
       weatherIcon: '',
       landscapeCounter: 0,
-      moodCounter: 0,
       commits: this.props.userInfo.github.commitsData,
       steps: this.props.userInfo.fitness.moves
     };
@@ -172,21 +171,6 @@ var Landscape = React.createClass({
       }
     });
   },
-  
-  changeMood: function() {
-    var demoCommits = [6, 24];
-    var demoSteps = [8015, 35400];
-    this.setState({
-      commits: demoCommits[this.state.moodCounter],
-      steps: demoSteps[this.state.moodCounter]
-     }, function() {
-      if (this.state.moodCounter === demoCommits.length - 1) {
-        this.setState({ moodCounter: 0 });
-      } else {
-        this.setState({ moodCounter: this.state.moodCounter + 1 });
-      }
-    });
-  },
 
   render: function() {
     return (
@@ -213,7 +197,7 @@ var Landscape = React.createClass({
           <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
           <Weather currentWeather={this.state.displayWeather} />
         </div>
-        
+
         <div className="admin">
           <a className="admin-button" onClick={this.changeLandscape}>
             <span className="fa fa-clock-o"></span>

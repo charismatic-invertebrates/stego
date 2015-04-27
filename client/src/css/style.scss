@@ -330,11 +330,18 @@ p {
   -webkit-filter: drop-shadow(5px 5px 55px rgba(0,0,0,.6));
 }
 
-.admin {
+.admin-button {
   position: absolute;
   z-index: 1000;
-  top: 1em;
-  left: 1em;
+  top: 0.25em;
+}
+
+.admin-landscape {
+  left: 2em;
+}
+
+.admin-mood {
+  left: 4.25em;
 }
 
 .panel-container {

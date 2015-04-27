@@ -40,22 +40,42 @@ var Dino = React.createClass({
     return true;
   },
 
+  changeMood: function() {
+    var moods = ['neutral', 'happy', 'sad'];
+    this.setState({
+      mood: moods[this.state.moodCounter]
+    }, function() {
+      if (this.state.moodCounter === moods.length - 1) {
+        this.setState({ moodCounter: 0 });
+      } else {
+        this.setState({ moodCounter: this.state.moodCounter + 1 });
+      }
+    });
+
+  },
+
   render: function() {
     return (
-      <div className="stego-container">
-        <div className="stego-body-wrapper">
-          <div className={'stego-body ' + this.state.mood}></div>
-          <div className={"eye left-eye "+ this.state.mood}></div>
-          <div className={"eye right-eye "+ this.state.mood}></div>
-          <div className={"mouth "+ this.state.mood}></div>
-          <div className={"teeth "+ this.state.mood}></div>
-          <div className={"left-arm " + this.state.mood}></div>
-          <div className={"right-arm " + this.state.mood}></div>
-          <div className="left-leg"></div>
-          <div className={"tear " + this.state.mood}></div>
-          <div className="right-leg"></div>
-          <div className={"tail " + this.state.mood}></div>
+      <div>
+        <div className="stego-container">
+          <div className="stego-body-wrapper">
+            <div className={'stego-body ' + this.state.mood}></div>
+            <div className={"eye left-eye "+ this.state.mood}></div>
+            <div className={"eye right-eye "+ this.state.mood}></div>
+            <div className={"mouth "+ this.state.mood}></div>
+            <div className={"teeth "+ this.state.mood}></div>
+            <div className={"left-arm " + this.state.mood}></div>
+            <div className={"right-arm " + this.state.mood}></div>
+            <div className="left-leg"></div>
+            <div className={"tear " + this.state.mood}></div>
+            <div className="right-leg"></div>
+            <div className={"tail " + this.state.mood}></div>
+          </div>
         </div>
+
+        <a className="admin-button admin-mood" onClick={this.changeMood}>
+          <span className="fa fa-smile-o"></span>
+        </a>
       </div>
     );
   }
