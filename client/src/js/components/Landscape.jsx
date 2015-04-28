@@ -189,10 +189,10 @@ var Landscape = React.createClass({
           </a>
           <div className={'landscape ' + this.state.timeOfDay}></div>
           <Box auth={this.props.auth} data={this.props.userInfo.github.stepsData} startOfDay={this.props.startOfDay} max={10000} storageType={'step'} title={'Steps'} />
-          <StepsPanel auth={this.props.auth} steps={this.props.userInfo.fitness.moves} startOfWeek={this.props.startOfWeek} max={10000} />
+          <StepsPanel auth={this.props.auth} steps={this.props.userInfo.fitness.moves} max={10000} />
           
           <Box auth={this.props.auth} data={this.props.userInfo.github.commitsData} startOfDay={this.props.startOfDay} max={20} storageType={'commit'} title={'Commits'} />
-          <CommitsPanel auth={this.props.auth} commits={this.props.userInfo.github.commitsData} startOfWeek={this.props.startOfWeek} max={20} />
+          <CommitsPanel auth={this.props.auth} commits={this.props.userInfo.github.commitsData} max={20} />
           <Clock parentTime={this.state.displayTime} parentMeridian={this.state.meridian} />
           <Dino steps={this.props.userInfo.fitness.moves} commits={this.props.userInfo.github.commitsData} stepsMax={10000} commitsMax={20} />
           <Weather currentWeather={this.state.displayWeather} />

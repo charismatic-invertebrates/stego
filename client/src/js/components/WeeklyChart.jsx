@@ -3,7 +3,7 @@ var React = require('react');
 var WeeklyChart = React.createClass({
   getInitialState: function() {
     return {
-      currentWeek: this.props.startOfWeek,
+      currentWeek: this.getStartOfWeek(),
       metric: localStorage[this.props.storageType + 'Counts'],
       dates: localStorage[this.props.storageType + 'Dates'],
       chartData: this.getData()
@@ -22,13 +22,18 @@ var WeeklyChart = React.createClass({
     return months[mm] + ' ' + dd;
   },
 
+  getStartOfWeek: function() {
+    var week = new Date();
+    return week.setHours(-24 * 6);
+  },
+
   getData: function(redraw) {
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var week;
 
     // Display current week by default
     if (this.state === null) {
-      week = new Date(this.props.startOfWeek);
+      week = new Date(this.getStartOfWeek());
     } else {
       week = this.state.currentWeek;
     }
@@ -42,6 +47,7 @@ var WeeklyChart = React.createClass({
       this.fillInDates(week, 5),
       this.fillInDates(week, 6)
     ];
+
 
     var chartData = {
       labels: dates,
@@ -70,12 +76,12 @@ var WeeklyChart = React.createClass({
           var date = new Date(datesList[i]);
           var dayNumber = date.getUTCDay();
           var dateNumber = date.getUTCDate();
+          
 
-          for (var j = 0; j < chartData.datasets[0].data.length; j++) {
-            if (j === dayNumber) {
-              if (chartData.labels[j].match(dateNumber) !== null) {
-                chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
-              }
+          for (var j = 0; j < chartData.labels.length; j++) {
+            if (chartData.labels[j].match(dateNumber) !== null) {
+              console.log(metricList[i]);
+              chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
             }
           }
         }
