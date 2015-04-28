@@ -3,7 +3,7 @@ var React = require('react');
 var WeeklyChart = React.createClass({
   getInitialState: function() {
     return {
-      currentWeek: this.props.startOfWeek,
+      currentWeek: this.getStartOfWeek(),
       metric: localStorage[this.props.storageType + 'Counts'],
       dates: localStorage[this.props.storageType + 'Dates'],
       chartData: this.getData()
@@ -19,7 +19,22 @@ var WeeklyChart = React.createClass({
 
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    return months[mm] + ' ' + dd;
+    if (mm.toString().length === 1) {
+      mm = '0' + (mm + 1);
+    } else {
+      mm = mm + 1;
+    }
+
+    if (dd.toString().length === 1) {
+      dd = '0' + dd;
+    }
+
+    return mm + '-' + dd;
+  },
+
+  getStartOfWeek: function() {
+    var week = new Date();
+    return week.setHours(-24 * 6);
   },
 
   getData: function(redraw) {
@@ -28,7 +43,7 @@ var WeeklyChart = React.createClass({
 
     // Display current week by default
     if (this.state === null) {
-      week = new Date(this.props.startOfWeek);
+      week = new Date(this.getStartOfWeek());
     } else {
       week = this.state.currentWeek;
     }
@@ -59,6 +74,7 @@ var WeeklyChart = React.createClass({
       ]
     };
 
+    var currentYear = new Date().getFullYear();
 
     if (this.state !== null) {
       if (this.state.metric !== undefined) {
@@ -70,12 +86,16 @@ var WeeklyChart = React.createClass({
           var date = new Date(datesList[i]);
           var dayNumber = date.getUTCDay();
           var dateNumber = date.getUTCDate();
+          var monthNumber = date.getUTCMonth() + 1;
+          var fullYear = date.getFullYear();
 
-          for (var j = 0; j < chartData.datasets[0].data.length; j++) {
-            if (j === dayNumber) {
-              if (chartData.labels[j].match(dateNumber) !== null) {
-                chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
-              }
+          if (monthNumber.toString().length === 1) {
+            monthNumber = '0' + monthNumber;
+          }
+
+          for (var j = 0; j < chartData.labels.length; j++) {
+            if (currentYear + '-' + chartData.labels[j] === fullYear + '-' + monthNumber + '-' + dateNumber) {
+              chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
             }
           }
         }
