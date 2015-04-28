@@ -32,7 +32,6 @@ var App = React.createClass({
         found: null
       },
       day: this.setDay()
-      // week: this.getStartOfWeek()
     };
   },
 
@@ -43,7 +42,6 @@ var App = React.createClass({
 
   componentDidMount: function() {
     this.setDay();
-    // this.getStartOfWeek();
   },
 
   processData: function(count, date) {
@@ -76,21 +74,6 @@ var App = React.createClass({
   setDay: function() {
     return this.convertTime(Date.now());
   },
-
-  // Find start of week
-  // getStartOfWeek: function() {
-  //   var date = new Date();
-
-  //   // Start of week calculator from http://stackoverflow.com/a/4156562
-  //   var day = date.getDay() || 6;
-
-  //   // Only convert date if not Sunday
-  //   if (day !== 0) {
-  //     date.setHours(-24 * day);
-  //   }
-
-  //   return date;
-  // },
 
   shouldComponentUpdate: function(nextProps, nextState) {
     console.log(nextState);

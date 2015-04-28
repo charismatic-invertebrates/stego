@@ -19,7 +19,17 @@ var WeeklyChart = React.createClass({
 
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    return months[mm] + ' ' + dd;
+    if (mm.toString().length === 1) {
+      mm = '0' + (mm + 1);
+    } else {
+      mm = mm + 1;
+    }
+
+    if (dd.toString().length === 1) {
+      dd = '0' + dd;
+    }
+
+    return mm + '-' + dd;
   },
 
   getStartOfWeek: function() {
@@ -48,7 +58,6 @@ var WeeklyChart = React.createClass({
       this.fillInDates(week, 6)
     ];
 
-
     var chartData = {
       labels: dates,
       datasets: [
@@ -65,6 +74,7 @@ var WeeklyChart = React.createClass({
       ]
     };
 
+    var currentYear = new Date().getFullYear();
 
     if (this.state !== null) {
       if (this.state.metric !== undefined) {
@@ -76,11 +86,15 @@ var WeeklyChart = React.createClass({
           var date = new Date(datesList[i]);
           var dayNumber = date.getUTCDay();
           var dateNumber = date.getUTCDate();
-          
+          var monthNumber = date.getUTCMonth() + 1;
+          var fullYear = date.getFullYear();
+
+          if (monthNumber.toString().length === 1) {
+            monthNumber = '0' + monthNumber;
+          }
 
           for (var j = 0; j < chartData.labels.length; j++) {
-            if (chartData.labels[j].match(dateNumber) !== null) {
-              console.log(metricList[i]);
+            if (currentYear + '-' + chartData.labels[j] === fullYear + '-' + monthNumber + '-' + dateNumber) {
               chartData.datasets[0].data[j] = parseInt(metricList[i], 10);
             }
           }
