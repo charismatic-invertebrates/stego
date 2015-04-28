@@ -84,8 +84,9 @@ module.exports = {
               console.log(Array.isArray(commits));
               if( Array.isArray(commits) ) { 
                 commits.forEach(function(commitInfo){
-                  var commitDate = commitInfo.commit.committer.date.match(/[0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]/)[0];
-                  commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 0;
+                  var commitDateInfo = new Date(commitInfo.commit.committer.date);
+                  var commitDate = (commitDateInfo.getYear() + 1900) + '-' + (commitDateInfo.getMonth() + 1) + '-' + commitDateInfo.getDate();
+                  commitCountDates[commitDate] = commitCountDates[commitDate] + 1 || 1;
                 });
               }
             });
